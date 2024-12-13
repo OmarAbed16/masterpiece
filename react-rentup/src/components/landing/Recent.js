@@ -6,9 +6,8 @@ const Recent = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Fetch the recent property listings from the Laravel API
     axios
-      .get("/api/recent-properties") // Replace with your actual API endpoint
+      .get(`${process.env.REACT_APP_API_URL}/api/recentListings`)
       .then((response) => {
         setItems(response.data);
       })

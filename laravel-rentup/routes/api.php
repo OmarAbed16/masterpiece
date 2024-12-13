@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DataController;
+use App\Http\Controllers\Api\Users\LandingPageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,4 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('get-data', [DataController::class, 'getData']);
+Route::get('recentListings', [DataController::class, 'getData']);
+//landing page apis
+Route::get('/oursTeam', [LandingPageController::class, 'getUsers']);
+Route::get('/ourTeam', [LandingPageController::class, 'getRecentListings']);
+Route::get('/recentReviews', [LandingPageController::class, 'getRecentReviews']);

@@ -9,13 +9,12 @@ use App\Models\Partner; // Import the Partner model
 use App\Models\User; 
 use Illuminate\Http\Request;
 
-class ListingController extends Controller
+class LandingPageController extends Controller
 {
    
 
-    public function landing()
+    public function getRecentListings()
 {
-    // Fetch recent listings
     $recentListings = Listing::with([
         'features' => function($query) {
             $query->where('is_deleted', '0');
@@ -29,34 +28,38 @@ class ListingController extends Controller
     ->limit(6)
     ->get();
 
-    // Get the first main image URL or null if no image exists
     $recentListings->each(function($listing) {
         $listing->image_url = $listing->images->first()->image_url ?? null;
     });
 
-    // Fetch users where role != 'user' and is_deleted = '0', limit to 6
+    return response()->json($recentListings);
+}
+
+public function getUsers()
+{
     $useritems = User::where('role', '!=', 'user')
                 ->where('is_deleted', '0')
                 ->limit(6)
                 ->get();
 
-
-                // Fetch the last 5 reviews where is_deleted = '0'
-                $recentReviews = Review::with('user') // Assuming there's a relationship 'user' on the Review model
-                ->where('is_deleted', '0')
-                ->orderBy('id', 'DESC')
-                ->limit(5)
-                ->get();
-        
-            // Adding user image and name to each review
-            $recentReviews->each(function($review) {
-                $review->user_image = $review->user->profile_image ?? null;  // Assuming user has an 'image_url' field
-                $review->user_name = $review->user->name ?? 'Unknown';   // Assuming user has a 'name' field
-            });
-
-    return view('users.landing', compact('recentListings', 'useritems','recentReviews'));  // Passing the users data
+    return response()->json($useritems);
 }
 
+public function getRecentReviews()
+{
+    $recentReviews = Review::with('user')
+        ->where('is_deleted', '0')
+        ->orderBy('id', 'DESC')
+        ->limit(5)
+        ->get();
+
+    $recentReviews->each(function($review) {
+        $review->user_image = $review->user->profile_image ?? null;
+        $review->user_name = $review->user->name ?? 'Unknown';
+    });
+
+    return response()->json($recentReviews);
+}
     
     public function search(){
          // Fetch recent listings
