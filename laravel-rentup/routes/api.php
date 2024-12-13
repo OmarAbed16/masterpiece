@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\DataController;
 use App\Http\Controllers\Api\Users\LandingPageController;
+use App\Http\Controllers\Api\Users\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +21,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('recentListings', [DataController::class, 'getData']);
+Route::get('get-data', [DataController::class, 'getData']);
 //landing page apis
-Route::get('/oursTeam', [LandingPageController::class, 'getUsers']);
-Route::get('/ourTeam', [LandingPageController::class, 'getRecentListings']);
+Route::get('/ourTeam', [LandingPageController::class, 'getUsers']);
+Route::get('/recentListings', [LandingPageController::class, 'getRecentListings']);
 Route::get('/recentReviews', [LandingPageController::class, 'getRecentReviews']);
+
+
+//login and register apis
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
+Route::get('user', [AuthController::class, 'user']);

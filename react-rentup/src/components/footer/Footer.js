@@ -1,5 +1,5 @@
-// src/components/footer/Footer.js
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // Import Link from React Router
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -64,22 +64,20 @@ const Footer = () => {
                     <h4 className="widget_title">Layouts</h4>
                     <ul className="footer-menu">
                       <li>
-                        <a href="#">Home Page</a>
+                        <Link to="/">Home Page</Link>
+                      </li>
+
+                      <li>
+                        <Link to="/login">Login Page</Link>
                       </li>
                       <li>
-                        <a href="#">About Page</a>
+                        <Link to="/register">Register Page</Link>
                       </li>
                       <li>
-                        <a href="#">Service Page</a>
+                        <Link to="/about">About Page</Link>
                       </li>
                       <li>
-                        <a href="#">Property Page</a>
-                      </li>
-                      <li>
-                        <a href="#">Contact Page</a>
-                      </li>
-                      <li>
-                        <a href="#">Single Blog</a>
+                        <Link to="/contact">Contact Page</Link>
                       </li>
                     </ul>
                   </div>
@@ -90,26 +88,26 @@ const Footer = () => {
                     <h4 className="widget_title">All Sections</h4>
                     <ul className="footer-menu">
                       <li>
-                        <a href="#">
+                        <Link to="#">
                           Headers<span className="new">New</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="#">Features</a>
+                        <Link to="#">Features</Link>
                       </li>
                       <li>
-                        <a href="#">
+                        <Link to="#">
                           Attractive<span className="new">New</span>
-                        </a>
+                        </Link>
                       </li>
                       <li>
-                        <a href="#">Testimonials</a>
+                        <Link to="#">Testimonials</Link>
                       </li>
                       <li>
-                        <a href="#">Videos</a>
+                        <Link to="#">Videos</Link>
                       </li>
                       <li>
-                        <a href="#">Footers</a>
+                        <Link to="#">Footers</Link>
                       </li>
                     </ul>
                   </div>
@@ -120,24 +118,24 @@ const Footer = () => {
                     <h4 className="widget_title">Company</h4>
                     <ul className="footer-menu">
                       <li>
-                        <a href="#">About</a>
+                        <Link to="#">About</Link>
                       </li>
                       <li>
-                        <a href="#">Blog</a>
+                        <Link to="#">Blog</Link>
                       </li>
                       <li>
-                        <a href="#">Pricing</a>
+                        <Link to="#">Pricing</Link>
                       </li>
                       <li>
-                        <a href="#">Affiliate</a>
+                        <Link to="#">Affiliate</Link>
                       </li>
                       <li>
-                        <a href="#">Login</a>
+                        <Link to="#">Login</Link>
                       </li>
                       <li>
-                        <a href="#">
+                        <Link to="#">
                           Changelog<span className="update">Update</span>
-                        </a>
+                        </Link>
                       </li>
                     </ul>
                   </div>
@@ -153,8 +151,8 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-lg-12 col-md-12 text-center">
               <p className="mb-0">
-                © 2023 RentUP. Designed By{" "}
-                <a href="https://themezhub.com/">ThemezHub</a>.
+                © {new Date().getFullYear()} RentUP. Designed By{" "}
+                <Link to="https://themezhub.com/">ThemezHub</Link>.
               </p>
             </div>
           </div>

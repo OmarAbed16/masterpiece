@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Users;
+namespace App\Http\Controllers\Api\Users;
 
 use App\Http\Controllers\Controller;
+
+
 use App\Models\Listing;
-use App\Models\Review;  // Import the Review model
-use App\Models\Partner; // Import the Partner model
+use App\Models\Review; 
 use App\Models\User; 
 use Illuminate\Http\Request;
 
@@ -39,7 +40,7 @@ public function getUsers()
 {
     $useritems = User::where('role', '!=', 'user')
                 ->where('is_deleted', '0')
-                ->limit(6)
+                ->limit(4)
                 ->get();
 
     return response()->json($useritems);

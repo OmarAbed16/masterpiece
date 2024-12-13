@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import styles from "./Auth.module.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
+  const navigate = useNavigate(); // Initialize the navigate hook
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
+    password_confirmation: "", // Changed to password_confirmation
   });
   const [errors, setErrors] = useState({
+    name: "",
     email: "",
     password: "",
+    password_confirmation: "", // Changed to password_confirmation
   });
-  const [activeTab, setActiveTab] = useState("login"); // Default tab is 'login'
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,19 +26,34 @@ const Login = () => {
       [name]: value,
     }));
 
-    validateField(name, value);
+    validateForm(name, value);
   };
 
-  const validateField = (name, value) => {
-    switch (name) {
-      case "email":
-        setErrors({ ...errors, email: validateEmail(value) });
-        break;
-      case "password":
-        setErrors({ ...errors, password: validatePassword(value) });
-        break;
-      default:
-        break;
+  const validateForm = (name, value) => {
+    if (name === "email") {
+      setErrors({
+        ...errors,
+        email: validateEmail(value),
+      });
+    }
+    if (name === "password") {
+      setErrors({
+        ...errors,
+        password: validatePassword(value),
+      });
+    }
+    if (name === "password_confirmation") {
+      setErrors({
+        ...errors,
+        password_confirmation:
+          value === formData.password ? "" : "Passwords do not match.",
+      });
+    }
+    if (name === "name") {
+      setErrors({
+        ...errors,
+        name: value ? "" : "Name is required.",
+      });
     }
   };
 
@@ -68,31 +87,34 @@ const Login = () => {
     }
 
     try {
+      // Send registration request here. Example:
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/login`,
+        `${process.env.REACT_APP_API_URL}/register`,
         formData
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         Swal.fire({
           icon: "success",
-          title: "Login Successful",
+          title: "Registration Successful",
           text: `Welcome, ${response.data.user.name}`,
+        }).then(() => {
+          navigate("/login"); // Navigate directly to the login route
         });
       } else {
         Swal.fire({
           icon: "error",
-          title: "Login Failed",
+          title: "Registration Failed",
           text: response.data.message || "An error occurred. Please try again.",
         });
       }
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Login Failed",
-        text:
-          error.response.data.message ||
-          "An unexpected error occurred. Please try again later.",
+        title: "Registration Failed",
+        text: error.response
+          ? error.response.data.errors.name || error.response.data.errors.email
+          : "An unexpected error occurred. Please try again later.",
       });
     }
   };
@@ -129,45 +151,66 @@ const Login = () => {
                   >
                     <li className="nav-item">
                       <button
-                        className={`nav-link ${
-                          activeTab === "login" ? "active" : ""
-                        }`}
+                        className="nav-link"
                         id="pills-login-tab"
-                        onClick={() => setActiveTab("login")}
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-login"
+                        role="tab"
+                        aria-controls="pills-login"
+                        aria-selected="false"
+                        onClick={() => navigate("/login")}
                       >
                         <i className="fas fa-sign-in-alt me-2"></i>Login
                       </button>
                     </li>
                     <li className="nav-item">
-                      <Link
-                        to="/register"
-                        style={{ cursor: "pointer" }}
-                        className={`nav-link ${
-                          activeTab === "signup" ? "active" : ""
-                        }`}
-                        onClick={() => setActiveTab("signup")}
+                      <button
+                        className="nav-link active"
+                        id="pills-signup-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-signup"
+                        role="tab"
+                        aria-controls="pills-signup"
+                        aria-selected="true"
                       >
                         <i className="fas fa-user-plus me-2"></i>Register
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </div>
                 <div className="tab-content" id="pills-tabContent">
                   <div
-                    className={`tab-pane fade ${
-                      activeTab === "login" ? "show active" : ""
-                    }`}
-                    id="pills-login"
+                    className="tab-pane fade show active"
+                    id="pills-signup"
                     role="tabpanel"
-                    aria-labelledby="pills-login-tab"
+                    aria-labelledby="pills-signup-tab"
                   >
                     <div className="login-form">
                       <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                          <label>Email</label>
+                          <label>Name</label>
                           <div className="input-with-icon">
                             <input
                               type="text"
+                              className={`form-control ${
+                                errors.name ? styles.errorInput : ""
+                              }`}
+                              placeholder="Enter your Name"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleChange}
+                            />
+                            <i className="ti-user"></i>
+                          </div>
+                          {errors.name && (
+                            <span className={styles.error}>{errors.name}</span>
+                          )}
+                        </div>
+                        <div className="form-group">
+                          <label>Email ID</label>
+                          <div className="input-with-icon">
+                            <input
+                              type="email"
                               className={`form-control ${
                                 errors.email ? styles.errorInput : ""
                               }`}
@@ -204,6 +247,29 @@ const Login = () => {
                           )}
                         </div>
                         <div className="form-group">
+                          <label>Confirm Password</label>
+                          <div className="input-with-icon">
+                            <input
+                              type="password"
+                              className={`form-control ${
+                                errors.password_confirmation
+                                  ? styles.errorInput
+                                  : ""
+                              }`}
+                              placeholder="Confirm your Password"
+                              name="password_confirmation" // Changed here
+                              value={formData.password_confirmation}
+                              onChange={handleChange}
+                            />
+                            <i className="ti-unlock"></i>
+                          </div>
+                          {errors.password_confirmation && (
+                            <span className={styles.error}>
+                              {errors.password_confirmation}
+                            </span>
+                          )}
+                        </div>
+                        <div className="form-group">
                           <button
                             type="submit"
                             className="btn btn-danger fw-medium full-width"
@@ -216,21 +282,11 @@ const Login = () => {
                               )
                             }
                           >
-                            Login
+                            Register
                           </button>
                         </div>
                       </form>
                     </div>
-                  </div>
-                  <div
-                    className={`tab-pane fade ${
-                      activeTab === "signup" ? "show active" : ""
-                    }`}
-                    id="pills-signup"
-                    role="tabpanel"
-                    aria-labelledby="pills-signup-tab"
-                  >
-                    {/* Signup Form or other content can go here */}
                   </div>
                 </div>
               </div>
@@ -242,4 +298,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

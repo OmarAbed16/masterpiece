@@ -8,7 +8,7 @@ const OurTeam = () => {
   useEffect(() => {
     // Fetch team member data from backend
     axios
-      .get("/api/team-members") // Replace with your actual API endpoint
+      .get(`${process.env.REACT_APP_API_URL}/ourTeam`) // Replace with your actual API endpoint
       .then((response) => {
         setTeamMembers(response.data);
       })

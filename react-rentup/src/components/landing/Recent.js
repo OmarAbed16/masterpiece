@@ -7,7 +7,7 @@ const Recent = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/recentListings`)
+      .get(`${process.env.REACT_APP_API_URL}/recentListings`)
       .then((response) => {
         setItems(response.data);
       })

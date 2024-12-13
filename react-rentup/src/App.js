@@ -4,7 +4,11 @@ import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 import Landing from "./pages/landing";
 import ContactUs from "./pages/contactus"; // Import your contact page
-import Login from "./pages/login"; // Import your login page
+
+import Login from "./pages/Login"; // Import your login page
+import Register from "./pages/Register";
+import Search from "./pages/Search";
+import AboutUs from "./pages/aboutUs";
 
 const App = () => {
   return (
@@ -14,10 +18,12 @@ const App = () => {
 
         {/* Define Routes for each page */}
         <Routes>
-          <Route path="/" element={<Landing />} /> {/* Landing Page */}
-          <Route path="/contact" element={<ContactUs />} />{" "}
-          {/* Contact Us Page */}
-          <Route path="/login" element={<Login />} /> {/* Login Page */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
         </Routes>
 
         <Footer />

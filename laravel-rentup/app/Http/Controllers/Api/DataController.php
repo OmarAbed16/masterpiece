@@ -7,7 +7,7 @@ class DataController extends Controller
 {
     public function getData()
     {
-        // Example data
+        // Example datahh
         $data = [
             'name' => 'John Doe',
             'email' => 'john.doe@example.com',

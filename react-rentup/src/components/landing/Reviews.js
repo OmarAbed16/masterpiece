@@ -1,21 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import ReviewCard from "../cards/ReviewCard";
 import axios from "axios";
-import ReviewCard from "../cards/ReviewCard"; // Assuming ReviewCard is a separate component
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch reviews from the backend API
-    axios
-      .get("/api/reviews") // Replace with your actual API endpoint
-      .then((response) => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/recentReviews`
+        );
         setReviews(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching reviews:", error);
-      });
+      } catch (err) {
+        setError("Failed to fetch reviews");
+      }
+    };
+
+    fetchReviews();
   }, []);
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (reviews.length === 0) {
+    return <p>No reviews found.</p>;
+  }
 
   return (
     <section className="gray-simple">
@@ -25,8 +37,9 @@ const Reviews = () => {
             <div className="sec-heading center">
               <h2>Good Reviews By Clients</h2>
               <p>
-                Our clients’ success is our greatest achievement. Each review
-                reflects our dedication to excellence, innovation, and trust.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam.
               </p>
             </div>
           </div>
@@ -35,15 +48,9 @@ const Reviews = () => {
         <div className="row">
           <div className="col-lg-12 col-md-12">
             <div className="item-slide space">
-              {reviews.length > 0 ? (
-                reviews.map((review) => (
-                  <ReviewCard key={review.id} review={review} />
-                ))
-              ) : (
-                <div className="sec-heading center">
-                  <h4>There are no reviews to show.</h4>
-                </div>
-              )}
+              {reviews.map((review, index) => (
+                <ReviewCard key={index} review={review} />
+              ))}
             </div>
           </div>
         </div>

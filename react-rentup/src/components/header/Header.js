@@ -15,7 +15,6 @@ const Header = () => {
           <nav id="navigation" className="navigation navigation-landscape">
             <div className="nav-header">
               <Link className="nav-brand" to="/">
-                {" "}
                 {/* Use Link for routing */}
                 <img src="assets/img/logo.png" className="logo" alt="Logo" />
               </Link>
@@ -24,8 +23,6 @@ const Header = () => {
                 <ul>
                   <li className="_my_prt_list">
                     <Link to="#">
-                      {" "}
-                      {/* Use Link for routing */}
                       <span>2</span>My List
                     </Link>
                   </li>
@@ -44,67 +41,33 @@ const Header = () => {
             >
               <ul className="nav-menu">
                 <li className="active">
-                  <Link to="/">
-                    {" "}
-                    {/* Use Link for routing */}
-                    Home<span className="submenu-indicator"></span>
-                  </Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {" "}
-                    {/* Use Link for routing */}
-                    Listings<span className="submenu-indicator"></span>
-                  </Link>
-                  <ul className="nav-dropdown nav-submenu">
-                    <li>
-                      <Link to="#">
-                        {" "}
-                        {/* Use Link for routing */}
-                        Listing Grid<span className="submenu-indicator"></span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="#">
-                        {" "}
-                        {/* Use Link for routing */}
-                        Listing Grid<span className="submenu-indicator"></span>
-                      </Link>
-                    </li>
-                  </ul>
+                  <Link to="/search">Listings</Link>
                 </li>
                 <li>
-                  <Link to="#">
-                    {" "}
-                    {/* Use Link for routing */}
-                    Property
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/">
-                    {" "}
-                    {/* Use Link for routing */}
-                    About us<span className="submenu-indicator"></span>
-                  </Link>
+                  <Link to="#">Property</Link>
                 </li>
                 <li>
-                  <Link to="/contact">
-                    {" "}
-                    {/* Use Link for routing */}
-                    Contact us<span className="submenu-indicator"></span>
-                  </Link>
+                  <Link to="/about">About us</Link>
+                </li>
+                <li>
+                  <Link to="/contact">Contact us</Link>
                 </li>
               </ul>
 
               <ul className="nav-menu nav-menu-social align-to-right">
                 <li>
-                  <Link
-                    to="/login" // Updated to route to login page
-                    className="alio_green"
-                  >
+                  <Link to="/login" className="alio_green">
                     <i className="fas fa-sign-in-alt me-1"></i>
                     <span className="dn-lg">Sign In</span>
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/register" className="alio_green">
+                    <i className="fas fa-user-plus me-1"></i>
+                    <span className="dn-lg">Sign Up</span>
                   </Link>
                 </li>
               </ul>
