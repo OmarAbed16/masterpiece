@@ -9,6 +9,7 @@ import Login from "./pages/Login"; // Import your login page
 import Register from "./pages/Register";
 import Search from "./pages/Search";
 import AboutUs from "./pages/aboutUs";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/search" element={<Search />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/NotFound" element={<NotFound />} />
         </Routes>
 
         <Footer />

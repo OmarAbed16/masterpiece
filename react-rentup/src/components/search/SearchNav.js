@@ -17,11 +17,6 @@ const SearchNav = () => {
                   <span className="ti-view-list"></span>List
                 </a>
               </li>
-              <li className="list-inline-item">
-                <a href="#">
-                  <span className="ti-map-alt"></span>Map
-                </a>
-              </li>
             </ul>
           </div>
 

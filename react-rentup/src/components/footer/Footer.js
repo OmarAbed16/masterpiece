@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Import Link from React Router
+import GoogleMap from "../contact/GoogleMap";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -59,7 +60,7 @@ const Footer = () => {
 
             <div className="col-lg-6 col-md-7 ms-auto">
               <div className="row">
-                <div className="col-lg-4 col-md-4">
+                <div className="col-lg-3 col-md-4">
                   <div className="footer_widget">
                     <h4 className="widget_title">Layouts</h4>
                     <ul className="footer-menu">
@@ -83,61 +84,10 @@ const Footer = () => {
                   </div>
                 </div>
 
-                <div className="col-lg-4 col-md-4">
+                <div className="col-lg-9 col-md-8">
                   <div className="footer_widget">
                     <h4 className="widget_title">All Sections</h4>
-                    <ul className="footer-menu">
-                      <li>
-                        <Link to="#">
-                          Headers<span className="new">New</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">Features</Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          Attractive<span className="new">New</span>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="#">Testimonials</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Videos</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Footers</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 col-md-4">
-                  <div className="footer_widget">
-                    <h4 className="widget_title">Company</h4>
-                    <ul className="footer-menu">
-                      <li>
-                        <Link to="#">About</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Blog</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Pricing</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Affiliate</Link>
-                      </li>
-                      <li>
-                        <Link to="#">Login</Link>
-                      </li>
-                      <li>
-                        <Link to="#">
-                          Changelog<span className="update">Update</span>
-                        </Link>
-                      </li>
-                    </ul>
+                    <GoogleMap colLg={12} colMd={12} />
                   </div>
                 </div>
               </div>

@@ -24,7 +24,11 @@ const OurStory = () => {
                 lifestyle. We also prepare rental spaces with all necessary
                 tools and amenities, ensuring they feel comfortable and at home.
               </p>
-              <a href="#" className="btn btn-danger">
+              <a
+                href="https://www.linkedin.com/in/omarabed-/"
+                target="_blank"
+                className="btn btn-danger"
+              >
                 More About Us
               </a>
             </div>
