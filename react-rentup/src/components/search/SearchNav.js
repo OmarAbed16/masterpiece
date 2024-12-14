@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchNav = () => {
+const SearchNav = ({ onChangeView, viewMode }) => {
   return (
     <div className="row m-0">
       <div className="short_wraping">
@@ -8,12 +8,20 @@ const SearchNav = () => {
           <div className="col-lg-3 col-md-6 col-sm-12 col-sm-6">
             <ul className="shorting_grid">
               <li className="list-inline-item">
-                <a href="grid-layout-with-sidebar.html" className="active">
+                <a
+                  href="#"
+                  className={viewMode === "grid" ? "active" : ""}
+                  onClick={() => onChangeView("grid")}
+                >
                   <span className="ti-layout-grid2"></span>Grid
                 </a>
               </li>
               <li className="list-inline-item">
-                <a href="list-layout-with-sidebar.html">
+                <a
+                  href="#"
+                  className={viewMode === "list" ? "active" : ""}
+                  onClick={() => onChangeView("list")}
+                >
                   <span className="ti-view-list"></span>List
                 </a>
               </li>

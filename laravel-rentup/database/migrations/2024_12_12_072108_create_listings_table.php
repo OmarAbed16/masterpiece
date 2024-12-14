@@ -15,6 +15,10 @@ class CreateListingsTable extends Migration
             $table->decimal('price', 10, 2);
             $table->enum('status', ['active', 'inactive', 'archived'])->default('active');
             $table->string('location');
+            $table->enum('governorate', [
+                'Amman', 'Irbid', 'Zarqa', 'Aqaba', 'Jerash', 'Madaba', 'Mafraq', 
+                'Ajloun', 'Karak', 'Tafilah', 'Maan', 'Balqa'
+            ])->default('Amman');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
             $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
             $table->integer('bed')->nullable()->default(0);  // Added bed column

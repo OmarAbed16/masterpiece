@@ -11,9 +11,9 @@ const SearchGrid = ({ item }) => {
               <div>
                 <a href="single-property-1.html">
                   <img
-                    src="{item.image_url}"
+                    src={item.image_url || "default-image-url.png"} // Use a default image if image_url is null
                     className="img-fluid mx-auto"
-                    alt=""
+                    alt={item.title}
                   />
                 </a>
               </div>
@@ -27,7 +27,7 @@ const SearchGrid = ({ item }) => {
               <div className="_card_flex_01"></div>
               <div className="_card_flex_last">
                 <h6 className="listing-card-info-price text-seegreen mb-0">
-                  ${"item.price"}
+                  ${item.price}
                 </h6>
               </div>
             </div>
@@ -35,7 +35,7 @@ const SearchGrid = ({ item }) => {
               <div className="_card_flex_01">
                 <h4 className="listing-name verified">
                   <a href="single-property-1.html" className="prt-link-detail">
-                    {"item.title"}
+                    {item.title}
                   </a>
                 </h4>
               </div>
@@ -49,19 +49,19 @@ const SearchGrid = ({ item }) => {
               <div className="inc-fleat-icon">
                 <img src="assets/img/bed.svg" width="15" alt="" />
               </div>
-              {"item.bed" + " Beds"}
+              {item.bed} Beds
             </div>
             <div className="listing-card-info-icon">
               <div className="inc-fleat-icon">
                 <img src="assets/img/bathtub.svg" width="15" alt="" />
               </div>
-              {"item.bath" + " Bath"}
+              {item.bath} Bath
             </div>
             <div className="listing-card-info-icon">
               <div className="inc-fleat-icon">
                 <img src="assets/img/move.svg" width="15" alt="" />
               </div>
-              {"item.sqft" + " sqft"}
+              {item.sqft} sqft
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@ const SearchGrid = ({ item }) => {
           <div className="footer-first">
             <div className="foot-location">
               <img src="assets/img/pin.svg" width="18" alt="" />
-              {"item.location"}
+              {item.location}
             </div>
           </div>
           <div className="footer-flex">
@@ -91,7 +91,7 @@ const SearchGrid = ({ item }) => {
               <li>
                 <div className="prt_saveed_12lk">
                   <a
-                    href="single-property-1.html"
+                    href={`single-property-${item.id}.html`} // Assuming the detail page URL follows this pattern
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     data-bs-title="View Property"
