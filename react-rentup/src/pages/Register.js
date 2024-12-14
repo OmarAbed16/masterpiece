@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./Auth.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../pages/AuthContext"; // Adjust the import based on your file structure
 
 const Register = () => {
   const navigate = useNavigate(); // Initialize the navigate hook
+  const { setUser } = useContext(AuthContext); // Get the setUser function from AuthContext
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -94,12 +96,16 @@ const Register = () => {
       );
 
       if (response.status === 201) {
+        // Update user context
+        sessionStorage.setItem("user", JSON.stringify(response.data.user));
+        setUser(response.data.user);
+
         Swal.fire({
           icon: "success",
           title: "Registration Successful",
           text: `Welcome, ${response.data.user.name}`,
         }).then(() => {
-          navigate("/login"); // Navigate directly to the login route
+          navigate("/search"); // Navigate to the search page
         });
       } else {
         Swal.fire({
