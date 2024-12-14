@@ -16,7 +16,7 @@ const SearchNav = ({
     <div className="row m-0">
       <div className="short_wraping">
         <div className="row align-items-center">
-          <div className="col-lg-3 col-md-6 col-sm-12 col-sm-6">
+          <div className="col-lg-3 col-md-4 col-sm-6">
             <ul className="shorting_grid">
               <li className="list-inline-item">
                 <a
@@ -39,7 +39,7 @@ const SearchNav = ({
             </ul>
           </div>
 
-          <div className="col-lg-6 col-md-12 col-sm-12 order-lg-2 order-md-3 elco_bor col-sm-12">
+          <div className="col-lg-6 col-md-4 order-lg-2 order-md-3 elco_bor col-sm-6">
             <div className="shorting_pagination">
               <div className="shorting_pagination_right">
                 <ul>
@@ -79,7 +79,7 @@ const SearchNav = ({
             </div>
           </div>
 
-          <div className="col-lg-3 col-md-6 col-sm-12 order-lg-3 order-md-2 col-sm-6">
+          <div className="col-lg-3 col-md-4 col-sm-12 order-lg-3 order-md-2 col-sm-6">
             <div className="shorting-right">
               <label>Sort By:</label>
               <div className="dropdown show">
