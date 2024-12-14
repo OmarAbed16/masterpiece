@@ -5,7 +5,7 @@ const SearchGrid = ({ item }) => {
     <div className="col-lg-6 col-md-6 col-sm-12">
       <div className="property-listing property-2">
         <div className="listing-img-wrapper">
-          <div className="_exlio_125">For Rent</div>
+          <div className="_exlio_125">{item.governorate}</div>
           <div className="list-img-slide">
             <div className="click">
               <div>

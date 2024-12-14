@@ -8,20 +8,37 @@ import CallUs from "../components/layouts/CallUs";
 const Search = ({ onSearch }) => {
   const [viewMode, setViewMode] = useState("grid"); // default view is grid
   const [properties, setProperties] = useState([]);
+  const [filters, setFilters] = useState({
+    location: "",
+    price_min: "",
+    price_max: "",
+    bed: "",
+    bath: "",
+    sqft_min: "",
+    sqft_max: "",
+    governorate: "",
+    offset: 0,
+    limit: 6,
+  });
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/search/renderSearch")
+    const params = new URLSearchParams(filters).toString();
+    fetch(`http://127.0.0.1:8000/api/search/renderSearch?${params}`)
       .then((response) => response.json())
-      .then((data) => setProperties(data))
+      .then((data) => setProperties(data.listings))
       .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  }, [filters]);
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
 
   return (
     <>
       <div className="container">
         <SearchNav onChangeView={setViewMode} viewMode={viewMode} />
         <div className="row">
-          <Sidebar />
+          <Sidebar onFilterChange={handleFilterChange} />
           <div className="col-lg-8 col-md-12 col-sm-12">
             <div className="row justify-content-center g-4">
               {properties.map((item) =>

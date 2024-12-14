@@ -25,7 +25,7 @@ const SearchList = ({ item }) => {
     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
       <div className="property-listing list_view">
         <div className="listing-img-wrapper">
-          <div className="_exlio_125">For Rent</div>
+          <div className="_exlio_125">{item.governorate}</div>
           <div className="list-img-slide">
             <div className="click">
               <div>
