@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+// src/pages/Login.js
+import React, { useState, useContext } from "react";
 import styles from "./Auth.module.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
+import AuthContext from "../pages/AuthContext"; // Import your AuthContext
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +15,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [activeTab, setActiveTab] = useState("login"); // Default tab is 'login'
+  const [activeTab, setActiveTab] = useState("login");
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Use the AuthContext
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,11 +78,15 @@ const Login = () => {
       );
 
       if (response.status === 200) {
+        login(response.data.user); // Set session data using the login function from AuthContext
+
         Swal.fire({
           icon: "success",
           title: "Login Successful",
           text: `Welcome, ${response.data.user.name}`,
         });
+
+        navigate("/search");
       } else {
         Swal.fire({
           icon: "error",

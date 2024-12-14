@@ -52,7 +52,12 @@ class AuthController extends Controller
 
         if ($user && Hash::check($request->password, $user->password)) {
             return response()->json([
-                'user' => $user
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'password' => $user->password 
+                ]
             ]);
         }
 
