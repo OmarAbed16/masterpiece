@@ -22,6 +22,7 @@ class SearchController extends Controller
     // Get the request parameters
     $offset = request()->query('offset', 0);
     $limit = request()->query('limit', 6);
+    $ordertype = request()->query('ordertype', 'desc'); // default to 'desc' if not provided
 
     // Fetch the total count of listings
     $totalCount = Listing::where('is_deleted', '0')
@@ -96,7 +97,7 @@ class SearchController extends Controller
     ->when(request('governorate'), function ($query) {
         return $query->where('governorate', request('governorate'));
     })
-    ->orderBy('id', 'DESC')
+    ->orderBy('id', $ordertype) // Use the ordertype for ordering the results
     ->offset($offset)
     ->limit($limit)
     ->get()
@@ -109,24 +110,6 @@ class SearchController extends Controller
         'total_count' => $totalCount,
         'listings' => $listings
     ]);
-}
-
-protected function getBedValue($bedValue)
-{
-    if (!is_numeric($bedValue) || $bedValue > 3) {
-        return 3; // Default to 3 if the value is not numeric or greater than 3
-    } else {
-        return $bedValue;
-    }
-}
-
-protected function getBathValue($bathValue)
-{
-    if (!is_numeric($bathValue) || $bathValue > 3) {
-        return 3; // Default to 3 if the value is not numeric or greater than 3
-    } else {
-        return $bathValue;
-    }
 }
 
     

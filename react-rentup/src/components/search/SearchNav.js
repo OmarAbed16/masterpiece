@@ -1,6 +1,17 @@
 import React from "react";
 
-const SearchNav = ({ onChangeView, viewMode }) => {
+const SearchNav = ({
+  onChangeView,
+  viewMode,
+  totalCount,
+  offset,
+  limit,
+  ordertype,
+  setOrderType,
+}) => {
+  const currentPage = Math.floor(offset / limit) + 1; // current page number
+  const totalPages = Math.ceil(totalCount / limit); // total pages available
+
   return (
     <div className="row m-0">
       <div className="short_wraping">
@@ -30,30 +41,38 @@ const SearchNav = ({ onChangeView, viewMode }) => {
 
           <div className="col-lg-6 col-md-12 col-sm-12 order-lg-2 order-md-3 elco_bor col-sm-12">
             <div className="shorting_pagination">
-              <div className="shorting_pagination_laft">
-                <h5>Showing 1-25 of 72 results</h5>
-              </div>
               <div className="shorting_pagination_right">
                 <ul>
                   <li>
-                    <a href="javascript:void(0);" className="active">
-                      1
+                    <a
+                      className={`active ${
+                        currentPage === 1 ? "disabled" : ""
+                      }`}
+                      href={currentPage > 1 ? `#${offset - limit}` : "#"}
+                    >
+                      &#11207;
                     </a>
                   </li>
                   <li>
-                    <a href="javascript:void(0);">2</a>
+                    <div className="shorting_pagination_laft">
+                      <h5>
+                        Showing {offset + 1}-
+                        {Math.min(offset + limit, totalCount)} of {totalCount}{" "}
+                        results
+                      </h5>
+                    </div>
                   </li>
                   <li>
-                    <a href="javascript:void(0);">3</a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">4</a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">5</a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">6</a>
+                    <a
+                      className={`active ${
+                        currentPage === totalPages ? "disabled" : ""
+                      }`}
+                      href={
+                        currentPage < totalPages ? `#${offset + limit}` : "#"
+                      }
+                    >
+                      &#11208;
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -62,7 +81,7 @@ const SearchNav = ({ onChangeView, viewMode }) => {
 
           <div className="col-lg-3 col-md-6 col-sm-12 order-lg-3 order-md-2 col-sm-6">
             <div className="shorting-right">
-              <label>Short By:</label>
+              <label>Sort By:</label>
               <div className="dropdown show">
                 <a
                   className="btn btn-filter dropdown-toggle"
@@ -71,20 +90,26 @@ const SearchNav = ({ onChangeView, viewMode }) => {
                   aria-haspopup="true"
                   aria-expanded="false"
                 >
-                  <span className="selection">Most Rated</span>
+                  <span className="selection">
+                    {ordertype === "desc"
+                      ? "Newest to Oldest"
+                      : "Oldest to Newest"}
+                  </span>
                 </a>
                 <div className="drp-select dropdown-menu">
-                  <a className="dropdown-item" href="JavaScript:Void(0);">
-                    Most Rated
+                  <a
+                    className="dropdown-item"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setOrderType("desc")}
+                  >
+                    Newest to Oldest
                   </a>
-                  <a className="dropdown-item" href="JavaScript:Void(0);">
-                    Most Viewd
-                  </a>
-                  <a className="dropdown-item" href="JavaScript:Void(0);">
-                    News Listings
-                  </a>
-                  <a className="dropdown-item" href="JavaScript:Void(0);">
-                    High Rated
+                  <a
+                    className="dropdown-item"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setOrderType("asc")}
+                  >
+                    Oldest to Newest
                   </a>
                 </div>
               </div>
