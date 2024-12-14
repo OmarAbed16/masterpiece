@@ -6919,9 +6919,9 @@ ul.eplios_list li:before {
     left: -9999px;
     opacity: 0;
 }
-.prt_saveed_12lk .toggler input:checked + i {
+/* .prt_saveed_12lk .toggler input:checked + i {
     color:#ff5722;
-}
+} */
 ._exlio_125 {
     position: absolute;
     left: 15px;

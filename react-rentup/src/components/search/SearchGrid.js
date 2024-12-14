@@ -84,7 +84,7 @@ const SearchGrid = ({ item }) => {
                     data-bs-title="Save property"
                   >
                     <input type="checkbox" />
-                    <i className="fa-solid fa-heart"></i>
+                    <i className="fa-solid fa-heart">{item.id}</i>
                   </label>
                 </div>
               </li>
