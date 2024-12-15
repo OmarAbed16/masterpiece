@@ -44,16 +44,31 @@ const Header = () => {
               <div className="nav-toggle" onClick={toggleMobileNav}></div>
               <div className={`mobile_nav ${isMobileNavOpen ? "open" : ""}`}>
                 <ul>
-                  <li className="_my_prt_list">
-                    <Link to="#">
-                      <span>2</span>My List
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/login">
-                      <i className="fas fa-user-circle fa-lg"></i>
-                    </Link>
-                  </li>
+                  {isLoggedIn ? (
+                    <>
+                      <li>
+                        <Link onClick={handleLogout}>
+                          <i className="fas fa-sign-out-alt me-1"></i>
+                          <span className="dn-lg">Logout</span>
+                        </Link>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <Link to="/login" className="alio_green">
+                          <i className="fas fa-sign-in-alt me-1"></i>
+                          <span className="dn-lg">Sign In</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/register" className="alio_green">
+                          <i className="fas fa-user-plus me-1"></i>
+                          <span className="dn-lg">Sign Up</span>
+                        </Link>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
@@ -81,17 +96,28 @@ const Header = () => {
               <ul className="nav-menu nav-menu-social align-to-right">
                 {isLoggedIn ? (
                   <>
+                    <li class="_my_prt_list">
+                      <a href="/search" data-discover="true">
+                        <span>2</span>My List
+                      </a>
+                    </li>
+
                     <li>
                       <Link to="/profile">
                         <i className="fas fa-user-circle"></i>
                         <span className="dn-lg">Profile</span>
                       </Link>
-                    </li>
-                    <li>
-                      <Link onClick={handleLogout}>
-                        <i className="fas fa-sign-out-alt me-1"></i>
-                        <span className="dn-lg">Logout</span>
-                      </Link>
+                      <ul
+                        className="nav-dropdown nav-submenu"
+                        style={{ display: "none" }}
+                      >
+                        <li>
+                          <Link onClick={handleLogout}>
+                            <i className="fas fa-sign-out-alt me-1"></i>
+                            <span className="dn-lg">Logout</span>
+                          </Link>
+                        </li>
+                      </ul>
                     </li>
                   </>
                 ) : (

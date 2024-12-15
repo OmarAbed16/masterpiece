@@ -2855,7 +2855,7 @@ nav a:hover {
   content: "";
   width:22px;
   height:22px;
-  left:27px;
+  right:27px;
   top:-12px;
   position: absolute;
   -webkit-transform: rotate(45deg);
@@ -3492,6 +3492,10 @@ li._my_prt_list a {
     color:#293544;
     font-family: 'Jost', sans-serif;
 }
+
+}
+
+
 li._my_prt_list a span {
     width: auto;
     padding: 0px 6px;
@@ -3499,7 +3503,6 @@ li._my_prt_list a span {
     border-radius: 50px;
     color: #ffffff;
     margin-right: 4px;
-}
 }
 @media (max-width: 992px) {
 .navigation-portrait .nav-brand {
@@ -3552,7 +3555,7 @@ li._my_prt_list a span {
     top: 3px;
 }
 .navigation-portrait .nav-menu.nav-menu-social {
-    display: none;
+   /* display: none;*/
 }
 .mobile_nav .account-drop .btn.btn-order-by-filt img.avater-img {
     width: 25px;

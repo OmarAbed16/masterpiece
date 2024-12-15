@@ -24,8 +24,14 @@ const Search = ({ onSearch }) => {
   });
 
   useEffect(() => {
+    // Retrieve user data from sessionStorage
+    const user = JSON.parse(sessionStorage.getItem("user")) || {};
+    const userId = user.id || 0; // Default to 0 if not found
+
     const params = new URLSearchParams(filters).toString();
-    fetch(`http://127.0.0.1:8000/api/search/renderSearch?${params}`)
+    fetch(
+      `${process.env.REACT_APP_API_URL}/search/renderSearch?user_id=${userId}&${params}`
+    )
       .then((response) => response.json())
       .then((data) => {
         setProperties(data.listings);

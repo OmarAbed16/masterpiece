@@ -39,3 +39,4 @@ Route::get('user', [AuthController::class, 'user']);
 
 //search
 Route::get('/search/renderSearch', [SearchController::class, 'renderSearch']);
+Route::get('/search/setFavourite', [SearchController::class, 'setFavourite']);

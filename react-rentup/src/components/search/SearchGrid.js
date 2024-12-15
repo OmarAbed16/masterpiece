@@ -1,6 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 const SearchGrid = ({ item }) => {
+  const [isFavorite, setIsFavorite] = useState(item.is_favorite);
+  const user = JSON.parse(sessionStorage.getItem("user")); // Get the user object from session storage
+  const userId = user ? user.id : 0; // Get the user ID, default to 0 if not available
+
+  const handleFavoriteToggle = () => {
+    const state = isFavorite ? "delete" : "create";
+
+    if (isFavorite) {
+      // Show confirmation alert when removing from favorites
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to remove this property from your favorites?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, remove it!",
+        cancelButtonText: "No, cancel!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          updateFavoriteState(state);
+        }
+      });
+    } else {
+      updateFavoriteState(state);
+    }
+  };
+
+  const updateFavoriteState = (state) => {
+    fetch(
+      `${process.env.REACT_APP_API_URL}/search/setFavourite?user_id=${userId}&favourite_id=${item.id}&listing_id=${item.id}&state=${state}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === "Favorite status updated successfully") {
+          setIsFavorite(!isFavorite);
+          Swal.fire(
+            "Success!",
+            isFavorite
+              ? "The property has been removed from your favorites."
+              : "The property has been added to your favorites.",
+            "success"
+          );
+        } else {
+          console.error("Failed to update favorite status");
+          Swal.fire(
+            "Error!",
+            "Please Login to can add to favourite list.",
+            "error"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        Swal.fire(
+          "Error!",
+          "Please Login to can add to favourite list.",
+          "error"
+        );
+      });
+  };
+
   return (
     <div className="col-lg-6 col-md-6 col-sm-12">
       <div className="property-listing property-2">
@@ -9,7 +75,7 @@ const SearchGrid = ({ item }) => {
           <div className="list-img-slide">
             <div className="click">
               <div>
-                <a href="single-property-1.html">
+                <a href={`single-property-${item.id}.html`}>
                   <img
                     src={item.image_url || "default-image-url.png"} // Use a default image if image_url is null
                     className="img-fluid mx-auto"
@@ -34,7 +100,10 @@ const SearchGrid = ({ item }) => {
             <div className="_card_list_flex">
               <div className="_card_flex_01">
                 <h4 className="listing-name verified">
-                  <a href="single-property-1.html" className="prt-link-detail">
+                  <a
+                    href={`single-property-${item.id}.html`}
+                    className="prt-link-detail"
+                  >
                     {item.title}
                   </a>
                 </h4>
@@ -81,10 +150,23 @@ const SearchGrid = ({ item }) => {
                     className="toggler toggler-danger"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    data-bs-title="Save property"
+                    data-bs-title={
+                      isFavorite
+                        ? "Remove property from favorites"
+                        : "Add property to favorites"
+                    }
                   >
-                    <input type="checkbox" />
-                    <i className="fa-solid fa-heart">{item.id}</i>
+                    <input
+                      type="checkbox"
+                      checked={isFavorite}
+                      onChange={handleFavoriteToggle}
+                    />
+                    <i
+                      className="fa-solid fa-heart"
+                      style={{
+                        color: isFavorite ? "#ff5722" : "inherit",
+                      }}
+                    ></i>
                   </label>
                 </div>
               </li>
