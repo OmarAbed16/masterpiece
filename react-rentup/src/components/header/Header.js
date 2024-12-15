@@ -9,7 +9,10 @@ const Header = ({ favoriteCount }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
-
+  const profileImage =
+    user && user.profile_image
+      ? user.profile_image
+      : "http://127.0.0.1:8000/assets/default_images/default_image.png";
   useEffect(() => {
     setIsLoggedIn(!!user);
   }, [user]);
@@ -112,7 +115,7 @@ const Header = ({ favoriteCount }) => {
                               height: "50px",
                               borderRadius: "50%",
                             }}
-                            src={user.profile_image}
+                            src={profileImage}
                             className="logo"
                             alt="Logo"
                           />
