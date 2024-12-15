@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
-const SearchGrid = ({ item }) => {
+const SearchGrid = ({ item, onFavoriteCountChange }) => {
   const [isFavorite, setIsFavorite] = useState(item.is_favorite);
   const user = JSON.parse(sessionStorage.getItem("user")); // Get the user object from session storage
   const userId = user ? user.id : 0; // Get the user ID, default to 0 if not available
@@ -47,7 +47,7 @@ const SearchGrid = ({ item }) => {
               ? "The property has been removed from your favorites."
               : "The property has been added to your favorites.",
             "success"
-          );
+          ).then(onFavoriteCountChange(data.favorite_count));
         } else {
           console.error("Failed to update favorite status");
           Swal.fire(

@@ -1,9 +1,10 @@
+// src/components/header/Header.js
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AuthContext from "../../pages/AuthContext"; // Adjust the import path accordingly
 
-const Header = () => {
+const Header = ({ favoriteCount }) => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user, setUser } = useContext(AuthContext);
@@ -97,9 +98,9 @@ const Header = () => {
                 {isLoggedIn ? (
                   <>
                     <li class="_my_prt_list">
-                      <a href="/search" data-discover="true">
-                        <span>2</span>My List
-                      </a>
+                      <Link to="/search" data-discover="true">
+                        <span>{favoriteCount}</span> My List
+                      </Link>
                     </li>
 
                     <li>

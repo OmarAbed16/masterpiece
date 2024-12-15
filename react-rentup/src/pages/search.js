@@ -5,10 +5,11 @@ import SearchNav from "../components/search/SearchNav";
 import SearchList from "../components/search/SearchList";
 import CallUs from "../components/layouts/CallUs";
 
-const Search = ({ onSearch }) => {
+const Search = ({ onSearch, onFavoriteCountChange }) => {
   const [viewMode, setViewMode] = useState("grid"); // default view is grid
   const [properties, setProperties] = useState([]);
   const [totalCount, setTotalCount] = useState(0); // to hold total count of listings
+
   const [filters, setFilters] = useState({
     location: "",
     price_min: "",
@@ -36,6 +37,8 @@ const Search = ({ onSearch }) => {
       .then((data) => {
         setProperties(data.listings);
         setTotalCount(data.total_count); // update total count
+
+        onFavoriteCountChange(data.favorite_count);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [filters]);
@@ -62,7 +65,11 @@ const Search = ({ onSearch }) => {
             <div className="row justify-content-center g-4">
               {properties.map((item) =>
                 viewMode === "grid" ? (
-                  <SearchGrid key={item.id} item={item} />
+                  <SearchGrid
+                    key={item.id}
+                    item={item}
+                    onFavoriteCountChange={onFavoriteCountChange}
+                  />
                 ) : (
                   <SearchList key={item.id} item={item} />
                 )

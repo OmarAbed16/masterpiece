@@ -160,8 +160,12 @@ class SearchController extends Controller
                 ->delete();
         }
     
-        return response()->json(['message' => 'Favorite status updated successfully']);
+        // Get the count of favorites for the user
+        $favoriteCount = Favorite::where('user_id', $userId)->count();
+    
+        return response()->json(['message' => 'Favorite status updated successfully', 'favorite_count' => $favoriteCount]);
     }
+    
 
 
 }
