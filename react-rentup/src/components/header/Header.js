@@ -105,8 +105,18 @@ const Header = ({ favoriteCount }) => {
 
                     <li>
                       <Link to="/profile">
-                        <i className="fas fa-user-circle"></i>
-                        <span className="dn-lg">Profile</span>
+                        <i>
+                          <img
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              borderRadius: "50%",
+                            }}
+                            src={user.profile_image}
+                            className="logo"
+                            alt="Logo"
+                          />
+                        </i>
                       </Link>
                       <ul
                         className="nav-dropdown nav-submenu"

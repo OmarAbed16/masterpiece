@@ -32,6 +32,15 @@ const Footer = () => {
         title: "Success!",
         text: "Message sent successfully",
         icon: "success",
+      }).then(() => {
+        fetch(
+          `${process.env.REACT_APP_API_URL}/subscribe/add?email=${
+            JSON.parse(json).email
+          }`
+        )
+          .then((response) => response.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error("Error:", error));
       });
     } else {
       Swal.fire({

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DataController;
 use App\Http\Controllers\Api\Users\LandingPageController;
 use App\Http\Controllers\Api\Users\AuthController;
 use App\Http\Controllers\Api\Users\SearchController;
+use App\Http\Controllers\Api\Users\SubscribeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,3 +41,7 @@ Route::get('user', [AuthController::class, 'user']);
 //search
 Route::get('/search/renderSearch', [SearchController::class, 'renderSearch']);
 Route::get('/search/setFavourite', [SearchController::class, 'setFavourite']);
+
+
+// Subscribe
+Route::get('/subscribe/add', [SubscribeController::class, 'add']);
