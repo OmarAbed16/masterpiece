@@ -33,10 +33,20 @@ class SearchController extends Controller
                 return $query->where('price', '<=', request('price_max'));
             })
             ->when(request('bed'), function ($query) {
-                return $query->where('bed', $this->getBedValue(request('bed')));
+                $value = request('bed');
+                if (in_array($value, [0, 1, 2, 3])) {
+                    return $query->where('bed', $value);
+                } else {
+                    return $query->where('bed', '>', 3);
+                }
             })
             ->when(request('bath'), function ($query) {
-                return $query->where('bath', $this->getBathValue(request('bath')));
+                $value = request('bath');
+                if (in_array($value, [0, 1, 2, 3])) {
+                    return $query->where('bath', $value);
+                } else {
+                    return $query->where('bath', '>', 3);
+                }
             })
             ->when(request('sqft_min'), function ($query) {
                 return $query->where('sqft', '>=', request('sqft_min'));
@@ -82,10 +92,20 @@ class SearchController extends Controller
             return $query->where('price', '<=', request('price_max'));
         })
         ->when(request('bed'), function ($query) {
-            return $query->where('bed', $this->getBedValue(request('bed')));
+            $value = request('bed');
+            if (in_array($value, [0, 1, 2, 3])) {
+                return $query->where('bed', $value);
+            } else {
+                return $query->where('bed', '>', 3);
+            }
         })
         ->when(request('bath'), function ($query) {
-            return $query->where('bath', $this->getBathValue(request('bath')));
+            $value = request('bath');
+            if (in_array($value, [0, 1, 2, 3])) {
+                return $query->where('bath', $value);
+            } else {
+                return $query->where('bath', '>', 3);
+            }
         })
         ->when(request('sqft_min'), function ($query) {
             return $query->where('sqft', '>=', request('sqft_min'));

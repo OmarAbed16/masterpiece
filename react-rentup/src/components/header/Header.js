@@ -100,7 +100,7 @@ const Header = ({ favoriteCount }) => {
               <ul className="nav-menu nav-menu-social align-to-right">
                 {isLoggedIn ? (
                   <>
-                    <li class="_my_prt_list">
+                    <li className="_my_prt_list">
                       <Link to="/search" data-discover="true">
                         <span>{favoriteCount}</span> My List
                       </Link>
