@@ -28,10 +28,17 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'profile_image' => "http://127.0.0.1:8000/assets/default_images/default_image.png"
         ]);
 
         return response()->json([
-            'user' => $user
+            'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'password' => $user->password,
+                    'profile_image' => $user->profile_image 
+                ]
         ], 201);
     }
 
@@ -56,7 +63,8 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'password' => $user->password 
+                    'password' => $user->password, 
+                    'profile_image' => $user->profile_image 
                 ]
             ]);
         }

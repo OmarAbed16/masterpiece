@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // Import Link from React Router
 import GoogleMap from "../contact/GoogleMap";
-
+import Swal from "sweetalert2";
 const Footer = () => {
   const [email, setEmail] = useState("");
 
@@ -9,9 +9,37 @@ const Footer = () => {
     setEmail(e.target.value);
   };
 
-  const handleSubscribe = () => {
-    console.log("Subscribed with email: ", email);
-    // Handle subscription logic here
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    formData.append("access_key", "81e74902-df9c-42b7-a2cb-2702b3ede709");
+
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: json,
+    }).then((res) => res.json());
+
+    if (res.success) {
+      Swal.fire({
+        title: "Success!",
+        text: "Message sent successfully",
+        icon: "success",
+      });
+    } else {
+      Swal.fire({
+        title: "Failed!",
+        text: "Message failed!",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -36,24 +64,27 @@ const Footer = () => {
                   to your inbox every month
                 </p>
                 <div className="foot-news-last mt-4">
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Email Address"
-                      value={email}
-                      onChange={handleEmailChange}
-                    />
-                    <div className="input-group-append">
-                      <button
-                        type="button"
-                        className="btn btn-danger b-0 text-light"
-                        onClick={handleSubscribe}
-                      >
-                        Subscribe
-                      </button>
+                  <form onSubmit={handleSubscribe}>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Email Address"
+                        value={email}
+                        onChange={handleEmailChange}
+                        id="email"
+                        name="email"
+                      />
+                      <div className="input-group-append">
+                        <button
+                          type="submit"
+                          className="btn btn-danger b-0 text-light"
+                        >
+                          Subscribe
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
