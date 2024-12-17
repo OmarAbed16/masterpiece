@@ -12,6 +12,7 @@ import AboutUs from "./pages/aboutUs";
 import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./pages/AuthContext"; // Import your AuthContext
 import Property from "./pages/Property";
+import Profile from "./pages/profile";
 
 const App = () => {
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -46,6 +47,7 @@ const App = () => {
               <Property onFavoriteCountChange={handleFavoriteCountChange} />
             }
           />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="*" element={<NotFound />} />
