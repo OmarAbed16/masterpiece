@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Users\LandingPageController;
 use App\Http\Controllers\Api\Users\AuthController;
 use App\Http\Controllers\Api\Users\SearchController;
 use App\Http\Controllers\Api\Users\SubscribeController;
+use App\Http\Controllers\Api\Users\PropertyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,3 +46,8 @@ Route::get('/search/setFavourite', [SearchController::class, 'setFavourite']);
 
 // Subscribe
 Route::get('/subscribe/add', [SubscribeController::class, 'add']);
+
+
+//Property
+// Property
+Route::get('/property/{id}', [PropertyController::class, 'getProperty']);

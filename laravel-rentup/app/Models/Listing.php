@@ -23,36 +23,42 @@ class Listing extends Model
         'is_deleted' => 'boolean',
     ];
 
-    public function owner()
+    public function amenities()
     {
-        return $this->belongsTo(User::class, 'owner_id');
+        return $this->hasMany(Amenity::class);
     }
+    
+    public function owner()
+{
+    return $this->belongsTo(User::class, 'owner_id');
+}
 
+    
     public function features()
     {
         return $this->hasMany(ListingFeature::class);
     }
-
+    
     public function images()
     {
         return $this->hasMany(ListingImage::class);
     }
-
+    
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
-
+    
     public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
-
+    
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
     }
-
+    
     public function carts()
     {
         return $this->hasMany(Cart::class);

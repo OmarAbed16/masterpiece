@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
-
+import { Link } from "react-router-dom";
 const SearchGrid = ({ item, onFavoriteCountChange }) => {
   const [isFavorite, setIsFavorite] = useState(item.is_favorite);
   const user = JSON.parse(sessionStorage.getItem("user")); // Get the user object from session storage
@@ -52,7 +52,7 @@ const SearchGrid = ({ item, onFavoriteCountChange }) => {
           console.error("Failed to update favorite status");
           Swal.fire(
             "Error!",
-            "Please Login to can add to favourite list.",
+            "Please Login to can add to favourite list!",
             "error"
           );
         }
@@ -75,13 +75,18 @@ const SearchGrid = ({ item, onFavoriteCountChange }) => {
           <div className="list-img-slide">
             <div className="click">
               <div>
-                <a href={`single-property-${item.id}.html`}>
+                <Link
+                  to={`/property?id=${item.id}`}
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  data-bs-title="View Property"
+                >
                   <img
-                    src={item.image_url || "default-image-url.png"} // Use a default image if image_url is null
+                    src={item.image_url || "default-image-url.png"}
                     className="img-fluid mx-auto"
                     alt={item.title}
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -100,12 +105,15 @@ const SearchGrid = ({ item, onFavoriteCountChange }) => {
             <div className="_card_list_flex">
               <div className="_card_flex_01">
                 <h4 className="listing-name verified">
-                  <a
-                    href={`single-property-${item.id}.html`}
-                    className="prt-link-detail"
+                  <Link
+                    to={`/property?id=${item.id}`} // React Router link to navigate
+                    className="prt-link-detail" // Maintain your class for styling
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    data-bs-title="View Property"
                   >
                     {item.title}
-                  </a>
+                  </Link>
                 </h4>
               </div>
             </div>
@@ -172,14 +180,14 @@ const SearchGrid = ({ item, onFavoriteCountChange }) => {
               </li>
               <li>
                 <div className="prt_saveed_12lk">
-                  <a
-                    href={`single-property-${item.id}.html`} // Assuming the detail page URL follows this pattern
+                  <Link
+                    to={`/property?id=${item.id}`}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     data-bs-title="View Property"
                   >
                     <i className="fa-regular fa-circle-right"></i>
-                  </a>
+                  </Link>
                 </div>
               </li>
             </ul>
