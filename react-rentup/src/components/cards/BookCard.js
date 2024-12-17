@@ -1,9 +1,37 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PayMethods from "./PayMethods";
 
-function BookCard({ BookInfo }) {
+const BookCard = ({ BookInfo }) => {
+  // Calculate total price based on dates
+  const calculateTotalPrice = () => {
+    const checkin = new Date(checkinDate);
+    const checkout = new Date(checkoutDate);
+    const nights = (checkout - checkin) / (1000 * 60 * 60 * 24);
+    return nights * BookInfo.price;
+  };
+
   const [checkinDate, setCheckinDate] = useState(
     new Date().toISOString().split("T")[0]
   );
+  const [checkoutDate, setCheckoutDate] = useState(
+    new Date(new Date().setDate(new Date().getDate() + 1))
+      .toISOString()
+      .split("T")[0]
+  );
+  const [totalPrice, setTotalPrice] = useState(calculateTotalPrice);
+  const [refreshPayMethods, setRefreshPayMethods] = useState(false);
+
+  useEffect(() => {
+    setTotalPrice(calculateTotalPrice());
+  }, [checkinDate, checkoutDate]);
+
+  // Check if checkout date is before check-in date
+  const isCheckoutInvalid = new Date(checkoutDate) <= new Date(checkinDate);
+
+  // Function to refresh PayMethods component
+  const refreshMethods = () => {
+    setRefreshPayMethods(!refreshPayMethods);
+  };
 
   return (
     <div className="sider_blocks_wrap">
@@ -39,84 +67,44 @@ function BookCard({ BookInfo }) {
                 <input
                   type="date"
                   name="checkout"
-                  className="form-control"
-                  min={checkinDate} // Ensure checkout is after check-in
+                  className={`form-control ${
+                    isCheckoutInvalid ? "border-danger" : ""
+                  }`}
+                  min={
+                    new Date(new Date().setDate(new Date().getDate() + 1))
+                      .toISOString()
+                      .split("T")[0]
+                  } // Ensure checkout is after 1 day
+                  value={checkoutDate}
+                  onChange={(e) => setCheckoutDate(e.target.value)}
                 />
               </div>
             </div>
           </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-6">
-            <div className="form-group">
-              <div>
-                <label htmlFor="guests">Adults</label>
-                <div className="guests-box">
-                  <button className="counter-btn" type="button" id="cnt-down">
-                    <i className="ti-minus" />
-                  </button>
-                  <input
-                    type="text"
-                    id="guestNo"
-                    name="guests"
-                    defaultValue={2}
-                  />
-                  <button className="counter-btn" type="button" id="cnt-up">
-                    <i className="ti-plus" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-6 col-md-6 col-sm-6 col-6">
-            <div className="form-group">
-              <div className="guests">
-                <label>Kids</label>
-                <div className="guests-box">
-                  <button className="counter-btn" type="button" id="kcnt-down">
-                    <i className="ti-minus" />
-                  </button>
-                  <input type="text" id="kidsNo" name="kids" defaultValue={0} />
-                  <button className="counter-btn" type="button" id="kcnt-up">
-                    <i className="ti-plus" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="col-lg12 col-md-12 col-sm-12 mt-3">
-            <h6>Price &amp; Tax</h6>
-            <div className="_adv_features">
-              <ul>
-                <li>
-                  I Night<span>$310</span>
-                </li>
-
-                <li>
-                  Service Fee<span>$17</span>
-                </li>
-                <li>
-                  Breakfast Per Adult<span>$35</span>
-                </li>
-              </ul>
-            </div>
-          </div>
           <div className="side-booking-foot">
             <span className="sb-header-left">Total Payment</span>
-            <h3 className="price text-danger">$170</h3>
+            <h3 className={`price ${isCheckoutInvalid ? "text-danger" : ""}`}>
+              ${totalPrice}
+            </h3>
+            {!isCheckoutInvalid && (
+              <PayMethods
+                key={refreshPayMethods} // Key refreshes the component
+                checkinDate={checkinDate}
+                checkoutDate={checkoutDate}
+                totalPrice={totalPrice}
+              />
+            )}
           </div>
-          <div className="col-lg-12 col-md-12 col-sm-12">
-            <div className="stbooking-footer mt-1">
-              <div className="form-group mb-0 pb-0">
-                <a href="#" className="btn btn-danger full-width fw-medium">
-                  Book It Now
-                </a>
-              </div>
-            </div>
-          </div>
+          {isCheckoutInvalid && (
+            <p className="text-danger">
+              Checkout date must be after check-in date.
+            </p>
+          )}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default BookCard;

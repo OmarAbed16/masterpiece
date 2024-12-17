@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Listing;
 use App\Models\Review; 
 use App\Models\Favorite;
+use App\Models\Booking;
 class PropertyController extends Controller
 {
     /**
@@ -71,6 +72,46 @@ $property->isFavourite = $isFavourite;
         return response()->json($property);
     }
     
+    public function createBooking(Request $request)
+    {
+        $totalPrice = $request->input('totalPrice');
+        $checkinDate = $request->input('checkinDate');
+        $checkoutDate = $request->input('checkoutDate');
+        $propertyId = $request->input('propertyId');
+        $userId = $request->input('urlParamId');
+        $paymentType = $request->input('paymentType');
 
+    
+        if (!$userId) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+    
+        // Check if the listing (property) exists
+        $property = Listing::find($propertyId);
+        if (!$property) {
+            return response()->json(['error' => 'Property not found'], 404);
+        }
+    
+   
+        
+        try {
+            $booking = Booking::create([
+                'user_id' => $userId,
+                'listing_id' => $propertyId, // Use listing_id instead of property_id
+                'total_price' => $totalPrice,
+                'checkin_date' => $checkinDate,
+                'checkout_date' => $checkoutDate,
+                'payment_type' => $paymentType,
+                'payment_status' => $paymentType === 'cash' ? 'pending' : 'completed',
+                'status' => 'pending',
+            ]);
+    
+            return response()->json(['success' => 'Booking created successfully', 'booking' => $booking], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to create booking', 'message' => $e->getMessage()], 500);
+        }
+    }
+    
+    
     
 }

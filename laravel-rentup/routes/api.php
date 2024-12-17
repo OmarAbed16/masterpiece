@@ -49,5 +49,5 @@ Route::get('/subscribe/add', [SubscribeController::class, 'add']);
 
 
 //Property
-// Property
 Route::get('/property/{id}', [PropertyController::class, 'getProperty']);
+Route::get('/booking', [PropertyController::class, 'createBooking']);
