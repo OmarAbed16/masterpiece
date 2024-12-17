@@ -26,7 +26,12 @@ const App = () => {
         <Header favoriteCount={favoriteCount} />
         {/* Pass favorite count as prop */}
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route
+            path="/"
+            element={
+              <Landing onFavoriteCountChange={handleFavoriteCountChange} />
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route

@@ -38,7 +38,7 @@ const Header = ({ favoriteCount }) => {
 
   return (
     <>
-      <div className="header header-light">
+      <div className="header header-light" style={{ padding: "0px" }}>
         <div className="container">
           <nav id="navigation" className="navigation navigation-landscape">
             <div className="nav-header">

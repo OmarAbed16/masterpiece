@@ -9,16 +9,17 @@ const Search = ({ onSearch, onFavoriteCountChange }) => {
   const [viewMode, setViewMode] = useState("grid"); // default view is grid
   const [properties, setProperties] = useState([]);
   const [totalCount, setTotalCount] = useState(0); // to hold total count of listings
-
+  // Get URL search parameters
+  const urlParams = new URLSearchParams(window.location.search);
   const [filters, setFilters] = useState({
-    location: "",
-    price_min: "",
-    price_max: "",
-    bed: "",
-    bath: "",
-    sqft_min: "",
-    sqft_max: "",
-    governorate: "",
+    location: urlParams.get("location") || "",
+    price_min: urlParams.get("price_min") || "",
+    price_max: urlParams.get("price_max") || "",
+    bed: urlParams.get("bed") || "",
+    bath: urlParams.get("bath") || "",
+    sqft_min: urlParams.get("sqft_min") || "",
+    sqft_max: urlParams.get("sqft_max") || "",
+    governorate: urlParams.get("governorate") || "",
     offset: 0,
     limit: 6,
     ordertype: "desc", // default order type
