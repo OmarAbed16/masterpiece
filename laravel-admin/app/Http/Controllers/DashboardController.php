@@ -93,7 +93,7 @@ class DashboardController extends Controller
         $governorateLabels = array_keys($governorateCounts);
         $governorateCounts = array_values($governorateCounts);
 
-        // Order Fulfillment Time Data
+        // Order Fulfillment Time Datas
         $monthlyFulfillmentTimes = Booking::select(
             DB::raw('MONTH(created_at) as month'),
             DB::raw('AVG(TIMESTAMPDIFF(SECOND, checkin, checkout)) / (60 * 60 * 24) as avg_fulfillment_time_per_day') // Fulfillment time in days
