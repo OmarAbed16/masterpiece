@@ -10,7 +10,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::where('is_deleted', '0')
-        ->where('role', 'customer')
+        ->where('role', 'user')
         ->get();
         return view('dashboard.profiles.users.profile-user', compact('users'));
     }
@@ -36,7 +36,7 @@ class UsersController extends Controller
         // Validate the input
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'phone' => 'required|regex:/^\+?[0-9]{7,15}$/', // Example for phone validation
+            'phone_number' => 'required|regex:/^\+?[0-9]{7,15}$/', // Example for phone validation
             'governorate' => 'required|string',
             'gender' => 'required|string'
         ]);
@@ -45,7 +45,7 @@ class UsersController extends Controller
         $user = User::find($user_id);
         if ($user) {
             $user->name = $validated['name'];
-            $user->phone = $validated['phone'];
+            $user->phone_number = $validated['phone_number'];
             $user->governorate = $validated['governorate'];
             $user->gender = $validated['gender'];
             $user->save();

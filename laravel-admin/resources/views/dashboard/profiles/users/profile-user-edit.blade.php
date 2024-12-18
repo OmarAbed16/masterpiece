@@ -14,7 +14,7 @@
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/images/{{ $user->profile_image }}" alt="profile_image"
+                            <img src="{{ $user->profile_image }}" alt="profile_image"
                                 class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
@@ -85,8 +85,8 @@
                                
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Phone</label>
-                                    <input type="tel" name="phone" class="form-control border border-2 p-2" value='{{ old('phone', $user->phone) }}'>
-                                    @error('phone')
+                                    <input type="tel" name="phone_number" class="form-control border border-2 p-2" value='{{ old('phone_number', $user->phone_number) }}'>
+                                    @error('phone_number')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>

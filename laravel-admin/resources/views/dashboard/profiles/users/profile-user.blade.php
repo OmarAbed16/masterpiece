@@ -57,7 +57,7 @@
                                             <td>
                                                 <div class="text-center px-2 py-1">
                                                     <div>
-                                                        <img src="{{ asset('assets') }}/img/images/{{ $user->profile_image }}"
+                                                        <img src="{{ $user->profile_image }}"
                                                             class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                                     </div>
 
@@ -70,7 +70,7 @@
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->phone }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold">{{ $user->phone_number }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $user->email }}</span>

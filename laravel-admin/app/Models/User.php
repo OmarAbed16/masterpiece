@@ -23,6 +23,8 @@ class User extends Authenticatable
         'role',
         'profile_image',
         'is_deleted',
+        'governorate', 
+    'about',
     ];
 
     protected $casts = [

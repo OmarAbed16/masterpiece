@@ -14,7 +14,7 @@
                 <div class="row gx-4 mb-2">
                     <div class="col-auto">
                         <div class="avatar avatar-xl position-relative">
-                            <img src="{{ asset('assets') }}/img/images/{{ auth()->user()->profile_image }}" alt="profile_image"
+                            <img src="{{ auth()->user()->profile_image }}" alt="profile_image"
                                 class="w-100 border-radius-lg shadow-sm">
                         </div>
                     </div>
@@ -80,8 +80,8 @@
                                
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label">Phone</label>
-                                    <input type="tel" name="phone" class="form-control border border-2 p-2" value='{{ old('phone', auth()->user()->phone) }}'>
-                                    @error('phone')
+                                    <input type="tel" name="phone_number" class="form-control border border-2 p-2" value='{{ old('phone_number', auth()->user()->phone_number) }}'>
+                                    @error('phone_number')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
@@ -121,18 +121,10 @@
                                 </div>
                               
 
-                                <div class="mb-3 col-md-6">
-                                    <label for="floatingTextarea1">Location</label>
-                                    <textarea class="form-control border border-2 p-2"
-                                        placeholder=" Say something about yourself" id="floatingTextarea1" name="location"
-                                        rows="4" cols="50">{{ old('location', auth()->user()->location) }}</textarea>
-                                        @error('location')
-                                        <p class='text-danger inputerror'>{{ $message }} </p>
-                                        @enderror
-                                </div>
+                              
 
 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-12">
                                     <label for="floatingTextarea2">About</label>
                                     <textarea class="form-control border border-2 p-2"
                                         placeholder=" Say something about yourself" id="floatingTextarea2" name="about"
