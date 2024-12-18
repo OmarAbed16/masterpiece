@@ -1,0 +1,32 @@
+/* Login.module.css */
+
+.inputWithIcon {
+    position: relative;
+    width: 100%;
+  }
+  
+  .inputWithIcon input {
+    width: 100%;
+    padding: 10px;
+    padding-left: 30px !important;  /* Added !important */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .inputWithIcon.errorBorder input {
+    border: 1px solid red;
+  }
+  
+  .inputWithIcon i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
