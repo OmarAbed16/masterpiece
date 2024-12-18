@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\Users\AuthController;
 use App\Http\Controllers\Api\Users\SearchController;
 use App\Http\Controllers\Api\Users\SubscribeController;
 use App\Http\Controllers\Api\Users\PropertyController;
+use App\Http\Controllers\Api\Users\ProfileController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,3 +52,9 @@ Route::get('/subscribe/add', [SubscribeController::class, 'add']);
 //Property
 Route::get('/property/{id}', [PropertyController::class, 'getProperty']);
 Route::get('/booking', [PropertyController::class, 'createBooking']);
+
+
+//Profile
+Route::post('/profile/changepassword', [ProfileController::class, 'changePassword']);
+Route::post('/profile/update', [ProfileController::class, 'update']);
+Route::get('/profile/getreviews', [ProfileController::class, 'getReviews']);

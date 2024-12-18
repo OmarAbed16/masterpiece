@@ -1,14 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import ProfileReviewCard from "../cards/ProfileReviewCard";
 
-const ProfileReviews = ({ title }) => {
+const ProfileReviews = () => {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userId = user ? user.id : null;
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (userId) {
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/profile/getreviews?userId=${userId}`
+        )
+        .then((response) => {
+          setReviews(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching reviews:", error);
+          setLoading(false);
+        });
+    }
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Loading state UI
+  }
+
   return (
     <>
       <div className="col-lg-9 col-md-8 col-sm-12">
         <div className="dashboard-body">
           <div className="dashboard-wraper">
-            {/* Bookmark Property */}
+            {/* My Reviews */}
             <div className="frm_submit_block">
-              <h4>Bookmark Property</h4>
+              <h4>My Reviews</h4>
             </div>
             <table className="property-table-wrap responsive-table bkmark">
               <tbody>
@@ -18,80 +46,13 @@ const ProfileReviews = ({ title }) => {
                   </th>
                   <th />
                 </tr>
-                {/* Item #1 */}
-                <tr>
-                  <td className="dashboard_propert_wrapper">
-                    <img src="assets/img/p-2.png" alt="" />
-                    <div className="title">
-                      <h4>
-                        <a href="#">Serene Uptown</a>
-                      </h4>
-                      <span>6 Bishop Ave. Perkasie, PA </span>
-                      <span className="table-property-price">
-                        $900 / monthly
-                      </span>
-                    </div>
-                  </td>
-                  <td className="action">
-                    <a href="#" className="delete">
-                      <i className="ti-close" /> Delete
-                    </a>
-                  </td>
-                </tr>
-                {/* Item #2 */}
-                <tr>
-                  <td className="dashboard_propert_wrapper">
-                    <img src="assets/img/p-3.png" alt="" />
-                    <div className="title">
-                      <h4>
-                        <a href="#">Oak Tree Villas</a>
-                      </h4>
-                      <span>71 Lower River Dr. Bronx, NY</span>
-                      <span className="table-property-price">$535,000</span>
-                    </div>
-                  </td>
-                  <td className="action">
-                    <a href="#" className="delete">
-                      <i className="ti-close" /> Delete
-                    </a>
-                  </td>
-                </tr>
-                {/* Item #3 */}
-                <tr>
-                  <td className="dashboard_propert_wrapper">
-                    <img src="assets/img/p-4.png" alt="" />
-                    <div className="title">
-                      <h4>
-                        <a href="#">Selway Villas</a>
-                      </h4>
-                      <span>33 William St. Northbrook, IL </span>
-                      <span className="table-property-price">$420,000</span>
-                    </div>
-                  </td>
-                  <td className="action">
-                    <a href="#" className="delete">
-                      <i className="ti-close" /> Delete
-                    </a>
-                  </td>
-                </tr>
-                {/* Item #4 */}
-                <tr>
-                  <td className="dashboard_propert_wrapper">
-                    <img src="assets/img/p-5.png" alt="" />
-                    <div className="title">
-                      <h4>
-                        <a href="#">Town Manchester</a>
-                      </h4>
-                      <span> 7843 Durham Avenue, MD</span>
-                      <span className="table-property-price">$420,000</span>
-                    </div>
-                  </td>
-                  <td className="action">
-                    <a href="#" className="delete">
-                      <i className="ti-close" /> Delete
-                    </a>
-                  </td>
-                </tr>
+                {/* Render Review Cards */}
+                {reviews.map((review, index) => (
+                  <ProfileReviewCard
+                    key={index}
+                    review={review} // Pass the entire review object
+                  />
+                ))}
               </tbody>
             </table>
           </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ProfileTitle from "../components/profile/profileTitle";
 import ProfileSideBar from "../components/profile/profileSideBar";
 import ProfileEdit from "../components/profile/profileEdit";
@@ -10,10 +10,21 @@ import Swal from "sweetalert2";
 
 const Profile = () => {
   const navigate = useNavigate();
+  const { page } = useParams(); // Get the page parameter from the URL
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user ? user.id : null;
 
-  const [activeOption, setActiveOption] = useState("profile"); // Default option
+  const [activeOption, setActiveOption] = useState(page || "profile"); // Set initial option based on URL parameter
+
+  const [profileData, setProfileData] = useState({
+    name: user ? user.name : "",
+    profile_image: user ? user.profile_image : "",
+    email: user ? user.email : "",
+  });
+  console.log(profileData);
+  const handleProfileChange = (newData) => {
+    setProfileData(newData);
+  };
 
   if (!userId) {
     Swal.fire({
@@ -34,10 +45,13 @@ const Profile = () => {
         <div className="container-fluid">
           <div className="row">
             <ProfileSideBar
+              profileData={profileData}
               activeOption={activeOption}
               setActiveOption={setActiveOption}
             />
-            {activeOption === "profile" && <ProfileEdit />}
+            {activeOption === "profile" && (
+              <ProfileEdit onProfileChange={handleProfileChange} />
+            )}
             {activeOption === "reviews" && <ProfileReviews />}
             {activeOption === "password" && <ProfileChangePassword />}
             {activeOption === "bookings" && <ProfileMyBookings />}
