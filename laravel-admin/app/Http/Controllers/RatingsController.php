@@ -2,42 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\Driver;
 use App\Models\User;
-use App\Models\Payment;
-use App\Models\Rating;
+use App\Models\Review;
+use App\Models\Booking;
+use App\Models\Listing;
+use App\Models\ListingImage;
 use Illuminate\Http\Request;
 
 class RatingsController extends Controller
 {
     public function index()
-{
-    // Fetch ratings and related data by joining the relevant tables
-    $ratings = Rating::join('orders', 'ratings.order_id', '=', 'orders.order_id')
-        ->join('users as customer', 'ratings.customer_id', '=', 'customer.id')
-        ->join('drivers', 'ratings.driver_id', '=', 'drivers.driver_id')  // Corrected join with drivers
-        ->join('users as driver_user', 'drivers.user_id', '=', 'driver_user.id')  // Join to get driver info from users table
-        ->where('ratings.is_deleted', '0')
-        ->where('orders.is_deleted', '0')
-        ->where('customer.is_deleted', '0')
-        ->where('driver_user.is_deleted', '0')
-        ->select(
-            'ratings.*',
-            'orders.order_id',
-            'customer.id',
-            'customer.name as customer_name',
-            'customer.phone as customer_phone',
-            'driver_user.name as driver_name',  // Corrected to driver_user.name
-            'driver_user.phone as driver_phone',  // Corrected to driver_user.phone
-            'orders.order_time',
-            'drivers.driver_id',
-            
-        )
-        ->get();
+    {
+        $Reviews = Review::where('is_deleted', '0')->get();
 
-    return view('dashboard.reviews', compact('ratings'));
-}
+        $Reviews->each(function ($rating) {
+            // Get the order for the rating
+            $rating->order = Booking::where('id', $rating->booking_id)
+                ->where('is_deleted', '0')
+                ->first();
+
+            // Get the listing for the rating
+            $rating->listing = Listing::where('id', $rating->listing_id)
+                ->where('is_deleted', '0')
+                ->first();
+
+            // Get the main image URL for the listing
+            $mainImage = ListingImage::where('listing_id', $rating->listing_id)
+                ->where('is_main', '1')
+                ->first();
+
+            // If a main image exists, assign the image_url to main_page
+            if ($mainImage) {
+                $rating->main_image = $mainImage->image_url;
+            }
+        });
+
+
+        return view('dashboard.reviews.reviews', compact('Reviews'));
+    }
 
     
     
@@ -89,7 +91,7 @@ class RatingsController extends Controller
 
     public function destroy($id)
 {
-    $rating = Rating::find($id);
+    $rating = Review::find($id);
 
     if (!$rating) {
         return response()->json(['success' => false], 404);

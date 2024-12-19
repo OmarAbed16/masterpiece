@@ -95,10 +95,6 @@
             </li>
            
 
-
-           
-
-            
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'orders' ? ' active bg-gradient-primary' : '' }} "
                     href="{{ route('orders.index') }}">
@@ -110,6 +106,10 @@
             </li>
 
 
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Reviews</h6>
+            </li>
+           
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'reviews' ? ' active bg-gradient-primary' : '' }} "
                     href="{{ route('reviews.index') }}">
