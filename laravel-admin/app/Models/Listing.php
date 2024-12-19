@@ -15,6 +15,10 @@ class Listing extends Model
         'price',
         'status',
         'location',
+        'governorate',
+    'bed',
+    'bath',
+    'sqft',
         'owner_id',
         'is_deleted',
     ];

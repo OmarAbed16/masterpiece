@@ -2,43 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\Driver;
 use App\Models\User;
-use App\Models\Payment;
+use App\Models\Booking;
+use App\Models\Listing;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
     public function index()
     {
-        $orders = Order::join('payments', 'payments.order_id', '=', 'orders.order_id')
-            ->join('drivers', 'drivers.driver_id', '=', 'orders.driver_id') 
-            ->join('users as driver_user', 'driver_user.id', '=', 'drivers.user_id') 
-            ->join('users as customer', 'customer.id', '=', 'orders.user_id')  
-            ->where('orders.is_deleted', '0')
-            ->where('drivers.is_deleted', '0') 
-            ->where('customer.is_deleted', '0')
-            ->select(
-                'orders.order_id',
-                'orders.created_at',
-                'orders.status',
-                'orders.quantity',
-                'payments.status as payment_status',
-                'payments.amount as payment_amount',
-                'payments.payment_time as payment_date',
-                'payments.method as payment_method',  
-                'driver_user.name as driver_name', 
-                'driver_user.phone as driver_phone',  
-                'customer.name as customer_name',
-                'customer.email as customer_email',
-                'customer.phone as customer_phone',
-                'orders.user_id',
-                'orders.order_time',
-                'orders.delivery_time' 
-            )
+        // Eager load the Listing relationship and filter by is_deleted = 0 for Booking and Listing
+        $orders = Booking::with([
+                'listing' => function($query) {
+                    $query->where('is_deleted', '0');
+                }
+            ])
+            ->where('is_deleted', '0')
             ->get();
-
+dd($orders);
         return view('dashboard.orders', compact('orders'));
     }
     

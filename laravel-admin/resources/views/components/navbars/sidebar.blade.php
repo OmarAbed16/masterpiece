@@ -50,6 +50,30 @@
                 </a>
             </li>
 
+
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Properties</h6>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'Addproperties' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('properties.create') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Add Property</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'properties' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('properties.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Properties</span>
+                </a>
+            </li>
             
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Pages</h6>
@@ -63,6 +87,10 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+
+
+           
+
             
             <li class="nav-item">
                 <a class="nav-link text-white {{ $activePage == 'orders' ? ' active bg-gradient-primary' : '' }} "

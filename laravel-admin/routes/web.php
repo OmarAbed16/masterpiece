@@ -9,7 +9,8 @@ use App\Http\Controllers\{
     DriversController,
     UsersController,
     OrdersController,
-    RatingsController
+    RatingsController,
+    PropertyController
 };
 
 
@@ -65,6 +66,19 @@ Route::middleware('auth')->group(function () {
         // Reviews Pages
         Route::resource('reviews', RatingsController::class)->except(['create', 'store'])->names('reviews');
         Route::delete('reviews/delete/{review}', [RatingsController::class, 'destroy'])->name('reviews.destroy');
+
+        // Properties Pages
+        Route::get('properties', [PropertyController::class, 'index'])->name('properties.index');
+        Route::get('properties/create', [PropertyController::class, 'create'])->name('properties.create');
+        Route::post('properties/store', [PropertyController::class, 'store'])->name('properties.store');
+        Route::get('properties/edit/{property}', [PropertyController::class, 'edit'])->name('properties.edit');
+        Route::put('properties/update/{property}', [PropertyController::class, 'update'])->name('properties.update');
+        Route::delete('properties/delete/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
+
+
+
+
     });
 
     // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
