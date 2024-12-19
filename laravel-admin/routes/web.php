@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
         // Orders Pages
         Route::resource('orders', OrdersController::class)->except(['create', 'store'])->names('orders');
         Route::delete('orders/delete/{order}', [OrdersController::class, 'destroy'])->name('orders.destroy');
+        Route::get('orders/edit/{order}', [OrdersController::class, 'edit'])->name('orders.edit');
 
         // Reviews Pages
         Route::resource('reviews', RatingsController::class)->except(['create', 'store'])->names('reviews');

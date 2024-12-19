@@ -33,11 +33,11 @@ const CashButton = ({ totalPrice, checkinDate, checkoutDate }) => {
       if (result.isConfirmed) {
         try {
           console.log(
-            `http://127.0.0.1:8000/api/booking?totalPrice=${totalPrice}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=cash`
+            `http://127.0.0.1:8000/api/booking?totalPrice=${totalPrice}&checkin=${checkinDate}&checkout=${checkoutDate}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=cash`
           );
 
           const response = await axios.get(
-            `http://127.0.0.1:8000/api/booking?totalPrice=${totalPrice}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=cash`
+            `http://127.0.0.1:8000/api/booking?totalPrice=${totalPrice}&checkin=${checkinDate}&checkout=${checkoutDate}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=cash`
           );
 
           // Success

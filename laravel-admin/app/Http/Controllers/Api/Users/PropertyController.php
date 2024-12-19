@@ -75,8 +75,8 @@ $property->isFavourite = $isFavourite;
     public function createBooking(Request $request)
     {
         $totalPrice = $request->input('totalPrice');
-        $checkinDate = $request->input('checkinDate');
-        $checkoutDate = $request->input('checkoutDate');
+        $checkinDate = $request->input('checkin');
+        $checkoutDate = $request->input('checkout');
         $propertyId = $request->input('propertyId');
         $userId = $request->input('urlParamId');
         $paymentType = $request->input('paymentType');
@@ -98,12 +98,12 @@ $property->isFavourite = $isFavourite;
             $booking = Booking::create([
                 'user_id' => $userId,
                 'listing_id' => $propertyId, // Use listing_id instead of property_id
-                'total_price' => $totalPrice,
-                'checkin_date' => $checkinDate,
-                'checkout_date' => $checkoutDate,
-                'payment_type' => $paymentType,
-                'payment_status' => $paymentType === 'cash' ? 'pending' : 'completed',
                 'status' => 'pending',
+                'payment_method' => $paymentType,
+                'payment_status' => $paymentType === 'cash' ? 'pending' : 'completed',
+                'payment_value' => $totalPrice,
+                'checkin' => $checkinDate,
+                'checkout' => $checkoutDate,
             ]);
     
             return response()->json(['success' => 'Booking created successfully', 'booking' => $booking], 200);
