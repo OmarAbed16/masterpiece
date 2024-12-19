@@ -6,7 +6,7 @@ use App\Http\Controllers\{
     ProfileController,
     RegisterController,
     SessionsController,
-    DriversController,
+    AdminsController,
     UsersController,
     OrdersController,
     RatingsController,
@@ -49,10 +49,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('MyProfile/delete/{MyProfile}', [ProfileController::class, 'destroy'])->name('MyProfile.destroy');
         Route::put('MyProfile/edit/{MyProfile}', [ProfileController::class, 'edit'])->name('MyProfile.edit');
 
-        // Drivers Pages
-        Route::resource('drivers', DriversController::class)->except(['create', 'store'])->names('drivers');
-        Route::delete('drivers/delete/{driver}', [DriversController::class, 'destroy'])->name('drivers.destroy');
-        Route::get('drivers/edit/{driver}', [DriversController::class, 'edit'])->name('drivers.edit');
+        // Admins Pages
+        Route::resource('admins-profile', AdminsController::class)->except(['create', 'store'])->names('admins');
+        Route::delete('admins-profile/delete/{admin}', [AdminsController::class, 'destroy'])->name('admins.destroy');
+        Route::get('admins-profile/edit/{admin}', [AdminsController::class, 'edit'])->name('admins.edit');
 
         // Users Pages
         Route::resource('users', UsersController::class)->except(['create', 'store', 'show'])->names('users');
@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
         // Properties Pages
         Route::get('properties', [PropertyController::class, 'index'])->name('properties.index');
         Route::get('properties/create', [PropertyController::class, 'create'])->name('properties.create');
-        Route::post('properties/store', [PropertyController::class, 'store'])->name('properties.store');
+        Route::post('properties/store/{id}', [PropertyController::class, 'store'])->name('properties.store');
         Route::get('properties/edit/{property}', [PropertyController::class, 'edit'])->name('properties.edit');
         Route::put('properties/update/{property}', [PropertyController::class, 'update'])->name('properties.update');
         Route::delete('properties/delete/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');

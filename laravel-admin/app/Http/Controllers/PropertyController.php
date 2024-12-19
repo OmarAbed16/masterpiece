@@ -19,13 +19,13 @@ class PropertyController extends Controller
         $listings = DB::table('listings')
         ->leftJoin('listing_images', function($join) {
             $join->on('listings.id', '=', 'listing_images.listing_id')
-                 ->where('listing_images.is_main', '=', 1);
+                 ->where('listing_images.is_main', '=', "1");
         })
         ->where('listings.is_deleted', '0')
         ->select('listings.*', 'listing_images.image_url')
         ->get();
     
-    
+
         return view('dashboard.property.PropertyList', compact('listings'));
     }
 
@@ -42,21 +42,56 @@ class PropertyController extends Controller
    
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
+        // Validate the listing data and images
         $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'driver_id' => 'nullable|exists:drivers,id',
-            'truck_id' => 'nullable|exists:trucks,id',
-            'quantity' => 'required|numeric|min:0.01',
-            'address' => 'required|string|max:255',
-            'status' => 'required|in:pending,shipping,delivered,canceled',
-            'payment_status' => 'required|in:completed,refunded,canceled',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|min:10|max:1000',
+            'price' => 'required|numeric',
+            'location' => 'required|string|max:255',
+            'governorate' => 'required|string|max:255',
+            'bed' => 'required|integer',
+            'bath' => 'required|integer',
+            'sqft' => 'required|integer',
+            'status' => 'required|string|in:active,inactive,archived',
+            'property_images' => 'required|array|min:4|max:10', // Validate array size
+            'property_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
         ]);
-
-        Order::create($data);
-        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
+    
+        // Add the owner_id to the data
+        $data['owner_id'] = $id;
+    
+        // Create a new Listing record in the database
+        $listing = Listing::create($data);
+    
+        // Handle property images
+        if ($request->hasfile('property_images')) {
+            foreach ($request->file('property_images') as $index => $image) {
+                // Generate a unique file name
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                
+                // Move the image to the assets/properties directory
+                $image->move(public_path('assets/properties'), $imageName);
+    
+                // Construct the full image URL
+                $imageUrl = "http://127.0.0.1:8000/assets/properties/" . $imageName;
+    
+                $isMain = ($index === 0) ? "1" : "0";
+                // Save the image record in the ListingImage model
+                ListingImage::create([
+                    'listing_id' => $listing->id,
+                    'image_url' => $imageUrl,
+                    'is_main' => $isMain,
+                ]);
+            }
+        }
+    
+        // Redirect to the properties index with a success message
+        return redirect()->route('properties.index')->with('success', 'Property created successfully.');
     }
+    
+    
 
     public function show(Order $order)
     {

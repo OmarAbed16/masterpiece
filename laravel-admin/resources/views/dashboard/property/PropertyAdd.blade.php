@@ -25,12 +25,13 @@
                         <div class="h-100">
                             <h5 class="mb-1">
                                 {{ auth()->user()->name  }} - <span class="mb-0 font-weight-normal text-sm">
-                            {{auth()->user()->role  }}
+                            {{auth()->user()->role  }} (you)
                             </span>
                             </h5>
                             <p class="mb-0 font-weight-normal text-sm">
                             {{ auth()->user()->email  }}
                             </p>
+                            <p>{{auth()->user()->created_at}}</p>
                         </div>
                     </div>
                    
@@ -45,9 +46,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-8 d-flex align-items-center">
-                                <h6 class="mb-3">Property Details</h6>
+                                <h6 class="mb-3">Add Property</h6>
                             </div>
-                            <p>{{auth()->user()->created_at}}</p>
+                            
                         </div>
                     </div>
                     <div class="card-body p-3">
@@ -73,123 +74,115 @@
                                     </div>
                                 </div>
                         @endif
-                        <form method='POST' action="{{ route('properties.store', auth()->user()->id) }}" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                            <div class="row">
-                                
-                              
-                                
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Title</label>
-                                    <input type="text" name="title" class="form-control border border-2 p-2" value='{{ old('title', auth()->user()->title) }}'>
-                                    @error('title')
-                                <p class='text-danger inputerror'>{{ $message }} </p>
-                                @enderror
-                                </div>
-                               
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Price</label>
-                                    <input type="tel" name="price" class="form-control border border-2 p-2" value='{{ old('price', auth()->user()->price) }}'>
-                                    @error('price')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-                                
+                      <form method='POST' action="{{ route('properties.store', auth()->user()->id) }}" enctype="multipart/form-data">
+                        
+    @csrf
+    <div class="row">
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-control border border-2 p-2" value="{{ old('title') }}" placeholder="Enter property title">
+            @error('title')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+        
 
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Description</label>
+            <input type="text" name="description" class="form-control border border-2 p-2" value="{{ old('description') }}" placeholder="Enter property description">
+            @error('description')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
 
-
-
-                                
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Location</label>
-                                    <input type="tel" name="location" class="form-control border border-2 p-2" value='{{ old('location', auth()->user()->location) }}'>
-                                    @error('location')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-
-
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Governorate</label>
-                                    <select name="governorate" class="form-control border border-2 p-2">
-    <option value="" disabled selected>Select your governorate</option>
-    <option value="Amman" {{ old('governorate', auth()->user()->governorate) == 'Amman' ? 'selected' : '' }}>Amman</option>
-    <option value="Zarqa" {{ old('governorate', auth()->user()->governorate) == 'Zarqa' ? 'selected' : '' }}>Zarqa</option>
-    <option value="Irbid" {{ old('governorate', auth()->user()->governorate) == 'Irbid' ? 'selected' : '' }}>Irbid</option>
-    <option value="Aqaba" {{ old('governorate', auth()->user()->governorate) == 'Aqaba' ? 'selected' : '' }}>Aqaba</option>
-    <option value="Mafraq" {{ old('governorate', auth()->user()->governorate) == 'Mafraq' ? 'selected' : '' }}>Mafraq</option>
-    <option value="Karak" {{ old('governorate', auth()->user()->governorate) == 'Karak' ? 'selected' : '' }}>Karak</option>
-    <option value="Maan" {{ old('governorate', auth()->user()->governorate) == 'Maan' ? 'selected' : '' }}>Maan</option>
-    <option value="Ajloun" {{ old('governorate', auth()->user()->governorate) == 'Ajloun' ? 'selected' : '' }}>Ajloun</option>
-    <option value="Balqa" {{ old('governorate', auth()->user()->governorate) == 'Balqa' ? 'selected' : '' }}>Balqa</option>
-    <option value="Jerash" {{ old('governorate', auth()->user()->governorate) == 'Jerash' ? 'selected' : '' }}>Jerash</option>
-    <option value="Tafilah" {{ old('governorate', auth()->user()->governorate) == 'Tafilah' ? 'selected' : '' }}>Tafilah</option>
-    <option value="Madaba" {{ old('governorate', auth()->user()->governorate) == 'Madaba' ? 'selected' : '' }}>Madaba</option>
-</select>
-
-                                    @error('location')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-                              
-
-
-
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Number of Beds</label>
-                                    <input type="tel" name="bed" class="form-control border border-2 p-2" value='{{ old('bed', auth()->user()->bed) }}'>
-                                    @error('bed')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-
-
-
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Number of Baths</label>
-                                    <input type="tel" name="bath" class="form-control border border-2 p-2" value='{{ old('bath', auth()->user()->bath) }}'>
-                                    @error('bath')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-
-
-                                
-                                <div class="mb-3 col-md-6">
-                                    <label class="form-label">Sqft</label>
-                                    <input type="tel" name="sqft" class="form-control border border-2 p-2" value='{{ old('sqft', auth()->user()->sqft) }}'>
-                                    @error('sqft')
-                                    <p class='text-danger inputerror'>{{ $message }} </p>
-                                    @enderror
-                                </div>
-
-                                
-                                <div class="mb-3 col-md-6">
-    <label class="form-label">Status</label>
-    <select name="status" class="form-control border border-2 p-2">
-        <option value="" disabled selected>Select your status</option>
-        <option value="active" {{ old('status', auth()->user()->status) == 'active' ? 'selected' : '' }}>Active</option>
-        <option value="inactive" {{ old('status', auth()->user()->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
-        <option value="archived" {{ old('status', auth()->user()->status) == 'archived' ? 'selected' : '' }}>Archived</option>
-    </select>
-
-    @error('gender')
-        <p class='text-danger inputerror'>{{ $message }} </p>
+        <div class="mb-3 col-md-6">
+    <label class="form-label">Property Image</label>
+    <input type="file" name="property_images[]" class="form-control border border-2 p-2" 
+           accept="image/*" multiple>
+    @error('property_image')
+        <p class="text-danger inputerror">{{ $message }}</p>
     @enderror
 </div>
 
 
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Price</label>
+            <input type="tel" name="price" class="form-control border border-2 p-2" value="{{ old('price') }}" placeholder="Enter price">
+            @error('price')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
 
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control border border-2 p-2" value="{{ old('location') }}" placeholder="Enter location">
+            @error('location')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
 
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Governorate</label>
+            <select name="governorate" class="form-control border border-2 p-2">
+    <option value="" disabled selected>Select your governorate</option>
+    <option value="Amman" {{ old('governorate') == 'Amman' ? 'selected' : '' }}>Amman</option>
+    <option value="Zarqa" {{ old('governorate') == 'Zarqa' ? 'selected' : '' }}>Zarqa</option>
+    <option value="Irbid" {{ old('governorate') == 'Irbid' ? 'selected' : '' }}>Irbid</option>
+    <option value="Aqaba" {{ old('governorate') == 'Aqaba' ? 'selected' : '' }}>Aqaba</option>
+    <option value="Mafraq" {{ old('governorate') == 'Mafraq' ? 'selected' : '' }}>Mafraq</option>
+    <option value="Karak" {{ old('governorate') == 'Karak' ? 'selected' : '' }}>Karak</option>
+    <option value="Maan" {{ old('governorate') == 'Maan' ? 'selected' : '' }}>Maan</option>
+    <option value="Ajloun" {{ old('governorate') == 'Ajloun' ? 'selected' : '' }}>Ajloun</option>
+    <option value="Balqa" {{ old('governorate') == 'Balqa' ? 'selected' : '' }}>Balqa</option>
+    <option value="Jerash" {{ old('governorate') == 'Jerash' ? 'selected' : '' }}>Jerash</option>
+    <option value="Tafilah" {{ old('governorate') == 'Tafilah' ? 'selected' : '' }}>Tafilah</option>
+    <option value="Madaba" {{ old('governorate') == 'Madaba' ? 'selected' : '' }}>Madaba</option>
+</select>
 
-                            
+            @error('governorate')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
 
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Number of Beds</label>
+            <input type="tel" name="bed" class="form-control border border-2 p-2" value="{{ old('bed') }}" placeholder="Enter number of beds">
+            @error('bed')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
 
-                                
-                            </div>
-                            <button type="submit" class="btn bg-gradient-dark">Submit</button>
-                        </form>
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Number of Baths</label>
+            <input type="tel" name="bath" class="form-control border border-2 p-2" value="{{ old('bath') }}" placeholder="Enter number of baths">
+            @error('bath')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Sqft</label>
+            <input type="tel" name="sqft" class="form-control border border-2 p-2" value="{{ old('sqft') }}" placeholder="Enter property size">
+            @error('sqft')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="mb-3 col-md-6">
+            <label class="form-label">Status</label>
+            <select name="status" class="form-control border border-2 p-2">
+                <option value="" disabled selected>Select your status</option>
+                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                <option value="archived" {{ old('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+            </select>
+            @error('status')
+            <p class="text-danger inputerror">{{ $message }}</p>
+            @enderror
+        </div>
+    </div>
+    <button type="submit" class="btn bg-gradient-dark">Submit</button>
+</form>
 
                     </div>
                 </div>

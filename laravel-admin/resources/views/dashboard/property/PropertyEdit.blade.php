@@ -31,6 +31,9 @@
                             <p class="mb-0 font-weight-normal text-sm">
                             {{ $property->owner[0]->email }}
                             </p>
+                            <p class="mb-0 font-weight-normal text-sm">
+                            {{ $property->owner[0]->phone_number }}
+                            </p>
                         </div>
                     </div>
                    

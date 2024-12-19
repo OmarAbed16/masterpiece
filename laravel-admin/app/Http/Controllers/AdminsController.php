@@ -2,37 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Driver;
+
 use App\Models\User;
-use App\Models\Truck;
+
 use Illuminate\Http\Request;
 
-class DriversController extends Controller
+class AdminsController extends Controller
 {
     public function index()
 {
-    // Join drivers with users and trucks tables to get driver, user, and truck info
-    $drivers = Driver::join('users', 'drivers.user_id', '=', 'users.id')
-        ->leftJoin('trucks', 'drivers.driver_id', '=', 'trucks.driver_id') 
-        ->where('drivers.is_deleted', '0')
-        ->where('users.is_deleted', '0')
-        ->select(
-            'drivers.*', 
-            'users.name', 
-            'users.email', 
-            'users.phone',
-            'users.governorate',
-            'users.profile_image',
-            'users.created_at',
-            'trucks.license_plate as truck_license_plate', // Select truck details
-            'trucks.company_name as company',
-            'trucks.capacity as truck_capacity',
-            'trucks.current_load as truck_load',
-            'trucks.status as truck_status'
-        )
-        ->get();
-
-    return view('dashboard.profiles.drivers.profile-driver', compact('drivers'));
+    $users = User::where('is_deleted', '0')
+    ->where('role', 'admin')
+    ->get();
+    return view('dashboard.profiles.employees.profile-admin', compact('users'));
 }
 
 
@@ -49,35 +31,16 @@ public function show($id)
 }
 
 
-public function edit($driver_id)
-{
-    $driver = Driver::join('users', 'drivers.user_id', '=', 'users.id')
-        ->leftJoin('trucks', 'drivers.driver_id', '=', 'trucks.driver_id')
-        ->where('drivers.driver_id', $driver_id)
-        ->select(
-            'drivers.*', 
-            'users.name', 
-            'users.email', 
-            'users.phone',
-            'users.role',
-            'users.about',
-            'users.governorate',
-            'users.profile_image',
-            'users.created_at',
-            'trucks.license_plate as truck_license_plate',
-            'trucks.company_name as company',
-            'trucks.capacity as truck_capacity',
-            'trucks.current_load as truck_load',
-            'trucks.status as truck_status'
-        )
-        ->first();
+public function edit($id)
+    {
+        $user = User::find($id);
 
-    if (!$driver) {
-        return redirect()->route('drivers.edit')->with('error', 'Driver not found.');
+        if (!$user || $user->is_deleted) {
+            return redirect()->route('users.index')->with('error', 'User not found.');
+        }
+
+        return view('dashboard.profiles.employees.profile-admin-edit', compact('user'));
     }
-
-    return view('dashboard.profiles.drivers.profile-driver-edit', compact('driver'));
-}
 
 
 
@@ -172,29 +135,24 @@ if ($request->hasFile('gas_license_image')) {
 
 
 public function destroy($id)
-{
-    $driver = Driver::find($id);
+    {
+        $user = User::find($id);
 
-    if (!$driver) {
-        return response()->json([
-            'success' => false
-        ], 404);
-    }
+        if (!$user || $user->is_deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Admin not found.',
+            ], 404);
+        }
 
-    $user = User::find($driver->user_id);
-
-    if ($user) {
         $user->is_deleted = '1';
         $user->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Admin deleted successfully.',
+        ]);
     }
-
-    $driver->is_deleted = '1';
-    $driver->save();
-
-    return response()->json([
-        'success' => true
-    ]);
-}
 
 
     
