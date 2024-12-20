@@ -61,7 +61,11 @@ const Search = ({ onSearch, onFavoriteCountChange }) => {
           setOrderType={(type) => setFilters({ ...filters, ordertype: type })}
         />
         <div className="row">
-          <Sidebar onFilterChange={handleFilterChange} />
+          <Sidebar
+            offset={filters.offset}
+            limit={filters.limit}
+            onFilterChange={handleFilterChange}
+          />
           <div className="col-lg-8 col-md-12 col-sm-12">
             <div className="row justify-content-center g-4">
               {properties.map((item) =>

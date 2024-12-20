@@ -37,22 +37,17 @@ const Reviews = () => {
             <div className="sec-heading center">
               <h2>Good Reviews By Clients</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam.
+                Our clients value the quality and dedication we bring. See how
+                we've made a positive impact and earned their trust.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-lg-12 col-md-12">
-            <div className="item-slide space">
-              {reviews.map((review, index) => (
-                <ReviewCard key={index} review={review} />
-              ))}
-            </div>
-          </div>
+        <div className="row row-cols-1 row-cols-md-2 g-4">
+          {reviews.map((review, index) => (
+            <ReviewCard key={index} review={review} />
+          ))}
         </div>
       </div>
     </section>

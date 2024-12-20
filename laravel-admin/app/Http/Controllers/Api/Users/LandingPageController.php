@@ -154,7 +154,7 @@ public function getUsers()
 {
     $useritems = User::where('role', '!=', 'user')
                 ->where('is_deleted', '0')
-                ->limit(4)
+                ->limit(6)
                 ->get();
 
     return response()->json($useritems);
@@ -165,7 +165,7 @@ public function getRecentReviews()
     $recentReviews = Review::with('user')
         ->where('is_deleted', '0')
         ->orderBy('id', 'DESC')
-        ->limit(5)
+        ->limit(4)
         ->get();
 
     $recentReviews->each(function($review) {

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const SearchList = ({ item }) => {
   const shortDescription =
     item.description.length > 30
@@ -29,13 +29,16 @@ const SearchList = ({ item }) => {
           <div className="list-img-slide">
             <div className="click">
               <div>
-                <a href={`single-property-${item.id}.html`}>
+                <Link to={`/property?id=${item.id}`}>
                   <img
-                    src={item.image_url || "default-image-url.png"} // Use a default image if image_url is null
+                    src={
+                      item.image_url ||
+                      "/assets/default_images/default_image.png"
+                    }
                     className="img-fluid mx-auto"
                     alt={item.title}
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -47,12 +50,12 @@ const SearchList = ({ item }) => {
               <div className="_card_list_flex mb-2">
                 <div className="_card_flex_01">
                   <h4 className="listing-name verified">
-                    <a
-                      href={`single-property-${item.id}.html`}
+                    <Link
+                      to={`/property?id=${item.id}`}
                       className="prt-link-detail"
                     >
                       {item.title}
-                    </a>
+                    </Link>
                   </h4>
                   <p className="listing-description">{shortDescription}</p>
                 </div>
@@ -96,12 +99,12 @@ const SearchList = ({ item }) => {
               </div>
             </div>
             <div className="footer-flex">
-              <a
-                href={`property-detail-${item.id}.html`}
+              <Link
+                to={`/property?id=${item.id}`}
                 className="prt-view bg-danger"
               >
                 View Detail
-              </a>
+              </Link>
             </div>
           </div>
         </div>

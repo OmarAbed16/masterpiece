@@ -3,6 +3,7 @@ import HeroBanner from "../components/landing/HeroBanner";
 import Recent from "../components/landing/Recent";
 import Reviews from "../components/landing/Reviews";
 import CallUs from "../components/layouts/CallUs";
+import OurTeam from "../components/landing/OurTeam";
 
 // Import slick carousel
 import $ from "jquery";
@@ -25,7 +26,7 @@ const Landing = ({ onFavoriteCountChange }) => {
     <div>
       <HeroBanner />
       <Recent onFavoriteCountChange={onFavoriteCountChange} />
-
+      <OurTeam />
       <Reviews />
       <CallUs />
     </div>

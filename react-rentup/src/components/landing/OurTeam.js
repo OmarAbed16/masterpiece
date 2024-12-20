@@ -18,27 +18,30 @@ const OurTeam = () => {
   }, []);
 
   return (
-    <section>
+    <section className="py-5">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-md-12">
-            <div className="sec-heading center">
+        <div className="row text-center">
+          <div className="col-lg-12">
+            <div className="sec-heading center mb-5">
               <h2>Meet Our Team</h2>
-              <p>Professional & Dedicated Team</p>
+              <p className="lead">
+                A passionate group of professionals dedicated to delivering
+                quality results.
+              </p>
             </div>
           </div>
         </div>
 
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12">
-            <div className="team-slide item-slide">
+            <div className="row team-slide item-slide">
               {teamMembers.length > 0 ? (
                 teamMembers.map((member) => (
                   <TeamCard key={member.id} member={member} />
                 ))
               ) : (
                 <div className="sec-heading center">
-                  <h4>There is no data to show.</h4>
+                  <h4>No team members available at the moment.</h4>
                 </div>
               )}
             </div>

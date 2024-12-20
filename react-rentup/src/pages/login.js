@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import AuthContext from "../pages/AuthContext"; // Import your AuthContext
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -62,19 +64,12 @@ const Login = () => {
     return "";
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (
-      Object.values(errors).some((error) => error !== "") ||
-      Object.values(formData).some((field) => field === "")
-    ) {
-      return;
-    }
-
+  // Reusable login function
+  const loginUser = async (data) => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login`,
-        formData
+        data
       );
 
       if (response.status === 200) {
@@ -103,6 +98,19 @@ const Login = () => {
           "An unexpected error occurred. Please try again later.",
       });
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (
+      Object.values(errors).some((error) => error !== "") ||
+      Object.values(formData).some((field) => field === "")
+    ) {
+      return;
+    }
+
+    // Call loginUser for form-based login
+    loginUser(formData);
   };
 
   return (
@@ -228,6 +236,34 @@ const Login = () => {
                           </button>
                         </div>
                       </form>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexDirection: "column",
+                          textAlign: "center",
+                        }}
+                      >
+                        <label>or</label>
+                        <GoogleLogin
+                          onSuccess={(credentialResponse) => {
+                            const decoded = jwtDecode(
+                              credentialResponse?.credential
+                            );
+                            console.log(decoded);
+                            // Call loginUser with Google credentials
+                            loginUser({
+                              email: decoded.email,
+                              password: "Google@2024", // or any value you want
+                            });
+                          }}
+                          onError={() => {
+                            console.log("Login Failed");
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   <div

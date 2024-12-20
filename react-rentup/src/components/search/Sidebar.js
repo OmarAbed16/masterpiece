@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Sidebar = ({ onFilterChange }) => {
+const Sidebar = ({ offset, limit, onFilterChange }) => {
   const [filters, setFilters] = useState({
     location: "",
     price_min: "",
@@ -9,6 +9,8 @@ const Sidebar = ({ onFilterChange }) => {
     bath: "",
     sqft_min: "",
     sqft_max: "",
+    offset: offset,
+    limit: limit,
     governorate: "",
   });
 
