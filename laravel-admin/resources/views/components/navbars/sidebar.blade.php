@@ -8,7 +8,7 @@
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
             <img style="border-radius:50%;" src="{{ asset('assets/img/logos/icon.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-2 font-weight-bold text-white">Gasy - Dashboard</span>
+            <span class="ms-2 font-weight-bold text-white">DarLink - Dashboard</span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -117,6 +117,24 @@
                         <i class="material-icons opacity-10">reviews</i>
                     </div>
                     <span class="nav-link-text ms-1">Reviews</span>
+                </a>
+            </li>
+
+
+
+
+            
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Reviews</h6>
+            </li>
+           
+            <li class="nav-item">
+                <a class="nav-link text-white {{ $activePage == 'subscription' ? ' active bg-gradient-primary' : '' }} "
+                    href="{{ route('messages.index') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">message</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Subscription</span>
                 </a>
             </li>
       

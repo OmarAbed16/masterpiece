@@ -10,7 +10,8 @@ use App\Http\Controllers\{
     UsersController,
     OrdersController,
     RatingsController,
-    PropertyController
+    PropertyController,
+    SubscribeController
 };
 
 
@@ -67,6 +68,10 @@ Route::middleware('auth')->group(function () {
         // Reviews Pages
         Route::resource('reviews', RatingsController::class)->except(['create', 'store'])->names('reviews');
         Route::delete('reviews/delete/{review}', [RatingsController::class, 'destroy'])->name('reviews.destroy');
+
+        // Messages Pages
+        Route::resource('messages', SubscribeController::class)->except(['create', 'store'])->names('messages');
+        Route::delete('messages/delete/{message}', [SubscribeController::class, 'destroy'])->name('messages.destroy');
 
         // Properties Pages
         Route::get('properties', [PropertyController::class, 'index'])->name('properties.index');
