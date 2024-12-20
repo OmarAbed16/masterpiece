@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Users\SearchController;
 use App\Http\Controllers\Api\Users\SubscribeController;
 use App\Http\Controllers\Api\Users\PropertyController;
 use App\Http\Controllers\Api\Users\ProfileController;
+use App\Http\Controllers\Api\Dashboard\BookingManagementController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -58,3 +59,11 @@ Route::get('/booking', [PropertyController::class, 'createBooking']);
 Route::post('/profile/changepassword', [ProfileController::class, 'changePassword']);
 Route::post('/profile/update', [ProfileController::class, 'update']);
 Route::get('/profile/getreviews', [ProfileController::class, 'getReviews']);
+
+
+
+//Dashboard
+
+
+//Get Last Orders notifications
+Route::get('lastOrders', [BookingManagementController::class, 'index']);

@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Api\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\User; 
+use App\Models\Listing;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 
@@ -10,8 +12,19 @@ class BookingManagementController extends Controller
 {
     public function index()
     {
-        $bookings = Booking::where('is_deleted', 0)->get();
-        return view('dashboard.bookings.index', compact('bookings'));
+        $bookings = Booking::where('is_deleted', "0")
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $bookings->each(function ($booking) {
+            $booking->client = $booking->user; 
+        });
+
+        return response()->json([
+            'status' => 'success',
+            'data' => $bookings
+        ]);
     }
 
     public function show($id)
