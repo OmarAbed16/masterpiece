@@ -64,6 +64,7 @@ $property->isFavourite = $isFavourite;
   
         $reviewsSummary = Review::whereIn('listing_id', $listingIds)
             ->selectRaw('AVG(rating) as averageRating, COUNT(*) as reviewCount')
+            ->where('is_deleted', '0')
             ->first();
     
        

@@ -47,7 +47,7 @@ const AgentCard = ({ owner, ownerReviews }) => {
           <a className="agent-btn-contact">
             <i className="ti-comment-alt" />(
             {ownerReviews.reviewCount + " reviews"})
-            {parseFloat(ownerReviews.averageRating).toFixed(1)}
+            {parseFloat(ownerReviews.averageRating ?? 0).toFixed(1)}
             <i className="fa fa-star" style={{ color: "gold" }}></i>
           </a>
           <span

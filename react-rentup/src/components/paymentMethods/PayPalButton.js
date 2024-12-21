@@ -1,48 +1,39 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const PayPalButton = ({ totalPrice }) => {
-  useEffect(() => {
-    // Check if PayPal buttons script is available
-    if (window.paypal) {
-      // Initialize PayPal buttons
-      window.paypal
-        .Buttons({
-          style: {
-            shape: "rect",
-            color: "white",
-            layout: "vertical",
-            label: "pay",
-          },
-          createOrder: function (data, actions) {
+const PayPalButton = () => {
+  return (
+    <PayPalScriptProvider options={{ "client-id": "YOUR_CLIENT_ID" }}>
+      <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>
+        <h2>Pay with PayPal</h2>
+        <PayPalButtons
+          style={{ layout: "vertical" }}
+          createOrder={(data, actions) => {
             return actions.order.create({
               purchase_units: [
                 {
                   amount: {
-                    value: totalPrice.toFixed(2).toString(),
+                    value: "10.00", // Replace with your price
                   },
                 },
               ],
             });
-          },
-          onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
+          }}
+          onApprove={(data, actions) => {
+            return actions.order.capture().then((details) => {
               alert(
                 "Transaction completed by " + details.payer.name.given_name
               );
-              // Optionally handle the success state
+              console.log(details); // Optional: Log transaction details
             });
-          },
-        })
-        .render("#paypal-button-container"); // Replace #paypal-button-container with the id of your container element in your component
-    } else {
-      console.error("PayPal script not loaded.");
-    }
-  }, [totalPrice]); // Dependency array with totalPrice to refresh PayPal buttons on price change
-
-  return (
-    <div style={{ textAlign: "center" }}>
-      <div id="paypal-button-container"></div>
-    </div>
+          }}
+          onError={(err) => {
+            console.error("PayPal Checkout Error:", err);
+            alert("Something went wrong. Please try again.");
+          }}
+        />
+      </div>
+    </PayPalScriptProvider>
   );
 };
 

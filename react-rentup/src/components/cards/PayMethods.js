@@ -1,7 +1,7 @@
 import React from "react";
 
 import CashButton from "../paymentMethods/CashButton";
-import PayPalButton from "../paymentMethods/PayPalButton";
+// import PayPalButton from "../paymentMethods/PayPalButton";
 
 const PayMethods = ({ checkinDate, checkoutDate, totalPrice }) => (
   <>
@@ -30,7 +30,11 @@ const PayMethods = ({ checkinDate, checkoutDate, totalPrice }) => (
           data-parent="#payaccordion"
         >
           <div className="panel-body">
-            {/* <PayPalButton totalPrice={totalPrice} /> */}
+            {/* <PayPalButton
+              totalPrice={totalPrice}
+              checkinDate={checkinDate}
+              checkoutDate={checkoutDate}
+            /> */}
           </div>
         </div>
       </div>
