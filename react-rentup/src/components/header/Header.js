@@ -101,7 +101,7 @@ const Header = ({ favoriteCount }) => {
                 {isLoggedIn ? (
                   <>
                     <li className="_my_prt_list">
-                      <Link to="/search" data-discover="true">
+                      <Link to="/profile?page=favourite" data-discover="true">
                         <span>{favoriteCount}</span> My List
                       </Link>
                     </li>
@@ -125,6 +125,13 @@ const Header = ({ favoriteCount }) => {
                         className="nav-dropdown nav-submenu"
                         style={{ display: "none" }}
                       >
+                        <li>
+                          <Link to="/profile">
+                            <i className="fas fa-user me-1"></i>
+                            <span className="dn-lg">My Profile</span>
+                          </Link>
+                        </li>
+
                         <li>
                           <Link onClick={handleLogout}>
                             <i className="fas fa-sign-out-alt me-1"></i>

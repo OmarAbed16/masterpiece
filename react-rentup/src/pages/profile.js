@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ProfileTitle from "../components/profile/profileTitle";
 import ProfileSideBar from "../components/profile/profileSideBar";
 import ProfileEdit from "../components/profile/profileEdit";
@@ -7,14 +8,29 @@ import ProfileChangePassword from "../components/profile/profileChangePassword";
 import ProfileReviews from "../components/profile/profileReviews";
 import ProfileMyBookings from "../components/profile/profileMyBookings";
 import Swal from "sweetalert2";
+import ProfileFavorite from "../components/profile/ProfileFavorite";
 
-const Profile = () => {
+const Profile = ({ onFavoriteCountChange }) => {
   const navigate = useNavigate();
-  const { page } = useParams(); // Get the page parameter from the URL
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page"); // Get the page parameter from the URL
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user ? user.id : null;
 
   const [activeOption, setActiveOption] = useState(page || "profile"); // Set initial option based on URL parameter
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/recentListings?user_id=${userId}`)
+      .then((response) => {
+        if (response.data && response.data.favorite_count !== undefined) {
+          onFavoriteCountChange(response.data.favorite_count);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching property listings:", error);
+      });
+  }, []);
 
   const [profileData, setProfileData] = useState({
     name: user ? user.name : "",
@@ -54,6 +70,12 @@ const Profile = () => {
             )}
             {activeOption === "reviews" && <ProfileReviews />}
             {activeOption === "password" && <ProfileChangePassword />}
+            {activeOption === "favourite" && (
+              <ProfileFavorite
+                userId={user.id}
+                onFavoriteCountChange={onFavoriteCountChange}
+              />
+            )}
             {activeOption === "bookings" && <ProfileMyBookings />}
           </div>
         </div>

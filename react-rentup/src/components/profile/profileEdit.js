@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
-
+import AuthContext from "../../pages/AuthContext";
 const ProfileEdit = ({ onProfileChange }) => {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const userId = user ? user.id : null;
-
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: user ? user.name : "",
     email: user ? user.email : "",
@@ -69,7 +69,7 @@ const ProfileEdit = ({ onProfileChange }) => {
           phone_number: formData.phone,
           profile_image: response.data.user.profile_image, // Assuming this contains the new image URL
         };
-        sessionStorage.setItem("user", JSON.stringify(updatedUser));
+        login(updatedUser);
 
         // Call the `onProfileChange` callback with the new data
         onProfileChange(updatedUser);

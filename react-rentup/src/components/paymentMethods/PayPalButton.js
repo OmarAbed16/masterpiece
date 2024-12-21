@@ -35,7 +35,7 @@ const PayPalButton = ({ totalPrice, checkinDate, checkoutDate }) => {
 
     try {
       const response = await axios.get(
-        `http://127.0.0.1:8000/api/booking?totalPrice=${price}&checkin=${dates.checkin}&checkout=${dates.checkout}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=paypal`
+        `${process.env.REACT_APP_API_URL}/booking?totalPrice=${price}&checkin=${dates.checkin}&checkout=${dates.checkout}&propertyId=${urlParamId}&urlParamId=${userId}&paymentType=paypal`
       );
 
       // Success
@@ -67,8 +67,7 @@ const PayPalButton = ({ totalPrice, checkinDate, checkoutDate }) => {
   return (
     <PayPalScriptProvider
       options={{
-        "client-id":
-          "Aa--k9gAL2zd1YhSRmjKbIYHM8KjgukOF7OFTGZkehXDjIWt2MJOBGt5pkNRAQYv4NP6fsEEbpZ6Jprb",
+        "client-id": `Aa--k9gAL2zd1YhSRmjKbIYHM8KjgukOF7OFTGZkehXDjIWt2MJOBGt5pkNRAQYv4NP6fsEEbpZ6Jprb`,
       }}
     >
       <div style={{ maxWidth: "500px", margin: "auto", padding: "20px" }}>

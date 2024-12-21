@@ -30,6 +30,14 @@ class ProfileController extends Controller
             ], 400);
         }
 
+
+         // Check if the new password is the same as the old password
+    if ($request->old_password === $request->new_password) {
+        return response()->json([
+            'message' => 'New password cannot be the same as the old password.'
+        ], 400);
+    }
+    
         // Update to the new password
         $user->password = Hash::make($request->new_password);
         $user->save();
@@ -109,5 +117,59 @@ class ProfileController extends Controller
         return response()->json($reviews);
     }
     
+
+
+
+
+    public function getUserFavouriteList(Request $request)
+{
+    $userId = $request->query('user_id');
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID is required'], 400);
+    }
+
+    $favoriteCount = Favorite::where('user_id', $userId)->count();
+
+    $listings = Favorite::where('user_id', $userId)
+        ->with([
+            'listing' => function ($query) {
+                $query->where('is_deleted', '0')
+                    ->with([
+                        'features' => function ($query) {
+                            $query->where('is_deleted', '0');
+                        },
+                        'images' => function ($query) {
+                            $query->where('is_deleted', '0')->where('is_main', '1');
+                        },
+                        'reviews' => function ($query) {
+                            $query->where('is_deleted', '0')
+                                  ->selectRaw('listing_id, avg(rating) as average_rating')
+                                  ->groupBy('listing_id');
+                        }
+                    ]);
+            }
+        ])
+        ->get()
+        ->map(function ($favorite) {
+            $listing = $favorite->listing;
+            $listing->image_url = $listing->images->first()->image_url ?? null;
+            $listing->average_rating = $listing->reviews->first()->average_rating ?? null;
+            $listing->is_favorite = true;
+            $listing->favorite_id = $favorite->id;
+            return $listing;
+        });
+
+    if ($listings->isEmpty()) {
+        return response()->json(['message' => 'No favorite listings found.'], 404);
+    }
+
+    return response()->json([
+        'total_count' => $favoriteCount,
+        'favorite_count' => $favoriteCount,
+        'listings' => $listings
+    ]);
+}
+
 
 }

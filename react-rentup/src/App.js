@@ -47,7 +47,12 @@ const App = () => {
               <Property onFavoriteCountChange={handleFavoriteCountChange} />
             }
           />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <Profile onFavoriteCountChange={handleFavoriteCountChange} />
+            }
+          />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="*" element={<NotFound />} />

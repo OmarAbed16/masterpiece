@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-const SearchGrid = ({ item, onFavoriteCountChange }) => {
+const SearchGrid = ({
+  item,
+  onFavoriteCountChange,
+  responsive = "col-lg-6 col-md-6 col-sm-12",
+}) => {
   const [isFavorite, setIsFavorite] = useState(item.is_favorite);
   const user = JSON.parse(sessionStorage.getItem("user")); // Get the user object from session storage
   const userId = user ? user.id : 0; // Get the user ID, default to 0 if not available
@@ -68,7 +72,7 @@ const SearchGrid = ({ item, onFavoriteCountChange }) => {
   };
 
   return (
-    <div className="col-lg-6 col-md-6 col-sm-12">
+    <div className={responsive}>
       <div className="property-listing property-2">
         <div className="listing-img-wrapper">
           <div className="_exlio_125">{item.governorate}</div>

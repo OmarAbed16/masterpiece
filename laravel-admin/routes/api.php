@@ -60,7 +60,7 @@ Route::post('/profile/changepassword', [ProfileController::class, 'changePasswor
 Route::post('/profile/update', [ProfileController::class, 'update']);
 Route::get('/profile/getreviews', [ProfileController::class, 'getReviews']);
 
-
+Route::get('profile/favorites', [ProfileController::class, 'getUserFavouriteList']);
 
 //Dashboard
 

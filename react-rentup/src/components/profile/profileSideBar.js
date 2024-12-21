@@ -34,6 +34,19 @@ const ProfileSideBar = ({ profileData, activeOption, setActiveOption }) => {
                 <i className="fa fa-user-tie" /> My Profile
               </Link>
             </li>
+
+            <li
+              style={{ cursor: "pointer" }}
+              className={activeOption === "favourite" ? "active" : ""}
+            >
+              <Link
+                to="/profile?page=favourite"
+                onClick={() => setActiveOption("favourite")}
+              >
+                <i className="fa fa-bookmark" /> My Favourite
+              </Link>
+            </li>
+
             <li
               style={{ cursor: "pointer" }}
               className={activeOption === "bookings" ? "active" : ""}
@@ -42,7 +55,7 @@ const ProfileSideBar = ({ profileData, activeOption, setActiveOption }) => {
                 to="/profile?page=bookings"
                 onClick={() => setActiveOption("bookings")}
               >
-                <i className="fa fa-bookmark" /> Saved Property
+                <i className="fa fa-calendar" /> My Bookings
               </Link>
             </li>
             <li
