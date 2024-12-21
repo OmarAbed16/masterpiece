@@ -3,7 +3,7 @@ import React from "react";
 const Review = () => {
   return (
     <>
-      <div className="property_block_wrap">
+      <div className="property_block_wrap col-lg-9 col-md-8 col-sm-12">
         <div className="property_block_wrap_header">
           <h4 className="property_block_title">Write a Review</h4>
         </div>

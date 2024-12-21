@@ -1,49 +1,39 @@
-import React from "react";
-import ProfileBookingCard from "../cards/ProfileBookingCard"; // Make sure the path is correct
+import React, { useState, useEffect } from "react";
+import ProfileBookingCard from "../cards/ProfileBookingCard";
+import Review from "../property/Review";
 
-const ProfileMyBookings = ({ title }) => {
-  const bookings = [
-    {
-      id: 1,
-      property: {
-        image: "assets/img/p-7.png",
-        name: "4 Bhk Luxury Villa",
-        address: "5682 Brown River Suit 18",
-        price: "$ 2,200,000",
-      },
-      leads: 27,
-      views: 816,
-      postedOn: "16 Aug - 12:40",
-      status: "Expired",
-      leadsUsers: [
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-      ],
-    },
-    {
-      id: 2,
-      property: {
-        image: "assets/img/p-8.png",
-        name: "4 Bhk Luxury Villa",
-        address: "5682 Brown River Suit 18",
-        price: "$ 2,200,000",
-      },
-      leads: 27,
-      views: 816,
-      postedOn: "16 Aug - 12:40",
-      status: "Active",
-      leadsUsers: [
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-        { avatar: "assets/img/team-1.jpg" },
-      ],
-    },
-  ];
+const ProfileMyBookings = ({ setActiveOption }) => {
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userId = user ? user.id : null;
+
+  useEffect(() => {
+    if (userId) {
+      const fetchBookings = async () => {
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:8000/api/profile/bookings?user_id=14`
+          );
+          const data = await response.json();
+          setBookings(data);
+        } catch (error) {
+          console.error("Error fetching bookings:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchBookings();
+    } else {
+      setLoading(false);
+    }
+  }, [userId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -56,35 +46,48 @@ const ProfileMyBookings = ({ title }) => {
                   <table className="table">
                     <thead className="thead-dark">
                       <tr>
-                        <th scope="col">Property</th>
+                        <th scope="col">Property Details</th>
                         <th scope="col" className="m2_hide">
-                          Leads
+                          Peoples
+                        </th>
+
+                        <th scope="col" className="m2_hide">
+                          Check in
                         </th>
                         <th scope="col" className="m2_hide">
-                          Stats
+                          Check out
                         </th>
                         <th scope="col" className="m2_hide">
-                          Posted On
+                          Payment Status
                         </th>
-                        <th scope="col">Status</th>
+                        <th className="m2_hide" scope="col">
+                          Status
+                        </th>
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {bookings.map((booking) => (
-                        <ProfileBookingCard
-                          key={booking.id}
-                          booking={booking}
-                        />
-                      ))}
-                    </tbody>
+                    {bookings.total_count > 0 ? (
+                      <tbody>
+                        {bookings.bookings.map((booking) => (
+                          <>
+                            <ProfileBookingCard
+                              key={booking.id}
+                              booking={booking}
+                              setActiveOption={setActiveOption}
+                            />
+                          </>
+                        ))}
+                      </tbody>
+                    ) : (
+                      <h3>No bookings available</h3>
+                    )}
                   </table>
                 </div>
               </div>
             </div>
           </div>
-          {/* row */}
         </div>
+        <Review />
       </div>
     </>
   );

@@ -172,4 +172,117 @@ class ProfileController extends Controller
 }
 
 
+
+
+
+public function getUserBookings(Request $request)
+{
+    $userId = $request->query('user_id');
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID is required'], 400);
+    }
+
+    // Fetch the bookings related to the user
+    $bookings = Booking::where('user_id', $userId)->where('is_deleted', "0")
+        ->with([
+            'listing' => function ($query) {
+                $query->where('is_deleted', '0')
+                    ->with([
+                        'features' => function ($query) {
+                            $query->where('is_deleted', '0');
+                        },
+                        'images' => function ($query) {
+                            $query->where('is_deleted', '0')->where('is_main', '1');
+                        },
+                        'reviews' => function ($query) {
+                            $query->where('is_deleted', '0')
+                                  ->selectRaw('booking_id, avg(rating) as average_rating')
+                                  ->groupBy('booking_id');
+                        }
+                    ]);
+            }
+        ])
+        ->get()
+        ->map(function ($booking) {
+            // Fetch booking details
+            $bookingDetails = [
+                'booking_id' => $booking->id,
+                'checkin' => $booking->checkin,
+                'checkout' => $booking->checkout,
+                'payment_value' => $booking->payment_value,
+                'status' => $booking->status,
+                'payment_status' => $booking->payment_status
+            ];
+
+            // Fetch listing details
+            $listing = $booking->listing;
+            $listingDetails = [
+                'listing_id' => $listing->id,
+                'title' => $listing->title,
+                'location' => $listing->location,
+                'price' => $listing->price,
+                'image_url' => $listing->images->first()->image_url ?? null,
+                'average_rating' => $listing->reviews->first()->average_rating ?? null
+            ];
+
+            // Fetch reviews for the booking
+            $reviews = $listing->reviews->map(function ($review) {
+                return [
+                    'review_id' => $review->id,
+                    'rating' => $review->rating,
+                    'comment' => $review->comment,
+                    'created_at' => $review->created_at
+                ];
+            });
+
+            // Fetch user details (assuming user is tied to the booking)
+            $userDetails = [
+                'user_id' => $booking->user_id,
+                'name' => $booking->user->name,  // Assuming 'user' relationship exists
+                'email' => $booking->user->email,
+                'profile_picture' => $booking->user->profile_image ?? null
+            ];
+
+            // Return the full structured response
+            return [
+                'booking_details' => $bookingDetails,
+                'listing_details' => $listingDetails,
+                'reviews' => $reviews,
+                'user_details' => $userDetails
+            ];
+        });
+
+    if ($bookings->isEmpty()) {
+        return response()->json(['message' => 'No bookings found.','total_count' => $bookings->count()], 404);
+    }
+
+    return response()->json([
+        'total_count' => $bookings->count(),
+        'bookings' => $bookings
+    ]);
+}
+
+
+
+
+
+
+
+
+public function destroy($id)
+{
+    $Booking = Booking::find($id);
+
+    if (!$Booking) {
+        return response()->json(['success' => false], 404);
+    }
+
+    $Booking->is_deleted = '1';
+    $Booking->save();
+
+    return response()->json(['success' => true]);
+}
+
+
 }

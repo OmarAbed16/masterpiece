@@ -76,7 +76,9 @@ const Profile = ({ onFavoriteCountChange }) => {
                 onFavoriteCountChange={onFavoriteCountChange}
               />
             )}
-            {activeOption === "bookings" && <ProfileMyBookings />}
+            {activeOption === "bookings" && (
+              <ProfileMyBookings setActiveOption={setActiveOption} />
+            )}
           </div>
         </div>
       </section>
