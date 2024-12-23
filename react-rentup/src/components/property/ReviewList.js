@@ -9,7 +9,11 @@ const ReviewList = ({ Reviews }) => {
             <li key={index} className="article_comments_wrap">
               <article>
                 <div className="article_comments_thumb">
-                  <img src={Review.user.profile_image} alt="" />
+                  <img
+                    style={{ height: "50px", width: "50px" }}
+                    src={Review.user.profile_image}
+                    alt=""
+                  />
                 </div>
                 <div className="comment-details">
                   <div className="comment-meta">

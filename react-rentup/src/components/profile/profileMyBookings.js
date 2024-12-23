@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ProfileBookingCard from "../cards/ProfileBookingCard";
-import Review from "../property/Review";
 
 const ProfileMyBookings = ({ setActiveOption }) => {
   const [bookings, setBookings] = useState([]);
@@ -14,7 +13,7 @@ const ProfileMyBookings = ({ setActiveOption }) => {
       const fetchBookings = async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/api/profile/bookings?user_id=14`
+            `${process.env.REACT_APP_API_URL}/profile/bookings?user_id=${user.id}`
           );
           const data = await response.json();
           setBookings(data);
@@ -87,7 +86,6 @@ const ProfileMyBookings = ({ setActiveOption }) => {
             </div>
           </div>
         </div>
-        <Review />
       </div>
     </>
   );

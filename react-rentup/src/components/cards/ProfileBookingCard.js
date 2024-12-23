@@ -3,6 +3,9 @@ import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 
 const ProfileBookingCard = ({ booking, setActiveOption }) => {
+  console.log(booking.review_count);
+  console.log("g");
+
   const navigate = useNavigate();
 
   const handleDelete = (bookingId) => {
@@ -53,6 +56,124 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
     });
   };
 
+  const handleReview = (bookingId, listingId) => {
+    Swal.fire({
+      title: "Leave a Review",
+      html: `
+        <div class="star-rating" style="font-size: 30px;">
+          <span class="star fa fa-star" data-value="1"></span>
+          <span class="star fa fa-star" data-value="2"></span>
+          <span class="star fa fa-star" data-value="3"></span>
+          <span class="star fa fa-star" data-value="4"></span>
+          <span class="star fa fa-star" data-value="5"></span>
+        </div>
+        <textarea id="reviewText" placeholder="Write your review here..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      cancelButtonText: "Cancel",
+      confirmButtonText: "Add Review",
+      cancelButtonColor: "red",
+      preConfirm: () => {
+        const rating = document.querySelector(".star.selected");
+        const reviewText = document.getElementById("reviewText").value;
+
+        if (!rating || !reviewText) {
+          Swal.showValidationMessage(
+            "Please provide both a rating and a review."
+          );
+          return false;
+        }
+
+        return { rating: rating.dataset.value, review: reviewText };
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { rating, review } = result.value;
+
+        const user = JSON.parse(sessionStorage.getItem("user")); // Get the user object from session storage
+        const userId = user ? user.id : 0;
+        if (!userId) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "User is not authenticated. Please log in first.",
+            confirmButtonText: "Close",
+          });
+          return;
+        }
+
+        // Send the review data to the API using URL query parameters
+        const url = new URL(
+          `${process.env.REACT_APP_API_URL}/profile/addReview`
+        );
+        url.searchParams.append("user_id", userId);
+        url.searchParams.append("booking_id", bookingId);
+        url.searchParams.append("listing_id", listingId);
+        url.searchParams.append("rating", rating);
+        url.searchParams.append("review", review);
+
+        fetch(url, {
+          method: "GET", // Use GET to pass parameters in the URL
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.message) {
+              Swal.fire({
+                icon: "success",
+                title: "Thank you for your review!",
+                text: `Your review (Rating: ${rating} stars): ${review}`,
+                confirmButtonText: "Close",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  setActiveOption("reviews");
+                }
+              });
+            } else if (data.error) {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: data.error, // Display the error message returned by the API
+                confirmButtonText: "Close",
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "There was an issue submitting your review. Please try again.",
+                confirmButtonText: "Close",
+              });
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "There was an error processing your request. Please try again.",
+              confirmButtonText: "Close",
+            });
+          });
+      }
+    });
+
+    // Handle star rating interaction
+    const stars = document.querySelectorAll(".star");
+    stars.forEach((star) => {
+      star.style.cursor = "pointer";
+      star.addEventListener("click", () => {
+        stars.forEach((star) => star.classList.remove("selected"));
+        star.classList.add("selected");
+        stars.forEach((star) => (star.style.color = "black"));
+        for (let i = 0; i < star.dataset.value; i++) {
+          stars[i].style.color = "gold";
+        }
+      });
+    });
+  };
+
   return (
     <tr>
       <td>
@@ -91,6 +212,7 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
             <li>
               <a href="#">
                 <img
+                  style={{ height: "25px" }}
                   src={booking.user_details.profile_picture}
                   className="img-fluid circle"
                   alt=""
@@ -153,15 +275,34 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
 
       <td>
         <div className="_leads_action">
-          <a href="#">
-            <i className="fas fa-edit" />
-          </a>
-          <a
-            href="#"
-            onClick={() => handleDelete(booking.booking_details.booking_id)}
-          >
-            <i className="fas fa-trash delete-user" />
-          </a>
+          {booking.booking_details.status === "confirmed" &&
+            booking.review_count <= 0 && (
+              <a
+                href="#"
+                onClick={() =>
+                  handleReview(
+                    booking.booking_details.booking_id,
+                    booking.listing_details.listing_id
+                  )
+                }
+              >
+                <i className="fas fa-edit add-review" />
+              </a>
+            )}
+
+          {booking.booking_details.status === "confirmed" &&
+            booking.review_count > 0 && <p>reviewed</p>}
+          {booking.booking_details.status === "canceled" && (
+            <span className="canceled-status text-danger">Canceled</span>
+          )}
+          {booking.booking_details.status === "pending" && (
+            <a
+              href="#"
+              onClick={() => handleDelete(booking.booking_details.booking_id)}
+            >
+              <i className="fas fa-trash delete-user" />
+            </a>
+          )}
         </div>
       </td>
     </tr>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProfileReviewCard from "../cards/ProfileReviewCard";
 
 const ProfileReviews = ({ setActiveOption }) => {
-  const [bookings, setBookings] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -10,21 +10,21 @@ const ProfileReviews = ({ setActiveOption }) => {
 
   useEffect(() => {
     if (userId) {
-      const fetchBookings = async () => {
+      const fetchReviews = async () => {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/api/profile/bookings?user_id=14`
+            `http://127.0.0.1:8000/api/profile/reviews?user_id=${user.id}`
           );
           const data = await response.json();
-          setBookings(data);
+          setReviews(data);
         } catch (error) {
-          console.error("Error fetching bookings:", error);
+          console.error("Error fetching Reviews:", error);
         } finally {
           setLoading(false);
         }
       };
 
-      fetchBookings();
+      fetchReviews();
     } else {
       setLoading(false);
     }
@@ -35,53 +35,56 @@ const ProfileReviews = ({ setActiveOption }) => {
   }
 
   return (
-    <div className="col-lg-9 col-md-8 col-sm-12">
-      <div className="dashboard-body">
-        <div className="row">
-          <div className="col-lg-12 col-md-12">
-            <div className="dashboard_property">
-              <div className="table-responsive">
-                <table className="table">
-                  <thead className="thead-dark">
-                    <tr>
-                      <th scope="col">Property Details</th>
-                      <th scope="col" className="m2_hide">
-                        Peoples
-                      </th>
+    <>
+      <div className="col-lg-9 col-md-8 col-sm-12">
+        <div className="dashboard-body">
+          <div className="row">
+            <div className="col-lg-12 col-md-12">
+              <div className="dashboard_property">
+                <div className="table-responsive">
+                  <table className="table">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th scope="col">Property Details</th>
 
-                      <th scope="col" className="m2_hide">
-                        Check in
-                      </th>
-                      <th scope="col" className="m2_hide">
-                        Check out
-                      </th>
-                      <th scope="col" className="m2_hide">
-                        Payment Status
-                      </th>
-
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                  {bookings.total_count > 0 ? (
-                    <tbody>
-                      {bookings.bookings.map((booking) => (
-                        <ProfileReviewCard
-                          key={booking.id}
-                          booking={booking}
-                          setActiveOption={setActiveOption}
-                        />
-                      ))}
-                    </tbody>
-                  ) : (
-                    <h3>No bookings available</h3>
-                  )}
-                </table>
+                        <th scope="col" className="m2_hide">
+                          Check in
+                        </th>
+                        <th scope="col" className="m2_hide">
+                          Check out
+                        </th>
+                        <th scope="col" className="m2_hide">
+                          Rating
+                        </th>
+                        <th className="m2_hide" scope="col">
+                          Comment
+                        </th>
+                        <th scope="col">Review Creation</th>
+                      </tr>
+                    </thead>
+                    {reviews.total_count > 0 ? (
+                      <tbody>
+                        {reviews.reviews.map((review) => (
+                          <>
+                            <ProfileReviewCard
+                              key={review.id}
+                              review={review}
+                              setActiveOption={setActiveOption}
+                            />
+                          </>
+                        ))}
+                      </tbody>
+                    ) : (
+                      <h3>No Reviews available</h3>
+                    )}
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -57,7 +57,11 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request->email)->first();
-
+if($user->role!="user"){
+    return response()->json([
+        'message' => 'You do not have access to this area.'
+    ], 401);
+}
         if ($user && Hash::check($request->password, $user->password)) {
             return response()->json([
                 'user' => [

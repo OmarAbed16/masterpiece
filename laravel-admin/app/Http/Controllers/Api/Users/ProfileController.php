@@ -174,7 +174,6 @@ class ProfileController extends Controller
 
 
 
-
 public function getUserBookings(Request $request)
 {
     $userId = $request->query('user_id');
@@ -184,7 +183,8 @@ public function getUserBookings(Request $request)
     }
 
     // Fetch the bookings related to the user
-    $bookings = Booking::where('user_id', $userId)->where('is_deleted', "0")
+    $bookings = Booking::where('user_id', $userId)
+        ->where('is_deleted', "0")
         ->with([
             'listing' => function ($query) {
                 $query->where('is_deleted', '0')
@@ -196,9 +196,7 @@ public function getUserBookings(Request $request)
                             $query->where('is_deleted', '0')->where('is_main', '1');
                         },
                         'reviews' => function ($query) {
-                            $query->where('is_deleted', '0')
-                                  ->selectRaw('booking_id, avg(rating) as average_rating')
-                                  ->groupBy('booking_id');
+                            $query->where('is_deleted', '0');
                         }
                     ]);
             }
@@ -214,7 +212,7 @@ public function getUserBookings(Request $request)
                 'status' => $booking->status,
                 'payment_status' => $booking->payment_status
             ];
-
+     
             // Fetch listing details
             $listing = $booking->listing;
             $listingDetails = [
@@ -223,18 +221,11 @@ public function getUserBookings(Request $request)
                 'location' => $listing->location,
                 'price' => $listing->price,
                 'image_url' => $listing->images->first()->image_url ?? null,
-                'average_rating' => $listing->reviews->first()->average_rating ?? null
+                'average_rating' => $listing->reviews->avg('rating') ?? null // Calculate average rating from the reviews
             ];
-
-            // Fetch reviews for the booking
-            $reviews = $listing->reviews->map(function ($review) {
-                return [
-                    'review_id' => $review->id,
-                    'rating' => $review->rating,
-                    'comment' => $review->comment,
-                    'created_at' => $review->created_at
-                ];
-            });
+          
+            // Fetch reviews for the booking, filtered by booking_id
+            $reviewCount = $listing->reviews->where('booking_id', $booking->id)->count();
 
             // Fetch user details (assuming user is tied to the booking)
             $userDetails = [
@@ -248,13 +239,13 @@ public function getUserBookings(Request $request)
             return [
                 'booking_details' => $bookingDetails,
                 'listing_details' => $listingDetails,
-                'reviews' => $reviews,
+                'review_count' => $reviewCount, // Return the count of reviews
                 'user_details' => $userDetails
             ];
         });
 
     if ($bookings->isEmpty()) {
-        return response()->json(['message' => 'No bookings found.','total_count' => $bookings->count()], 404);
+        return response()->json(['message' => 'No bookings found.', 'total_count' => $bookings->count()], 404);
     }
 
     return response()->json([
@@ -263,6 +254,128 @@ public function getUserBookings(Request $request)
     ]);
 }
 
+
+
+
+
+public function addReview(Request $request)
+{
+    // Manually retrieve the query parameters
+    $validated = [
+        'user_id' => $request->query('user_id'),
+        'booking_id' => $request->query('booking_id'),
+        'listing_id' => $request->query('listing_id'),
+        'rating' => $request->query('rating'),
+        'review' => $request->query('review')
+    ];
+
+    // Validate the data
+    if (empty($validated['user_id']) || !is_numeric($validated['user_id']) || !User::find($validated['user_id'])) {
+        return response()->json(['error' => 'Valid user ID is required.'], 400);
+    }
+
+    if (empty($validated['booking_id']) || !is_numeric($validated['booking_id']) || !Booking::find($validated['booking_id'])) {
+        return response()->json(['error' => 'Valid booking ID is required.'], 400);
+    }
+
+    if (empty($validated['listing_id']) || !is_numeric($validated['listing_id']) || !Listing::find($validated['listing_id'])) {
+        return response()->json(['error' => 'Valid listing ID is required.'], 400);
+    }
+
+    if (empty($validated['rating']) || !is_numeric($validated['rating']) || $validated['rating'] < 1 || $validated['rating'] > 5) {
+        return response()->json(['error' => 'Rating must be between 1 and 5.'], 400);
+    }
+
+    if (empty($validated['review']) || strlen($validated['review']) > 500) {
+        return response()->json(['error' => 'Review text is required and must be less than 500 characters.'], 400);
+    }
+
+    try {
+        // Check if the booking belongs to the user
+        $booking = Booking::findOrFail($validated['booking_id']);
+        if ($booking->user_id != $validated['user_id']) {
+            return response()->json(['error' => 'You can only review your own bookings.'], 400);
+        }
+
+        // Ensure the listing_id matches the booking's associated listing
+        if ($booking->listing_id != $validated['listing_id']) {
+            return response()->json(['error' => 'The listing ID does not match the booking listing.'], 400);
+        }
+
+        // Create the review
+        $review = new Review();
+        $review->user_id = $validated['user_id'];
+        $review->booking_id = $validated['booking_id'];
+        $review->listing_id = $validated['listing_id'];
+        $review->rating = $validated['rating'];
+        $review->comment = $validated['review'];
+        $review->save();
+
+        // Return a success response
+        return response()->json(['message' => 'Review added successfully!'], 200);
+
+    } catch (\Exception $e) {
+        // Return a failure response with error details
+        return response()->json(['error' => 'Failed to add review', 'details' => $e->getMessage()], 500);
+    }
+}
+
+
+
+public function getUserReviews(Request $request)
+{
+    $userId = $request->query('user_id');
+    
+    if (!$userId) {
+        return response()->json(['error' => 'User ID is required'], 400);
+    }
+
+    $reviews = Review::where('user_id', $userId)
+        ->where('is_deleted', '0')
+        ->orderBy('id', 'desc')
+        ->get()
+        ->map(function ($review) {
+            $booking = Booking::where('id', $review->booking_id)->first();
+            
+            $bookingDetails = $booking ? [
+                'booking_id' => $booking->id,
+                'checkin' => $booking->checkin,
+                'checkout' => $booking->checkout,
+                'payment_value' => $booking->payment_value,
+                'status' => $booking->status,
+                'payment_status' => $booking->payment_status,
+                'listing_id' => $booking->listing_id
+            ] : null;
+
+            $listing = $booking ? Listing::where('id', $booking->listing_id)->first() : null;
+            
+            $listingDetails = $listing ? [
+                'listing_id' => $listing->id,
+                'title' => $listing->title,
+                'location' => $listing->location,
+                'price' => $listing->price,
+                'image_url' => $listing->images->first()->image_url ?? null
+            ] : null;
+
+            return [
+                'review_id' => $review->id,
+                'rating' => $review->rating,
+                'comment' => $review->comment,
+                'created_at' => $review->created_at,
+                'booking_details' => $bookingDetails,
+                'listing_details' => $listingDetails
+            ];
+        });
+
+    if ($reviews->isEmpty()) {
+        return response()->json(['message' => 'No reviews found.'], 404);
+    }
+
+    return response()->json([
+        'total_count' => $reviews->count(),
+        'reviews' => $reviews
+    ]);
+}
 
 
 
