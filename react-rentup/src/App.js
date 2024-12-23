@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import { AuthProvider } from "./pages/AuthContext"; // Import your AuthContext
 import Property from "./pages/Property";
 import Profile from "./pages/profile";
+import Chatbot from "./pages/chatbot";
 
 const App = () => {
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/contact" element={<ContactUs />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Chatbot />
         <Footer />
       </AuthProvider>
     </Router>

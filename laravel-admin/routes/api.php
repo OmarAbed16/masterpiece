@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Users\SubscribeController;
 use App\Http\Controllers\Api\Users\PropertyController;
 use App\Http\Controllers\Api\Users\ProfileController;
 use App\Http\Controllers\Api\Dashboard\BookingManagementController;
+use App\Http\Controllers\Api\Users\ChatGptController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -65,6 +66,11 @@ Route::get('/profile/bookings', [ProfileController::class, 'getUserBookings']);
 Route::get('/profile/reviews', [ProfileController::class, 'getUserReviews']);
 Route::get('/profile/delete_booking/{id}', [ProfileController::class, 'destroy']);
 Route::get('profile/addReview', [ProfileController::class, 'addReview']);
+
+//chatgpt
+
+
+Route::get('/chat', [ChatGptController::class, 'index']);
 //Dashboard
 
 
