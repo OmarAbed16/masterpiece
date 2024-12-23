@@ -73,7 +73,7 @@ class ChatGptController extends Controller
        // return response()->json(['chatContent' => $chatContent]);
 
         // OpenAI API Key and URL (this section can be skipped for now)
-        $apiKey = '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';
+        $apiKey = env('GPT_KEY');
         $apiUrl = 'https://api.openai.com/v1/chat/completions';
 
         // Define the messages to send to OpenAI
