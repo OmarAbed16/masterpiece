@@ -43,7 +43,11 @@ const Header = ({ favoriteCount }) => {
           <nav id="navigation" className="navigation navigation-landscape">
             <div className="nav-header">
               <Link className="nav-brand" to="/">
-                <img src="assets/img/logo.png" className="logo" alt="Logo" />
+                <img
+                  src="assets/default_images/logo6.png"
+                  className="logo"
+                  alt="Logo"
+                />
               </Link>
               <div className="nav-toggle" onClick={toggleMobileNav}></div>
               <div className={`mobile_nav ${isMobileNavOpen ? "open" : ""}`}>

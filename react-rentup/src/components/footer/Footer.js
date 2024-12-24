@@ -59,7 +59,7 @@ const Footer = () => {
             <div className="col-lg-5 col-md-5">
               <div className="footer_widget">
                 <img
-                  src="assets/img/logo-light.png"
+                  src="assets/default_images/logo9.png"
                   className="img-footer small mb-4"
                   alt="Logo"
                 />

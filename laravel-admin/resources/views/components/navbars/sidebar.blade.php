@@ -7,7 +7,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0 d-flex text-wrap align-items-center" href=" {{ route('dashboard') }} ">
-            <img style="border-radius:50%;" src="{{ asset('assets/img/logos/icon.png') }}" class="navbar-brand-img h-100" alt="main_logo">
+            <img style="border-radius:50%;width:40px;" src="{{ asset('assets/img/logos/logo15.png') }}" class="navbar-brand-img h-100" alt="main_logo">
             <span class="ms-2 font-weight-bold text-white">DarLink - Dashboard</span>
         </a>
     </div>
