@@ -41,17 +41,9 @@ const Property_info = ({ info, onFavoriteCountChange }) => {
       .then((data) => {
         if (data.message === "Favorite status updated successfully") {
           setIsFavorite(!isFavorite);
-          Swal.fire(
-            "Success!",
-            isFavorite
-              ? "The property has been removed from your favorites."
-              : "The property has been added to your favorites.",
-            "success"
-          ).then(
-            () =>
-              onFavoriteCountChange &&
-              onFavoriteCountChange(data.favorite_count)
-          );
+          if (onFavoriteCountChange) {
+            onFavoriteCountChange(data.favorite_count);
+          }
         } else {
           Swal.fire(
             "Error!",

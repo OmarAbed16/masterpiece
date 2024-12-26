@@ -95,25 +95,25 @@
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
     <label class="form-label">Property Image</label>
     <input type="file" name="property_images[]" class="form-control border border-2 p-2" 
            accept="image/*" multiple>
-    @error('property_image')
+    @error('property_images')
         <p class="text-danger inputerror">{{ $message }}</p>
     @enderror
 </div>
 
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Price</label>
-            <input type="tel" name="price" class="form-control border border-2 p-2" value="{{ old('price') }}" placeholder="Enter price">
+            <input min="0" type="number" name="price" class="form-control border border-2 p-2" value="{{ old('price') }}" placeholder="Enter price">
             @error('price')
             <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Location</label>
             <input type="text" name="location" class="form-control border border-2 p-2" value="{{ old('location') }}" placeholder="Enter location">
             @error('location')
@@ -121,7 +121,7 @@
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Governorate</label>
             <select name="governorate" class="form-control border border-2 p-2">
     <option value="" disabled selected>Select your governorate</option>
@@ -144,23 +144,23 @@
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Number of Beds</label>
-            <input type="tel" name="bed" class="form-control border border-2 p-2" value="{{ old('bed') }}" placeholder="Enter number of beds">
+            <input min="0" type="number" name="bed" class="form-control border border-2 p-2" value="{{ old('bed') }}" placeholder="Enter number of beds">
             @error('bed')
             <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Number of Baths</label>
-            <input type="tel" name="bath" class="form-control border border-2 p-2" value="{{ old('bath') }}" placeholder="Enter number of baths">
+            <input min="0" type="number" name="bath" class="form-control border border-2 p-2" value="{{ old('bath') }}" placeholder="Enter number of baths">
             @error('bath')
             <p class="text-danger inputerror">{{ $message }}</p>
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Sqft</label>
             <input type="tel" name="sqft" class="form-control border border-2 p-2" value="{{ old('sqft') }}" placeholder="Enter property size">
             @error('sqft')
@@ -168,7 +168,7 @@
             @enderror
         </div>
 
-        <div class="mb-3 col-md-6">
+        <div class="mb-3 col-md-3">
             <label class="form-label">Status</label>
             <select name="status" class="form-control border border-2 p-2">
                 <option value="" disabled selected>Select your status</option>

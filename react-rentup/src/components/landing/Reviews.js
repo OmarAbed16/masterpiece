@@ -44,7 +44,7 @@ const Reviews = () => {
           </div>
         </div>
 
-        <div className="row row-cols-1 row-cols-md-2 g-4">
+        <div className="row row-cols-1 row-cols-md-2 g-4 d-flex justify-content-center">
           {reviews.map((review, index) => (
             <ReviewCard key={index} review={review} />
           ))}

@@ -65,12 +65,12 @@
                                             </td>
                                             <td>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $listing->title }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ Str::limit($listing->title, 20, '...') }}</h6>
 
                                                 </div>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <span class="text-secondary text-xs font-weight-bold">{{ $listing->description }}</span>
+                                                <span class="text-secondary text-xs font-weight-bold"> {{ Str::limit($listing->description, 20, '...') }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="text-secondary text-xs font-weight-bold">{{ $listing->price }}</span>

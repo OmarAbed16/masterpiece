@@ -15,9 +15,7 @@ use App\Http\Controllers\{
 };
 
 
-Route::get('/notifications', function () {
-    return view('user.login.notifications'); // Replace 'notifications' with the name of your Blade view file.
-});
+
 
 
 // Guest Routes
@@ -29,14 +27,6 @@ Route::middleware('guest')->group(function () {
         
        });
 
-    // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
-    Route::prefix('user')->group(function () {
-        Route::redirect('/', 'sign-in');
-        Route::get('sign-in', [RegisterController::class, 'create'])->name('user.create');
-        Route::post('sign-in/create', [RegisterController::class, 'store'])->name('user.store');
-        Route::post('sign-in/check', [RegisterController::class, 'check'])->name('user.check');
-        
-       });
 });
 
 // Auth Routes

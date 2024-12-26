@@ -34,7 +34,7 @@ const OurTeam = () => {
 
         <div className="row">
           <div className="col-lg-12 col-md-12 col-sm-12">
-            <div className="row team-slide item-slide">
+            <div className="row team-slide item-slide d-flex justify-content-center">
               {teamMembers.length > 0 ? (
                 teamMembers.map((member) => (
                   <TeamCard key={member.id} member={member} />

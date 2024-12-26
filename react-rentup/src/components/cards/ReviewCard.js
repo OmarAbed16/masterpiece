@@ -3,7 +3,7 @@ import React from "react";
 const ReviewCard = ({ review }) => {
   return (
     <div className="single_items">
-      <div className="_testimonial_wrios">
+      <div className="_testimonial_wrios" style={styles.card}>
         <div
           className="_testimonial_flex"
           style={{ display: "flex", alignItems: "center", gap: "15px" }}
@@ -35,6 +35,14 @@ const ReviewCard = ({ review }) => {
       </div>
     </div>
   );
+};
+
+const styles = {
+  card: {
+    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.4)",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    borderRadius: "10px",
+  },
 };
 
 export default ReviewCard;

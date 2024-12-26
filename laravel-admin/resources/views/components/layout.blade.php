@@ -43,6 +43,23 @@
 
     <!-- chartjs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+   
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+ 
+}
+
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+    </style>
 </head>
 <body class="{{ $bodyClass }}">
 

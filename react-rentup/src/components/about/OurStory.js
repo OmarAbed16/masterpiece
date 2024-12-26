@@ -36,7 +36,7 @@ const OurStory = () => {
 
           <div className="col-lg-6 col-md-6">
             <img
-              src="assets/img/orange.png"
+              src="assets/default_images/owner.jpeg"
               className="img-fluid rounded"
               alt="Omar Fathi's Project"
             />

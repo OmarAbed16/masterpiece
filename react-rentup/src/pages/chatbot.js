@@ -23,7 +23,8 @@ const Chatbot = () => {
 
     try {
       // Get user ID from session storage or other methods
-      const userId = sessionStorage.getItem("user_id") || 25; // Adjust this as needed
+      const user = JSON.parse(sessionStorage.getItem("user"));
+      const userId = user ? user.id : 27;
 
       // Call the backend API to get the chatbot's response via GET
       const response = await axios.get(
@@ -52,12 +53,16 @@ const Chatbot = () => {
 
   return (
     <div>
-      <button className="chatbot__button" onClick={toggleChatbot}>
+      <button
+        style={{ zIndex: "500" }}
+        className="chatbot__button"
+        onClick={toggleChatbot}
+      >
         <i className={`fas ${isOpen ? "fa-times" : "fa-comment-dots"}`}></i>
       </button>
 
       {isOpen && (
-        <div className="chatbot">
+        <div style={{ zIndex: "500" }} className="chatbot">
           <div className="chatbot__header">
             <h3 className="chatbox__title">Chatbot</h3>
             <i

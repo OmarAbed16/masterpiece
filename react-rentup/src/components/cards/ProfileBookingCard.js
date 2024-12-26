@@ -225,22 +225,26 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
 
       <td className="m2_hide">
         <div className="_leads_posted">
-          <h5>{booking.booking_details.checkin}</h5>
+          <h5>
+            {new Date(booking.booking_details.checkin).toLocaleDateString()}
+          </h5>
         </div>
         <div className="_leads_view_title">
           <span>
-            {new Date(booking.booking_details.checkin).toLocaleDateString()}
+            {new Date(booking.booking_details.checkin).toLocaleTimeString()}
           </span>
         </div>
       </td>
 
       <td className="m2_hide">
         <div className="_leads_posted">
-          <h5>{booking.booking_details.checkout}</h5>
+          <h5>
+            {new Date(booking.booking_details.checkout).toLocaleDateString()}
+          </h5>
         </div>
         <div className="_leads_view_title">
           <span>
-            {new Date(booking.booking_details.checkout).toLocaleDateString()}
+            {new Date(booking.booking_details.checkout).toLocaleTimeString()}
           </span>
         </div>
       </td>

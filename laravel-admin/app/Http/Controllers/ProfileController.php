@@ -8,10 +8,7 @@ class ProfileController extends Controller
 {
     public function index()
     {
-        $users = User::where('is_deleted', '0')
-        ->where('role', 'user')
-        ->get();
-        return view('dashboard.profiles.admins.profile-admin', compact('users'));
+        return view('dashboard.profiles.admins.profile-admin');
     }
 
    

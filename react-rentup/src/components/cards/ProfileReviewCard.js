@@ -62,22 +62,26 @@ const ProfileReviewCard = ({ review, setActiveOption }) => {
 
       <td className="m2_hide">
         <div className="_leads_posted">
-          <h5>{review.booking_details.checkin}</h5>
+          <h5>
+            {new Date(review.booking_details.checkin).toLocaleDateString()}
+          </h5>
         </div>
         <div className="_leads_view_title">
           <span>
-            {new Date(review.booking_details.checkin).toLocaleDateString()}
+            {new Date(review.booking_details.checkin).toLocaleTimeString()}
           </span>
         </div>
       </td>
 
       <td className="m2_hide">
         <div className="_leads_posted">
-          <h5>{review.booking_details.checkout}</h5>
+          <h5>
+            {new Date(review.booking_details.checkout).toLocaleDateString()}
+          </h5>
         </div>
         <div className="_leads_view_title">
           <span>
-            {new Date(review.booking_details.checkout).toLocaleDateString()}
+            {new Date(review.booking_details.checkout).toLocaleTimeString()}
           </span>
         </div>
       </td>
@@ -109,10 +113,10 @@ const ProfileReviewCard = ({ review, setActiveOption }) => {
 
       <td className="m2_hide">
         <div className="_leads_posted">
-          <h5>{review.created_at}</h5>
+          <h5>{new Date(review.created_at).toLocaleDateString()}</h5>
         </div>
         <div className="_leads_view_title">
-          <span>{new Date(review.created_at).toLocaleDateString()}</span>
+          <span>{new Date(review.created_at).toLocaleTimeString()}</span>
         </div>
       </td>
     </tr>

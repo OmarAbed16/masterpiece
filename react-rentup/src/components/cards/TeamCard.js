@@ -52,10 +52,9 @@ const TeamCard = ({ member }) => {
   );
 };
 
-// Inline styles to apply a stronger shadow
 const styles = {
   card: {
-    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.4)", // Increased shadow
+    boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.4)",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
   },
 };
