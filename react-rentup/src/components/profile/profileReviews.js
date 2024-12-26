@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileReviewCard from "../cards/ProfileReviewCard";
+import DataTable from "datatables.net-react";
+import DT from "datatables.net-dt";
+DataTable.use(DT);
 
 const ProfileReviews = ({ setActiveOption }) => {
   const [reviews, setReviews] = useState([]);
@@ -42,7 +45,7 @@ const ProfileReviews = ({ setActiveOption }) => {
             <div className="col-lg-12 col-md-12">
               <div className="dashboard_property">
                 <div className="table-responsive">
-                  <table className="table">
+                  <DataTable className="table">
                     <thead className="thead-dark">
                       <tr>
                         <th scope="col">Property Details</th>
@@ -77,7 +80,7 @@ const ProfileReviews = ({ setActiveOption }) => {
                     ) : (
                       <h3>No Reviews available</h3>
                     )}
-                  </table>
+                  </DataTable>
                 </div>
               </div>
             </div>

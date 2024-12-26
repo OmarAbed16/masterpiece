@@ -87,7 +87,11 @@ const Property = ({ onFavoriteCountChange }) => {
                   property={{ ...property, owner: undefined }}
                 />
                 <Sidebar
-                  BookInfo={{ id: property.id, price: property.price }}
+                  BookInfo={{
+                    id: property.id,
+                    price: property.price,
+                    status: property.status,
+                  }}
                   owner={property.owner}
                   agent={property.ownerReviews}
                 />

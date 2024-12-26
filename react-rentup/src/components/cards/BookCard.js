@@ -87,20 +87,28 @@ const BookCard = ({ BookInfo }) => {
             <h3 className={`price ${isCheckoutInvalid ? "text-danger" : ""}`}>
               ${totalPrice}
             </h3>
-            {!isCheckoutInvalid && (
-              <PayMethods
-                key={refreshPayMethods} // Key refreshes the component
-                checkinDate={checkinDate}
-                checkoutDate={checkoutDate}
-                totalPrice={totalPrice}
-              />
-            )}
+            {!isCheckoutInvalid &&
+              BookInfo.status !== "inactive" &&
+              BookInfo.status !== "archived" && (
+                <PayMethods
+                  key={refreshPayMethods} // Key refreshes the component
+                  checkinDate={checkinDate}
+                  checkoutDate={checkoutDate}
+                  totalPrice={totalPrice}
+                />
+              )}
           </div>
-          {isCheckoutInvalid && (
+          {BookInfo.status === "inactive" ? (
+            <p className="text-danger">
+              The property is not available right now.
+            </p>
+          ) : BookInfo.status === "archived" ? (
+            <p className="text-danger">This property is no longer available.</p>
+          ) : isCheckoutInvalid ? (
             <p className="text-danger">
               Checkout date must be after check-in date.
             </p>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

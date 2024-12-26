@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileBookingCard from "../cards/ProfileBookingCard";
+import DataTable from "datatables.net-react";
+import DT from "datatables.net-dt";
+DataTable.use(DT);
 
 const ProfileMyBookings = ({ setActiveOption }) => {
   const [bookings, setBookings] = useState([]);
@@ -42,7 +45,7 @@ const ProfileMyBookings = ({ setActiveOption }) => {
             <div className="col-lg-12 col-md-12">
               <div className="dashboard_property">
                 <div className="table-responsive">
-                  <table className="table">
+                  <DataTable className="table">
                     <thead className="thead-dark">
                       <tr>
                         <th scope="col">Property Details</th>
@@ -80,7 +83,7 @@ const ProfileMyBookings = ({ setActiveOption }) => {
                     ) : (
                       <h3>No bookings available</h3>
                     )}
-                  </table>
+                  </DataTable>
                 </div>
               </div>
             </div>
