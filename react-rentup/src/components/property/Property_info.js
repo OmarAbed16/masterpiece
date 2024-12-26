@@ -69,13 +69,19 @@ const Property_info = ({ info, onFavoriteCountChange }) => {
           <div className="pr-price-into">
             <ul className="prs_lists">
               <li>
-                <span className="bed fw-medium rounded">{info.bed} Beds</span>
+                <span className="bed fw-medium rounded">
+                  <i className="fas fa-bed"></i> {info.bed} Beds
+                </span>
               </li>
               <li>
-                <span className="bath fw-medium rounded">{info.bath} Bath</span>
+                <span className="bath fw-medium rounded">
+                  <i className="fas fa-bath"></i> {info.bath} Bath
+                </span>
               </li>
               <li>
-                <span className="sqft fw-medium rounded">{info.sqft} sqft</span>
+                <span className="sqft fw-medium rounded">
+                  <i className="fas fa-ruler-combined"></i> {info.sqft} sqft
+                </span>
               </li>
             </ul>
             <h2>{info.title}</h2>

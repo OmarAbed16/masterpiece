@@ -12,7 +12,7 @@ class ListingFeature extends Model
     protected $fillable = [
         'listing_id',
         'feature_name',
-        'feature_value', // Add feature_value to fillable fields
+        'feature_value',
         'is_deleted',
     ];
 

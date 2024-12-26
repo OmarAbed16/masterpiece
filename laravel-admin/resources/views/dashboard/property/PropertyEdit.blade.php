@@ -91,7 +91,17 @@
                                 @enderror
                                 </div>
                                
+
                                 <div class="mb-3 col-md-6">
+                                    <label class="form-label">description</label>
+                                    <input type="tel" name="description" class="form-control border border-2 p-2" value='{{ old('description', $property->description) }}'>
+                                    @error('description')
+                                    <p class='text-danger inputerror'>{{ $message }} </p>
+                                    @enderror
+                                </div>
+
+
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label">Price</label>
                                     <input type="tel" name="price" class="form-control border border-2 p-2" value='{{ old('price', $property->price) }}'>
                                     @error('price')
@@ -102,9 +112,22 @@
 
 
 
+                                <div class="mb-3 col-md-3">
+    <label class="form-label">Status</label>
+    <select name="status" class="form-control border border-2 p-2">
+        <option value="" disabled selected>Select your status</option>
+        <option value="active" {{ old('status', $property->status) == 'active' ? 'selected' : '' }}>Active</option>
+        <option value="inactive" {{ old('status', $property->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
+        <option value="archived" {{ old('status', $property->status) == 'archived' ? 'selected' : '' }}>Archived</option>
+    </select>
+
+    @error('gender')
+        <p class='text-danger inputerror'>{{ $message }} </p>
+    @enderror
+</div>
 
                                 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label">Location</label>
                                     <input type="tel" name="location" class="form-control border border-2 p-2" value='{{ old('location', $property->location) }}'>
                                     @error('location')
@@ -113,7 +136,7 @@
                                 </div>
 
 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label">Governorate</label>
                                     <select name="governorate" class="form-control border border-2 p-2">
     <option value="" disabled selected>Select your governorate</option>
@@ -139,7 +162,7 @@
 
 
 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label">Number of Beds</label>
                                     <input type="tel" name="bed" class="form-control border border-2 p-2" value='{{ old('bed', $property->bed) }}'>
                                     @error('bed')
@@ -149,7 +172,7 @@
 
 
 
-                                <div class="mb-3 col-md-6">
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label">Number of Baths</label>
                                     <input type="tel" name="bath" class="form-control border border-2 p-2" value='{{ old('bath', $property->bath) }}'>
                                     @error('bath')
@@ -159,29 +182,149 @@
 
 
                                 
+                                
+                                <div class="mb-3 col-md-3">
+    <label class="form-label">Features</label>
+    <div class="dropdown border-2 p-2">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="featuresDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Features
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="featuresDropdown">
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="0" id="0_living_room" {{ in_array('0', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="0_living_room">
+                        <i class="fa-solid fa-couch"></i> Living Room
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="1" id="1_kitchens" {{ in_array('1', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="1_kitchens">
+                        <i class="fa-solid fa-utensils"></i> Kitchen
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="2" id="2_free_medical" {{ in_array('2', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="2_free_medical">
+                        <i class="fa-solid fa-heartbeat"></i> Free Medical
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="3" id="3_fireplace" {{ in_array('3', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="3_fireplace">
+                        <i class="fa-solid fa-fire"></i> Fireplace
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="4" id="4_residential" {{ in_array('4', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="4_residential">
+                        <i class="fa-solid fa-house"></i> Residential
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="features[]" value="5" id="5_tv_cable" {{ in_array('5', old('features', $property->features->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="5_tv_cable">
+                        <i class="fa-solid fa-tv"></i> TV Cable
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    @error('features')
+        <p class="text-danger inputerror">{{ $message }}</p>
+    @enderror
+</div>
+<div class="mb-3 col-md-3">
+    <label class="form-label">Amenities</label>
+    <div class="dropdown border-2 p-2">
+        <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="amenitiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Amenities
+        </button>
+        <ul class="dropdown-menu w-100" aria-labelledby="amenitiesDropdown">
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="0" id="0_internet" {{ in_array('0', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="0_internet">
+                        <i class="fas fa-wifi me-1"></i> Internet
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="1" id="1_pets_allow" {{ in_array('1', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="1_pets_allow">
+                        <i class="fas fa-paw me-1"></i> Pets Allow
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="2" id="2_spa_massage" {{ in_array('2', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="2_spa_massage">
+                        <i class="fas fa-spa me-1"></i> Spa & Massage
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="3" id="3_laundry_room" {{ in_array('3', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="3_laundry_room">
+                        <i class="fas fa-tshirt me-1"></i> Laundry Room
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="4" id="4_gym" {{ in_array('4', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="4_gym">
+                        <i class="fas fa-dumbbell me-1"></i> Gym
+                    </label>
+                </div>
+            </li>
+            <li>
+                <div class="form-check ms-2">
+                    <input class="form-check-input" type="checkbox" name="amenities[]" value="5" id="5_alarm" {{ in_array('5', old('amenities', $property->amenities->toArray())) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="5_alarm">
+                        <i class="fas fa-bell me-1"></i> Alarm
+                    </label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    @error('amenities')
+        <p class="text-danger inputerror">{{ $message }}</p>
+    @enderror
+</div>
+
+
+                               
                                 <div class="mb-3 col-md-6">
+    <label class="form-label">Property Image</label>
+    <input type="file" name="property_images[]" class="form-control border border-2 p-2" 
+           accept="image/*" multiple>
+    @error('property_images')
+        <p class="text-danger inputerror">{{ $message }}</p>
+    @enderror
+</div>
+
+
+<div class="mb-3 col-md-6">
                                     <label class="form-label">Sqft</label>
                                     <input type="tel" name="sqft" class="form-control border border-2 p-2" value='{{ old('sqft', $property->sqft) }}'>
                                     @error('sqft')
                                     <p class='text-danger inputerror'>{{ $message }} </p>
                                     @enderror
                                 </div>
-
-                                
-                                <div class="mb-3 col-md-6">
-    <label class="form-label">Status</label>
-    <select name="status" class="form-control border border-2 p-2">
-        <option value="" disabled selected>Select your status</option>
-        <option value="active" {{ old('status', $property->status) == 'active' ? 'selected' : '' }}>Active</option>
-        <option value="inactive" {{ old('status', $property->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
-        <option value="archived" {{ old('status', $property->status) == 'archived' ? 'selected' : '' }}>Archived</option>
-    </select>
-
-    @error('gender')
-        <p class='text-danger inputerror'>{{ $message }} </p>
-    @enderror
-</div>
-
 
 
 

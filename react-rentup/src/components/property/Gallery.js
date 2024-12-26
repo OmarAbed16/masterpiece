@@ -26,8 +26,9 @@ const Gallery = ({ images }) => {
             <div className="col-lg-4 col-md-5 col-sm-12 pl-1  d-none d-sm-none d-md-none d-lg-block d-xl-block">
               {images.slice(0, 3).map((image, index) => (
                 <div
+                  style={{ height: "170px" }}
                   key={index}
-                  className={`gg_single_part-right min ${
+                  className={`gg_single_part-right  ${
                     index === 1 ? "mt-3 mb-3" : ""
                   }`}
                 >

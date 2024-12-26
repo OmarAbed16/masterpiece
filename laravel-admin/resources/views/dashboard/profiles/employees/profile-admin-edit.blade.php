@@ -1,5 +1,10 @@
 <x-layout bodyClass="g-sidenav-show bg-gray-200">
-
+@if(auth()->user()->role == 'admin')
+        <script>
+            window.location.href = '/admin/'; 
+        </script>
+   
+    @endif
     <x-navbars.sidebar activePage="tables"></x-navbars.sidebar>
     <div class="main-content position-relative bg-gray-100 max-height-vh-100 h-100">
         <!-- Navbar -->

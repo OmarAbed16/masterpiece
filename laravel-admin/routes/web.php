@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     DashboardController,
     ProfileController,
-    RegisterController,
     SessionsController,
     AdminsController,
     UsersController,

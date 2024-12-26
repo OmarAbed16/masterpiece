@@ -20,7 +20,9 @@ class PropertyController extends Controller
     {
         $property = Listing::with([
             'features',
-            'images',
+            'images' => function ($query) {
+                $query->where('is_deleted', '0');
+            },
             'reviews',
             'owner',
             'amenities' => function ($query) {

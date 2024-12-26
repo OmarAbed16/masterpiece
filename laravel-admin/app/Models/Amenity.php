@@ -15,6 +15,7 @@ class Amenity extends Model
         'listing_id',
         'amenity_name',
         'is_deleted',
+        "amenity_value",
     ];
 
     public function listing()

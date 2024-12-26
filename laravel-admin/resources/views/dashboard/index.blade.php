@@ -40,7 +40,7 @@
                                 <i class="material-icons opacity-10">weekend</i>
                             </div>
                             <div class="text-end pt-1">
-    <p class="text-sm mb-0 text-capitalize">Today's Orders</p>
+    <p class="text-sm mb-0 text-capitalize">Today's Bookings</p>
     <h4 class="mb-0">{{ number_format($todayOrderCount) }}</h4>
 </div>
 
@@ -116,26 +116,10 @@
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Average Delivery Time</h6>
+                                    <h6>Accommodation Time per Month</h6>
                                    
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
-                                    <div class="dropdown float-lg-end pe-4">
-                                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-secondary"></i>
-                                        </a>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                            aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                            </li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                    action</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
-                                                    else here</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                               
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -151,26 +135,10 @@
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Orders by Governorate</h6>
+                                    <h6>Bookings by Governorate</h6>
                                     
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
-                                    <div class="dropdown float-lg-end pe-4">
-                                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-secondary"></i>
-                                        </a>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                            aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                            </li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                    action</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
-                                                    else here</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -193,23 +161,7 @@
                                     <h6>Sales</h6>
                                    
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
-                                    <div class="dropdown float-lg-end pe-4">
-                                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-secondary"></i>
-                                        </a>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                            aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                            </li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                    action</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
-                                                    else here</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -225,26 +177,10 @@
                         <div class="card-header pb-0">
                             <div class="row">
                                 <div class="col-lg-6 col-7">
-                                    <h6>Governorate</h6>
+                                    <h6>Users Governorate</h6>
                                     
                                 </div>
-                                <div class="col-lg-6 col-5 my-auto text-end">
-                                    <div class="dropdown float-lg-end pe-4">
-                                        <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown"
-                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v text-secondary"></i>
-                                        </a>
-                                        <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5"
-                                            aria-labelledby="dropdownTable">
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a>
-                                            </li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Another
-                                                    action</a></li>
-                                            <li><a class="dropdown-item border-radius-md" href="javascript:;">Something
-                                                    else here</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card-body px-0 pb-2">
@@ -270,7 +206,7 @@ const chartCtx = document.getElementById('governorateChart').getContext('2d');
         data: {
             labels: @json($governorateLabels),
             datasets: [{
-                label: 'Orders by Governorate',
+                label: 'Bookings by Governorate',
                 data: @json($governorateCounts),
                 backgroundColor: '#4CAF50',
                 borderColor: '#388E3C',
@@ -297,8 +233,8 @@ var ctx = document.getElementById('fulfillmentTimeChart').getContext('2d');
         data: {
             labels: @json($months),
             datasets: [{
-                label: 'Average Fulfillment Time (minutes)',
-                data: @json($avgFulfillmentTimes),
+                label: 'Average Fulfillment Time (Days)',
+                data: @json($totalFulfillmentTimes),
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 fill: true,
@@ -313,7 +249,7 @@ var ctx = document.getElementById('fulfillmentTimeChart').getContext('2d');
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Minutes'
+                        text: 'Days'
                     }
                 },
                 x: {
@@ -331,7 +267,7 @@ var ctx = document.getElementById('fulfillmentTimeChart').getContext('2d');
                 tooltip: {
                     callbacks: {
                         label: function(tooltipItem) {
-                            return tooltipItem.parsed.y.toFixed(2) + ' minutes';
+                            return tooltipItem.parsed.y.toFixed(2) + ' Days';
                         }
                     }
                 }
@@ -374,7 +310,7 @@ var ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
                 labels: @json($governorateLabels), // Governorate names
                 datasets: [{
                     label: 'Users by Governorate',
-                    data: @json($governorateCounts), // User counts
+                    data: @json($userGovernorateCounts), // User counts
                     backgroundColor: [
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)',

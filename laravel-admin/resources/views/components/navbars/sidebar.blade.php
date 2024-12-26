@@ -54,17 +54,17 @@
                     <span class="nav-link-text ms-1">Users Profile</span>
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activePage == 'tables' ? ' active bg-gradient-primary' : '' }} "
-                    href="{{ route('admins.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i style="font-size: 1rem;" class="ps-2 pe-2 text-center"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">Admins Profile</span>
-                </a>
-            </li>
-
+            @if(auth()->user()->role != 'admin')
+    <li class="nav-item">
+        <a class="nav-link text-white {{ $activePage == 'tables' ? ' active bg-gradient-primary' : '' }} "
+            href="{{ route('admins.index') }}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                <i style="font-size: 1rem;" class="ps-2 pe-2 text-center"></i>
+            </div>
+            <span class="nav-link-text ms-1">Admins Profile </span>
+        </a>
+    </li>
+@endif
 
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Properties</h6>
