@@ -85,6 +85,13 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
           return false;
         }
 
+        if (reviewText.length < 50) {
+          Swal.showValidationMessage(
+            "Your review must be at least 50 characters."
+          );
+          return false;
+        }
+
         return { rating: rating.dataset.value, review: reviewText };
       },
     }).then((result) => {

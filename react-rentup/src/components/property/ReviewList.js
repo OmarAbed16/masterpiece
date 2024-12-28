@@ -1,6 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ReviewList = ({ Reviews }) => {
+  console.log(Reviews);
+  console.log("g");
+  const user = JSON.parse(sessionStorage.getItem("user")); // Get user from sessionStorage
+  const userId = user ? user.id : 0;
+  const navigate = useNavigate(); // Initialize the navigate function
+
+  // Function to handle the "Say Hello" click
+  const handleSayHello = async (receiverId, senderId) => {
+    // Custom functionality to send the "Hello" message
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/messages/add`,
+        {
+          sender_id: senderId,
+          receiver_id: receiverId,
+          message: "Hello",
+        }
+      );
+
+      if (response.status === 201 || response.status === 200) {
+        console.log("Message sent successfully");
+
+        // After sending the message, navigate to the profile page
+        navigate(`/profile?page=messages&user=${receiverId}`);
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  };
+
   return (
     <div className="author-review">
       <div className="comment-list">
@@ -18,7 +50,21 @@ const ReviewList = ({ Reviews }) => {
                 <div className="comment-details">
                   <div className="comment-meta">
                     <div className="comment-left-meta">
-                      <h4 className="author-name">{Review.user.name}</h4>
+                      <h4 className="author-name">
+                        {Review.user.name}{" "}
+                        {Review.user.id &&
+                          userId !== 0 &&
+                          Review.user.id !== userId && (
+                            <button
+                              onClick={
+                                () => handleSayHello(Review.user.id, userId) // Trigger the function with userId and Review.user.id
+                              }
+                              className="btn btn-primary btn-sm ms-2"
+                            >
+                              Say Hello👋
+                            </button>
+                          )}
+                      </h4>
                       <div className="comment-date">
                         {new Date(Review.created_at).toLocaleDateString(
                           "en-GB",

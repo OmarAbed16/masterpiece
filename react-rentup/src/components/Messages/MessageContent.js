@@ -27,7 +27,7 @@ const MessageContent = ({ conversationData, appendMessage, senderId }) => {
     return () => {
       pusher.unsubscribe(`chat.${senderId}.${userId}`);
     };
-  }, [userId, appendMessage]); // Depend on userId and appendMessage
+  }, [userId, appendMessage]);
 
   return (
     <div
@@ -43,6 +43,7 @@ const MessageContent = ({ conversationData, appendMessage, senderId }) => {
               key={index}
               avatar={message.user.profile_image}
               text={message.message}
+              date={message.created_at}
               isMe={isMe}
             />
           );

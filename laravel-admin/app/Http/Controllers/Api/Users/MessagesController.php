@@ -81,7 +81,7 @@ public function realTime1(Request $request){
         $user2 = User::find($user2Id);
 
         $messagesWithUserData = $messages->map(function ($message) use ($user1, $user2) {
-            $message->user = $message->user_id == $user1->id ? $user1 : $user2;
+            $message->user = $message->sender_id == $user1->id ? $user1 : $user2;
             return $message;
         });
 
@@ -114,8 +114,7 @@ public function realTime1(Request $request){
         $message = Message::create([
             'conversation_id' => $conversation->id,
             'sender_id' => $request->sender_id,
-            'message' => $request->message,
-            'is_read' => '0',
+            'message' => $request->message
         ]);
     
         // Eager load the sender relationship
