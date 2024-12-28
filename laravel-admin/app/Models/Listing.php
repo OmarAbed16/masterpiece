@@ -63,8 +63,5 @@ class Listing extends Model
         return $this->hasMany(Favorite::class);
     }
     
-    public function carts()
-    {
-        return $this->hasMany(Cart::class);
-    }
+  
 }

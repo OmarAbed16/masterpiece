@@ -58,9 +58,11 @@ class ProfileController extends Controller
         $validatedData = $request->validate([
             'userId' => 'required|integer|exists:users,id',
             'name' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:15',
+            'phone' => 'nullable|regex:/^[0-9]{10,15}$/',
             'about' => 'nullable|string',
             'profile_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Adjust the validation as needed for your application
+        ], [
+            'phone.regex' => 'The phone number must only contain digits (0-9) and be between 10 and 15 characters long.',
         ]);
     
         try {

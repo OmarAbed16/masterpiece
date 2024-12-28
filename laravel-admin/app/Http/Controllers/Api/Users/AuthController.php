@@ -28,7 +28,8 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_image' => "http://127.0.0.1:8000/assets/default_images/default_image.png"
+            'profile_image' => "http://127.0.0.1:8000/assets/default_images/default_image.png",
+            'phone_number' => "0787654321"
         ]);
 
         return response()->json([

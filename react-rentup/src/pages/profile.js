@@ -9,6 +9,7 @@ import ProfileReviews from "../components/profile/profileReviews";
 import ProfileMyBookings from "../components/profile/profileMyBookings";
 import Swal from "sweetalert2";
 import ProfileFavorite from "../components/profile/ProfileFavorite";
+import Messages from "../components/Messages/Messages";
 
 const Profile = ({ onFavoriteCountChange }) => {
   const navigate = useNavigate();
@@ -72,6 +73,13 @@ const Profile = ({ onFavoriteCountChange }) => {
             {activeOption === "password" && <ProfileChangePassword />}
             {activeOption === "favourite" && (
               <ProfileFavorite
+                userId={user.id}
+                onFavoriteCountChange={onFavoriteCountChange}
+              />
+            )}
+
+            {activeOption === "messages" && (
+              <Messages
                 userId={user.id}
                 onFavoriteCountChange={onFavoriteCountChange}
               />

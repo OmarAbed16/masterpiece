@@ -53,7 +53,7 @@ class SessionsController extends Controller
 
         $user = auth()->user();
 
-        if ($user->role !== 'admin') {
+        if ($user->role !== 'admin' && $user->role !== 'superadmin') {
             auth()->logout(); 
             return redirect('admin/sign-in')->withErrors(['email' => 'You do not have access to this area.']);
         }

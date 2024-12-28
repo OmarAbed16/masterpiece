@@ -32,7 +32,7 @@ class ChatGptController extends Controller
             ->get();
 
         if ($favorites->isEmpty()) {
-            return response()->json(['message' => 'No favorite items found.'], 404);
+            return response()->json(['message' => 'No favorite items found.']);
         }
 
         // Collect favorite item details with listing details

@@ -51,8 +51,17 @@ class User extends Authenticatable
         return $this->hasMany(Favorite::class);
     }
 
-    public function carts()
-    {
-        return $this->hasMany(Cart::class);
-    }
+
+
+    public function conversations()
+{
+    return $this->hasMany(Conversation::class, 'user1_id')
+        ->orWhere('user2_id', $this->id);
+}
+
+public function messages()
+{
+    return $this->hasMany(Message::class, 'sender_id');
+}
+
 }

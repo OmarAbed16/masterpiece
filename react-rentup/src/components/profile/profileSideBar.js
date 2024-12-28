@@ -49,6 +49,18 @@ const ProfileSideBar = ({ profileData, activeOption, setActiveOption }) => {
 
             <li
               style={{ cursor: "pointer" }}
+              className={activeOption === "messages" ? "active" : ""}
+            >
+              <Link
+                to="/profile?page=messages"
+                onClick={() => setActiveOption("messages")}
+              >
+                <i className="fa fa-bookmark" /> My Messages
+              </Link>
+            </li>
+
+            <li
+              style={{ cursor: "pointer" }}
               className={activeOption === "bookings" ? "active" : ""}
             >
               <Link

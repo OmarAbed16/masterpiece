@@ -127,7 +127,7 @@ const Footer = () => {
                 <div className="col-lg-9 col-md-8">
                   <div className="footer_widget">
                     <h4 className="widget_title">All Sections</h4>
-                    <GoogleMap colLg={12} colMd={12} />
+                    <GoogleMap colLg={12} colMd={12} height={"300px"} />
                   </div>
                 </div>
               </div>
@@ -141,8 +141,8 @@ const Footer = () => {
           <div className="row align-items-center">
             <div className="col-lg-12 col-md-12 text-center">
               <p className="mb-0">
-                © {new Date().getFullYear()} RentUP. Designed By{" "}
-                <Link to="https://themezhub.com/">ThemezHub</Link>.
+                © {new Date().getFullYear()} DarLink. Designed By{" "}
+                <Link to="/about">Omar Fathi</Link>.
               </p>
             </div>
           </div>

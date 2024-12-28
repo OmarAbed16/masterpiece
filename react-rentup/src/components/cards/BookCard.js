@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import PayMethods from "./PayMethods";
 
 const BookCard = ({ BookInfo }) => {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const userId = user ? user.id : 0;
+
   // Calculate total price based on dates
   const calculateTotalPrice = () => {
     const checkin = new Date(checkinDate);
@@ -89,7 +92,8 @@ const BookCard = ({ BookInfo }) => {
             </h3>
             {!isCheckoutInvalid &&
               BookInfo.status !== "inactive" &&
-              BookInfo.status !== "archived" && (
+              BookInfo.status !== "archived" &&
+              userId !== 0 && (
                 <PayMethods
                   key={refreshPayMethods} // Key refreshes the component
                   checkinDate={checkinDate}
@@ -98,6 +102,11 @@ const BookCard = ({ BookInfo }) => {
                 />
               )}
           </div>
+
+          {userId === 0 && (
+            <p className="text-danger">You must log in to book.</p>
+          )}
+
           {BookInfo.status === "inactive" ? (
             <p className="text-danger">
               The property is not available right now.

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Users\PropertyController;
 use App\Http\Controllers\Api\Users\ProfileController;
 use App\Http\Controllers\Api\Dashboard\BookingManagementController;
 use App\Http\Controllers\Api\Users\ChatGptController;
+use App\Http\Controllers\Api\Users\MessagesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -76,3 +77,11 @@ Route::get('/chat', [ChatGptController::class, 'index']);
 
 //Get Last Orders notifications
 Route::get('lastOrders', [BookingManagementController::class, 'index']);
+
+//Messages
+Route::get('messages/users/{id}', [MessagesController::class, 'getUserList']);
+Route::get('messages/{user1Id}/{user2Id}', [MessagesController::class, 'getMessages']);
+Route::post('messages/add', [MessagesController::class, 'addMessage']);
+
+Route::post('messages/realTime', [MessagesController::class, 'realTime']);
+Route::post('messages/realTime1', [MessagesController::class, 'realTime1']);

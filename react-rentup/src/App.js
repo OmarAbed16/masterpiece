@@ -14,6 +14,7 @@ import { AuthProvider } from "./pages/AuthContext"; // Import your AuthContext
 import Property from "./pages/Property";
 import Profile from "./pages/profile";
 import Chatbot from "./pages/chatbot";
+import Try from "./components/Messages/try";
 
 const App = () => {
   const [favoriteCount, setFavoriteCount] = useState(0);
@@ -54,6 +55,7 @@ const App = () => {
               <Profile onFavoriteCountChange={handleFavoriteCountChange} />
             }
           />
+          <Route path="/try" element={<Try />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="*" element={<NotFound />} />

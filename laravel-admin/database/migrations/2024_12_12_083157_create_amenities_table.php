@@ -19,6 +19,7 @@ class CreateAmenitiesTable extends Migration
             $table->id();
             $table->foreignId('listing_id')->constrained('listings')->onDelete('cascade'); // Foreign key to listings
             $table->string('amenity_name'); // Name of the amenity (e.g., Wi-Fi, Pool)
+            $table->integer('amenity_value'); 
             $table->enum('is_deleted', ['0', '1'])->default('0'); // Soft delete flag
             $table->timestamps(); // Created and updated timestamps
         });
