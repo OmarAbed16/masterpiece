@@ -15,26 +15,25 @@ use Illuminate\Support\Facades\DB;
 class PropertyController extends Controller
 {
     public function index()
-    {
-        $listings = DB::table('listings')
-        ->leftJoin('listing_images', function($join) {
-            $join->on('listings.id', '=', 'listing_images.listing_id')
-                 ->where('listing_images.is_main', '=', "1");
-        })
-        ->where('listings.is_deleted', '0')
-        ->select('listings.*', 'listing_images.image_url')
-        ->get();
+{
     
+    $listings = Listing::with(['images' => function ($query) {
+        $query->where('is_main', '1')->where('is_deleted', '0');
+    }])
+    ->where('is_deleted', '0')
+    ->get()
+    ->map(function ($listing) {
+       
+        $listing->image_url = $listing->images->isNotEmpty() 
+            ? $listing->images->first()->image_url 
+            : null;
+        return $listing;
+    });
 
-        return view('dashboard.property.PropertyList', compact('listings'));
-    }
+  
+    return view('dashboard.property.PropertyList', compact('listings'));
+}
 
-
-    
-    
-    
-    
-    
 
     public function create()
     {
@@ -44,25 +43,25 @@ class PropertyController extends Controller
 
     public function store(Request $request, $id)
     {
-        // Validate the listing data and images
+        
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|min:10|max:1000',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0.01|max:10000',
             'location' => 'required|string|max:255',
             'governorate' => 'required|string|max:255',
-            'bed' => 'required|integer',
-            'bath' => 'required|integer',
-            'sqft' => 'required|integer',
+            'bed' => 'required|integer|min:0',
+            'bath' => 'required|integer|min:0',
+            'sqft' => 'required|integer|min:10',
             'status' => 'required|string|in:active,inactive,archived',
-            'property_images' => 'required|array|min:4|max:10', // Validate array size
-            'property_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate each file
+            'property_images' => 'required|array|min:4|max:10', 
+            'property_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
-        // Add the owner_id to the data
+        
         $data['owner_id'] = $id;
     
-        // Create a new Listing record in the database
+        
         $listing = Listing::create($data);
     
         // Handle property images
@@ -78,7 +77,7 @@ class PropertyController extends Controller
                 $imageUrl = "http://127.0.0.1:8000/assets/properties/" . $imageName;
     
                 $isMain = ($index === 0) ? "1" : "0";
-                // Save the image record in the ListingImage model
+               
                 ListingImage::create([
                     'listing_id' => $listing->id,
                     'image_url' => $imageUrl,
@@ -91,12 +90,6 @@ class PropertyController extends Controller
         return redirect()->route('properties.index')->with('success', 'Property created successfully.');
     }
     
-    
-
-    public function show(Order $order)
-    {
-        return view('orders.show', compact('order'));
-    }
 
     public function edit($id)
     {
@@ -123,17 +116,17 @@ class PropertyController extends Controller
     $data = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string|min:10|max:1000',
-        'price' => 'required|numeric',
+        'price' => 'required|numeric|min:0.01|max:10000',
         'location' => 'required|string|max:255',
         'governorate' => 'required|string',
-        'bed' => 'required|numeric',
-        'bath' => 'required|numeric',
-        'sqft' => 'required|numeric',
+        'bed' => 'required|integer|min:0',
+            'bath' => 'required|integer|min:0',
+            'sqft' => 'required|integer|min:10',
         'status' => 'required|in:active,inactive,archived',
         'property_images' => 'nullable|array|min:4|max:10',
         'property_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'features' => 'required|array',
-        'amenities' => 'required|array',  // Added validation for amenities
+        'amenities' => 'required|array',  
     ]);
 
     $property = Listing::findOrFail($id);

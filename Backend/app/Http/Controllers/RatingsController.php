@@ -18,15 +18,14 @@ class RatingsController extends Controller
         $Reviews->each(function ($rating) {
             // Get the order for the rating
             $rating->order = Booking::where('id', $rating->booking_id)
-                ->where('is_deleted', '0')
+
                 ->first();
 
-            // Get the listing for the rating
+          
             $rating->listing = Listing::where('id', $rating->listing_id)
-                ->where('is_deleted', '0')
                 ->first();
 
-            // Get the main image URL for the listing
+           
             $mainImage = ListingImage::where('listing_id', $rating->listing_id)
                 ->where('is_main', '1')
                 ->first();
@@ -52,21 +51,7 @@ class RatingsController extends Controller
         return view('orders.create');
     }
 
-    public function store(Request $request)
-    {
-        $data = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'driver_id' => 'nullable|exists:drivers,id',
-            'truck_id' => 'nullable|exists:trucks,id',
-            'quantity' => 'required|numeric|min:0.01',
-            'address' => 'required|string|max:255',
-            'status' => 'required|in:pending,shipping,delivered,canceled',
-            'payment_status' => 'required|in:completed,refunded,canceled',
-        ]);
-
-        Order::create($data);
-        return redirect()->route('orders.index')->with('success', 'Order created successfully.');
-    }
+    
 
     public function show(Order $order)
     {

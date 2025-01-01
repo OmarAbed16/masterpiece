@@ -23,11 +23,13 @@
                     
                     <div class="col-auto my-auto">
                         <div class="h-100">
+                        <a href="{{ route('users.edit', $Booking->user->id) }}">
                             <h5 class="mb-1">
                                 {{ $Booking->user->name }} - <span class="mb-0 font-weight-normal text-sm">
                             {{ $Booking->user->role }} (customer)
                             </span>
                             </h5>
+                        </a>
                             <p class="mb-0 font-weight-normal text-sm">
                             {{ $Booking->user->email }}
                             </p>
@@ -86,18 +88,37 @@
         class="form-control border border-2 p-2" 
         style="cursor: no-drop; background-color: #f8f9fa;">
         {{ old('title', $Booking->listing->title) }}
-        <a target="_blank" href="{{ route('properties.edit', $Booking->listing->id) }}" 
-        class="text-primary text-decoration-underline" 
-        style="font-size: 0.875rem;">
-        See Property details
+        @if($Booking->listing && $Booking->listing->is_deleted == '0')
+    <!-- Show link if property is active -->
+    <a target="_blank" 
+       href="{{ route('properties.edit', $Booking->listing->id) }}" 
+       class="text-primary text-decoration-underline" 
+       style="font-size: 0.875rem;">
+       See Property details
     </a>
+@else
+    <!-- Show warning if property is deleted -->
+    <span style="color: red; font-size: 0.875rem;">
+        This property is no longer available.
+    </span>
+@endif
+
     
 </div>
-<a target="_blank" href="{{ route('admins.edit', $Booking->listing->owner_id) }}" 
-        class="text-primary text-decoration-underline" 
-        style="font-size: 0.875rem;">
-        See Owner
+@if($Booking->listing && $Booking->listing->owner && $Booking->listing->owner->is_deleted == '0')
+    <!-- Show link if owner is active -->
+    <a target="_blank" 
+       href="{{ route('admins.edit', $Booking->listing->owner_id) }}" 
+       class="text-primary text-decoration-underline" 
+       style="font-size: 0.875rem;">
+       See Owner
     </a>
+@else
+    <!-- Show warning if owner is deleted -->
+    <span style="color: red; font-size: 0.875rem;">
+        Owner no longer available.
+    </span>
+@endif
     @error('title')
         <p class='text-danger inputerror'>{{ $message }}</p>
     @enderror
@@ -106,7 +127,7 @@
 
         <div class="mb-3 col-md-6">
             <label class="form-label">Payment Value</label>
-            <input type="tel" name="payment_value" class="form-control border border-2 p-2" value='{{ old('payment_value', $Booking->payment_value) }}'>
+            <input type="number" name="payment_value" class="form-control border border-2 p-2" value='{{ old('payment_value', $Booking->payment_value) }}'>
             @error('payment_value')
                 <p class='text-danger inputerror'>{{ $message }} </p>
             @enderror

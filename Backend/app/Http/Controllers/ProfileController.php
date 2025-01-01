@@ -19,11 +19,13 @@ class ProfileController extends Controller
         $user = request()->user();
         
         $attributes = request()->validate([
-            'name' => 'required',
-            'phone_number' => 'required|max:10',
-            'about' => 'nullable|max:150',
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|regex:/^[0-9]{10,15}$/',
+            'about' => 'nullable|string|max:500',
             'governorate' => 'required',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'phone_number.regex' => 'The phone number must only contain digits (0-9) and be between 10 and 15 characters long.',
         ]);
         
         if (request()->hasFile('profile_image')) {

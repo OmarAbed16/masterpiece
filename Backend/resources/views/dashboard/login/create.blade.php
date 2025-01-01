@@ -18,34 +18,22 @@
                                 <div class="card-body">
                                     <form role="form" method="POST" action="{{ route('admin.login') }}" class="text-start">
                                         @csrf
-                                        @if (Session::has('status'))
-                                        <div class="alert alert-success alert-dismissible text-white" role="alert">
-                                            <span class="text-sm">{{ Session::get('status') }}</span>
-                                            <button type="button" class="btn-close text-lg py-3 opacity-10"
-                                                data-bs-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        @endif
+                                       
                                         <div class="input-group input-group-outline mt-3">
                                             <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email" value="{{ 'omar@gmail.com' }}">
+                                            <input type="email" class="form-control" name="email" value="{{ 'omarfathiabed@gmail.com' }}">
                                         </div>
                                         @error('email')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                         @enderror
                                         <div class="input-group input-group-outline mt-3">
                                             <label class="form-label">Password</label>
-                                            <input type="password" class="form-control" name="password" value='{{ 'secret'}}'>
+                                            <input type="password" class="form-control" name="password" value='{{ 'Google@2024'}}'>
                                         </div>
                                         @error('password')
                                         <p class='text-danger inputerror'>{{ $message }} </p>
                                         @enderror
-                                        <div class="form-check form-switch d-flex align-items-center my-3">
-                                            <input class="form-check-input" type="checkbox" id="rememberMe">
-                                            <label class="form-check-label mb-0 ms-2" for="rememberMe">Remember
-                                                me</label>
-                                        </div>
+                                        
                                         <div class="text-center">
                                             <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
                                                 in</button>

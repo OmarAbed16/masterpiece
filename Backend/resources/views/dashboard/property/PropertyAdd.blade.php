@@ -23,11 +23,13 @@
                     
                     <div class="col-auto my-auto">
                         <div class="h-100">
+                            <a href="{{ route('MyProfile.index') }}">
                             <h5 class="mb-1">
                                 {{ auth()->user()->name  }} - <span class="mb-0 font-weight-normal text-sm">
                             {{auth()->user()->role  }} (you)
                             </span>
                             </h5>
+                            </a>
                             <p class="mb-0 font-weight-normal text-sm">
                             {{ auth()->user()->email  }}
                             </p>

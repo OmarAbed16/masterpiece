@@ -14,46 +14,113 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
+        $todaySalesSum = Booking::where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::today())
+        ->sum('payment_value');
+
+        $todayOrderCount = Booking::where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::today())
+        ->count();
+
         $todayCustomerCount = User::where('role', 'user')
-                                  ->where('is_deleted', '0')
-                                  ->whereDate('created_at', Carbon::today())
-                                  ->count();
+        ->where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::today())
+        ->count();
     
         $todayPropertyCount = Listing::where('is_deleted', '0')
-                                    ->whereDate('created_at', Carbon::today())
-                                    ->count();
+        ->whereDate('created_at', Carbon::today())
+        ->count();
     
-        $todayOrderCount = Booking::where('is_deleted', '0')
-                                  ->whereDate('created_at', Carbon::today())
-                                  ->count();
+       
     
-        $todaySalesSum = Booking::where('is_deleted', '0')
-                                ->whereDate('created_at', Carbon::today())
-                                ->sum('payment_value');
         
-        // comments
+        
+        // yesterday results
+        $yesterdaySalesSum = Booking::where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::yesterday())
+        ->sum('payment_value');
+
+
+        $yesterdayOrderCount = Booking::where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::yesterday())
+        ->count();
+
+
         $yesterdayCustomerCount = User::where('role', 'user')
-                                      ->where('is_deleted', '0')
-                                      ->whereDate('created_at', Carbon::yesterday())
-                                      ->count();
+        ->where('is_deleted', '0')
+        ->whereDate('created_at', Carbon::yesterday())
+        ->count();
     
         $yesterdayPropertyCount = Listing::where('is_deleted', '0')
-                                        ->whereDate('created_at', Carbon::yesterday())
-                                        ->count();
+        ->whereDate('created_at', Carbon::yesterday())
+        ->count();
     
-        $yesterdayOrderCount = Booking::where('is_deleted', '0')
-                                      ->whereDate('created_at', Carbon::yesterday())
-                                      ->count();
+
     
-        $yesterdaySalesSum = Booking::where('is_deleted', '0')
-                                    ->whereDate('created_at', Carbon::yesterday())
-                                    ->sum('payment_value');
-    
+        $salesChange = $this->calculatePercentageChange($todaySalesSum, $yesterdaySalesSum);
+        $orderChange = $this->calculatePercentageChange($todayOrderCount, $yesterdayOrderCount);
         $customerChange = $this->calculatePercentageChange($todayCustomerCount, $yesterdayCustomerCount);
         $propertyChange = $this->calculatePercentageChange($todayPropertyCount, $yesterdayPropertyCount);
-        $orderChange = $this->calculatePercentageChange($todayOrderCount, $yesterdayOrderCount);
-        $salesChange = $this->calculatePercentageChange($todaySalesSum, $yesterdaySalesSum);
     
+
+
+         //canvas-1: Order Fulfillment Time Data
+        $monthlyFulfillmentTimes = Booking::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(TIMESTAMPDIFF(SECOND, checkin, checkout)) / (60 * 60 * 24) as total_fulfillment_time_in_days') 
+        )
+        ->whereNotNull('checkout')
+        ->groupBy(DB::raw('MONTH(created_at)'))
+        ->orderBy('month')
+        ->get();
+        
+        $totalFulfillmentTimes = [];
+        for ($i = 1; $i <= 12; $i++) {
+            // Store the total fulfillment time for each month, or 0 if no data is available
+            $totalFulfillmentTimes[] = $monthlyFulfillmentTimes->firstWhere('month', $i)
+                                                          ? $monthlyFulfillmentTimes->firstWhere('month', $i)->total_fulfillment_time_in_days
+                                                          : 0;
+        }
+
+         //canvas-2:Bookings by Governorate
+        $allGovernorates = ['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'Mafraq', 'Karak', 'Maan', 'Ajloun', 'Balqa', 'Jerash', 'Tafilah', 'Madaba'];
+        $governorateCounts = [];
+        $userGovernorateCounts = [];
+
+        // Fetch the order counts by governorate
+        $governorateData = Booking::join('listings', 'Bookings.listing_id', '=', 'listings.id')
+        ->select('listings.governorate', DB::raw('COUNT(*) as count'))
+        ->where('listings.is_deleted', '0')
+        ->where('Bookings.is_deleted', '0')
+        ->groupBy('listings.governorate')
+        ->orderBy('listings.governorate')
+        ->get();
+
+         // Fetch the user counts by governorate
+         $userGovernorateData = User::select('governorate', DB::raw('COUNT(*) as count'))
+         ->where('is_deleted', '0')
+         ->where('role', 'user')
+         ->groupBy('governorate')
+         ->orderBy('governorate')
+         ->get();
+
+        foreach ($allGovernorates as $governorate) {
+            // Add order counts by governorate
+            $governorateCounts[$governorate] = $governorateData->firstWhere('governorate', $governorate) 
+                                               ? $governorateData->firstWhere('governorate', $governorate)->count 
+                                               : 0;
+            // Add user counts by governorate
+            $userGovernorateCounts[$governorate] = $userGovernorateData->firstWhere('governorate', $governorate) 
+                                                    ? $userGovernorateData->firstWhere('governorate', $governorate)->count 
+                                                    : 0;
+        }
+        $userGovernorateLabels = array_keys($userGovernorateCounts);
+        $userGovernorateCounts = array_values($userGovernorateCounts);
+
+
+        //canvas-3:Sales
+
         $sales = Booking::where('is_deleted', '0')
                         ->selectRaw('MONTH(created_at) as month, SUM(payment_value) as total_sales')
                         ->whereDate('created_at', Carbon::today())
@@ -67,67 +134,19 @@ class DashboardController extends Controller
             $salesData[$sale->month - 1] = $sale->total_sales;
         }
     
-        // Static list of governorates
-        $allGovernorates = ['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'Mafraq', 'Karak', 'Maan', 'Ajloun', 'Balqa', 'Jerash', 'Tafilah', 'Madaba'];
+
+       
     
-        // Fetch the order counts by governorate
-        $governorateData = Booking::join('listings', 'Bookings.listing_id', '=', 'listings.id')
-                                  ->select('listings.governorate', DB::raw('COUNT(*) as count'))
-                                  ->where('listings.is_deleted', '0')
-                                  ->where('Bookings.is_deleted', '0')
-                                  ->groupBy('listings.governorate')
-                                  ->orderBy('listings.governorate')
-                                  ->get();
+       
     
-        // Fetch the user counts by governorate
-        $userGovernorateData = User::select('governorate', DB::raw('COUNT(*) as count'))
-                                    ->where('is_deleted', '0')
-                                    ->where('role', 'user')
-                                    ->groupBy('governorate')
-                                    ->orderBy('governorate')
-                                    ->get();
+//canvas-4:Users Governorate
     
-        // Initialize arrays for storing the counts by governorate
-        $governorateCounts = [];
-        $userGovernorateCounts = [];
-    
-        // Loop through the static governorates list and count the orders for each
-        foreach ($allGovernorates as $governorate) {
-            // Add order counts by governorate
-            $governorateCounts[$governorate] = $governorateData->firstWhere('governorate', $governorate) 
-                                               ? $governorateData->firstWhere('governorate', $governorate)->count 
-                                               : 0;
-            // Add user counts by governorate
-            $userGovernorateCounts[$governorate] = $userGovernorateData->firstWhere('governorate', $governorate) 
-                                                    ? $userGovernorateData->firstWhere('governorate', $governorate)->count 
-                                                    : 0;
-        }
-    
-        // Extract the labels (governorate names) and counts
         $governorateLabels = array_keys($governorateCounts);
         $governorateCounts = array_values($governorateCounts);
     
-        $userGovernorateLabels = array_keys($userGovernorateCounts);
-        $userGovernorateCounts = array_values($userGovernorateCounts);
     
-        // Order Fulfillment Time Data
-        $monthlyFulfillmentTimes = Booking::select(
-            DB::raw('MONTH(created_at) as month'),
-            DB::raw('SUM(TIMESTAMPDIFF(SECOND, checkin, checkout)) / (60 * 60 * 24) as total_fulfillment_time_in_days') // Total fulfillment time in days
-        )
-        ->whereNotNull('checkout')
-        ->groupBy(DB::raw('MONTH(created_at)'))
-        ->orderBy('month')
-        ->get();
+    
         
-        // Initialize an array to hold the sum of fulfillment times for each month (in days)
-        $totalFulfillmentTimes = [];
-        for ($i = 1; $i <= 12; $i++) {
-            // Store the total fulfillment time for each month, or 0 if no data is available
-            $totalFulfillmentTimes[] = $monthlyFulfillmentTimes->firstWhere('month', $i)
-                                                          ? $monthlyFulfillmentTimes->firstWhere('month', $i)->total_fulfillment_time_in_days
-                                                          : 0;
-        }
         
     
         return view('dashboard.index', compact(

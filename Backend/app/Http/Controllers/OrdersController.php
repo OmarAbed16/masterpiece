@@ -17,12 +17,10 @@ class OrdersController extends Controller
 
         $bookings->each(function ($booking) {
             $booking->user = User::where('id', $booking->user_id)
-                ->where('is_deleted', '0')
                 ->where('role', 'user')
                 ->first();
 
             $booking->listing = Listing::where('id', $booking->listing_id)
-                ->where('is_deleted', '0')
                 ->with(['images', 'features', 'amenities'])
                 ->first();
 
@@ -46,7 +44,7 @@ class OrdersController extends Controller
 
     public function edit($id)
     {
-        $Booking = Booking::where('is_deleted', '0')->get();
+        $Booking = Booking::where("id",$id)->get();
 
         $Booking->each(function ($Booking) {
             $Booking->user = User::where('id', $Booking->user_id)
@@ -55,7 +53,6 @@ class OrdersController extends Controller
                 ->first();
 
             $Booking->listing = Listing::where('id', $Booking->listing_id)
-                ->where('is_deleted', '0')
                 ->with(['images', 'features', 'amenities'])
                 ->first();
 
@@ -73,6 +70,7 @@ class OrdersController extends Controller
    
 
   $Booking=$Booking[0];
+ 
         return view('dashboard.orders.orders-edit', compact('Booking'));
     }
 
@@ -82,14 +80,14 @@ class OrdersController extends Controller
     {
         // Validate the incoming request
         $validatedData = $request->validate([
-            'payment_value' => 'required|numeric|min:0',
+            'payment_value' => 'required|numeric|min:0.01|max:10000',
             'checkin' => 'required|date|after_or_equal:today',
             'checkout' => 'required|date|after:checkin',
             'payment_status' => 'required|in:pending,completed,failed',
             'status' => 'required|in:pending,confirmed,canceled',
         ]);
     
-        // Find the booking by ID
+     
         $booking = Booking::find($id);
     
         if (!$booking || $booking->is_deleted) {
@@ -107,7 +105,7 @@ class OrdersController extends Controller
         $booking->save();
     
         // Redirect with success message
-        return redirect()->route('orders.index')->with('success', 'Booking updated successfully.');
+        return back()->withStatus('Profile successfully updated.');
     }
 
 

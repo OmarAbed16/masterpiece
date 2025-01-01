@@ -36,7 +36,6 @@ Route::middleware('auth')->group(function () {
 
         // Profile Pages
         Route::resource('MyProfile', ProfileController::class)->except(['create', 'store'])->names('MyProfile');
-        Route::delete('MyProfile/delete/{MyProfile}', [ProfileController::class, 'destroy'])->name('MyProfile.destroy');
         Route::put('MyProfile/edit/{MyProfile}', [ProfileController::class, 'edit'])->name('MyProfile.edit');
 
         // Admins Pages
@@ -70,11 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::put('properties/update/{property}', [PropertyController::class, 'update'])->name('properties.update');
         Route::delete('properties/delete/{property}', [PropertyController::class, 'destroy'])->name('properties.destroy');
 
-
-
-
-
     });
 
-    // Additional prefixes for other user types can be added here later (e.g., 'users/', 'drivers/')
+    
 });

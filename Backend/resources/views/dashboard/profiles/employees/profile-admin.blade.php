@@ -143,24 +143,24 @@ document.querySelectorAll('.delete-user').forEach(button => {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     }
                 })
-                .then(response => response.json())  // Handle JSON response
+                .then(response => response.json()) 
                 .then(data => {
                     if (data.success) {
-                        // Show success SweetAlert
+                       
                         Swal.fire('Deleted!', 'The user has been deleted.', 'success');
-                        // Optionally reload the page to reflect the deletion
+                       
                         setTimeout(function() {
     location.reload(); 
 }, 1000); 
 
                     } else {
-                        // Show error SweetAlert if deletion fails
+                       
                         Swal.fire('Error!', 'There was an issue deleting the user.', 'error');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Handle errors if the fetch request fails
+                    
                     Swal.fire('Error!', 'Something went wrong. Please try again later.', 'error');
                 });
             }

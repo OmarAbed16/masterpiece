@@ -30,18 +30,20 @@ class UsersController extends Controller
     {
        
     
-        // Get the user_id from the driver model
+        
         $user_id = $id;
     
-        // Validate the input
+     
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'phone_number' => 'required|regex:/^\+?[0-9]{7,15}$/', // Example for phone validation
+            'phone_number' => 'required|regex:/^[0-9]{10,15}$/',
             'governorate' => 'required|string',
             'gender' => 'required|string'
+        ], [
+            'phone_number.regex' => 'The phone number must only contain digits (0-9) and be between 10 and 15 characters long.',
         ]);
     
-        // Update the user data in the users table
+       
         $user = User::find($user_id);
         if ($user) {
             $user->name = $validated['name'];

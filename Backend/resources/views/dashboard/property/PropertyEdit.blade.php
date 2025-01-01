@@ -23,11 +23,13 @@
                     
                     <div class="col-auto my-auto">
                         <div class="h-100">
+                        <a href="{{ route('admins.edit', $property->owner[0]->id) }}">
                             <h5 class="mb-1">
                                 {{ $property->owner[0]->name }} - <span class="mb-0 font-weight-normal text-sm">
                             {{ $property->owner[0]->role }}
                             </span>
                             </h5>
+                            </a>
                             <p class="mb-0 font-weight-normal text-sm">
                             {{ $property->owner[0]->email }}
                             </p>
