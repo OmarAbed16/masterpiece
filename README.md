@@ -128,7 +128,7 @@ npm start   # React frontend
 - **SWOT Analysis**: [View on Canva](https://www.canva.com/design/DAGaJcUtM7w/YILKCerCXaSkQwUSRwhaDw/edit?utm_content=DAGaJcUtM7w&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 - **Trello Board**: [Project Tasks](https://trello.com/b/gfAAQMN6/masterpiece)
 - **Schema Diagram**: [Database Schema](https://dbdiagram.io/d/677644135406798ef7153fe6)
-- **Figma Design**: [View Designs](https://www.figma.com/design/MVb2Hf8vPFmN4X4lLNsUjn/Untitled?node-id=0-1&t=AqHFgLcWdCVdGSSc-1)
+- **Figma Design**: [View Designs](https://www.figma.com/design/3qdHWTTO7EIQ2DJOrYVjZt/Untitled?node-id=0-1&t=DE1SDjx97vf8ZgzG-1)
 
 ---
 
