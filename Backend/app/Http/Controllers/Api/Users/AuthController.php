@@ -83,6 +83,13 @@ public function login(Request $request)
         ], 401);
     }
 
+    if ($user->is_deleted != "0") {
+        return response()->json([
+            'message' => 'Your account has been deactivated.
+             Please contact support for more information.'
+        ], 403);  
+    }
+
     if ($user->role != "user") {
         return response()->json([
             'message' => 'You do not have access to this area.'

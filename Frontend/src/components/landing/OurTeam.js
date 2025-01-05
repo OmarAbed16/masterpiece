@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TeamCard from "../cards/TeamCard";
+import LiftLine from "../lines/liftLine";
 import axios from "axios";
 
 const OurTeam = () => {
@@ -18,6 +19,7 @@ const OurTeam = () => {
 
   return (
     <>
+      <LiftLine />
       <section className="py-5">
         <div className="container">
           <div className="row text-center">

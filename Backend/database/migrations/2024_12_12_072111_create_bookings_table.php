@@ -19,10 +19,9 @@ class CreateBookingsTable extends Migration
             $table->decimal('payment_value', 10, 2)->default(0.00);
 
             $table->timestamp('checkin', 0); 
-$table->timestamp('checkout', 0); 
+            $table->timestamp('checkout', 0); 
             $table->enum('is_deleted', ['0', '1'])->default('0'); 
             $table->timestamps(0);
-            $table->softDeletes();
         });
     }
 

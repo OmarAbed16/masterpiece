@@ -39,6 +39,7 @@ const ProfileReviewCard = ({ review, setActiveOption }) => {
             className="dash_prt_thumb"
           >
             <img
+              style={{ width: "100%" }}
               src={review.listing_details.image_url}
               className="img-fluid"
               alt={review.listing_details.title}

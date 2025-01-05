@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import PropertyCard from "../cards/landing_recent";
-import LiftLine from "../lines/liftLine";
 import axios from "axios";
 
 const Recent = ({ onFavoriteCountChange }) => {
@@ -31,7 +30,6 @@ const Recent = ({ onFavoriteCountChange }) => {
 
   return (
     <>
-      <LiftLine />
       <section>
         <div className="container">
           <div className="row justify-content-center">

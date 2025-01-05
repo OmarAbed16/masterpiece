@@ -6,11 +6,12 @@ const SearchNav = ({
   totalCount,
   offset,
   limit,
+  setOffset,
   ordertype,
   setOrderType,
 }) => {
-  const currentPage = Math.floor(offset / limit) + 1; // current page number
-  const totalPages = Math.ceil(totalCount / limit); // total pages available
+  const currentPage = Math.ceil((offset + 6) / 6); // current page number
+  const totalPages = Math.ceil(totalCount / 6); // total pages available
 
   return (
     <div className="row m-0">
@@ -45,10 +46,13 @@ const SearchNav = ({
                 <ul>
                   <li>
                     <a
-                      className={`active ${
-                        currentPage === 1 ? "disabled" : ""
-                      }`}
-                      href={currentPage > 1 ? `#${offset - limit}` : "#"}
+                      className={` ${currentPage > 1 ? "active" : ""}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        if (currentPage > 1) {
+                          setOffset(offset - 6);
+                        }
+                      }}
                     >
                       &#11207;
                     </a>
@@ -56,20 +60,20 @@ const SearchNav = ({
                   <li>
                     <div className="shorting_pagination_laft">
                       <h5>
-                        Showing {offset + 1}-
-                        {Math.min(offset + limit, totalCount)} of {totalCount}{" "}
+                        Showing {currentPage}-{totalPages} of {totalCount}{" "}
                         results
                       </h5>
                     </div>
                   </li>
                   <li>
                     <a
-                      className={`active ${
-                        currentPage === totalPages ? "disabled" : ""
-                      }`}
-                      href={
-                        currentPage < totalPages ? `#${offset + limit}` : "#"
-                      }
+                      className={` ${currentPage < totalPages ? "active" : ""}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        if (currentPage < totalPages) {
+                          setOffset(offset + 6);
+                        }
+                      }}
                     >
                       &#11208;
                     </a>

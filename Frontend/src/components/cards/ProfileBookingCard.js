@@ -190,6 +190,7 @@ const ProfileBookingCard = ({ booking, setActiveOption }) => {
             className="dash_prt_thumb"
           >
             <img
+              style={{ width: "100%" }}
               src={booking.listing_details.image_url}
               className="img-fluid"
               alt={booking.listing_details.title}

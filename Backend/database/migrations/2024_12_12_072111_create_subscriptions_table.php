@@ -12,8 +12,7 @@ class CreateSubscriptionsTable extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->timestamp('subscribed_at')->nullable();
-            $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
+            $table->enum('is_deleted', ['0', '1'])->default('0');  
             $table->timestamps(0);
         });
     }

@@ -20,12 +20,11 @@ class CreateListingsTable extends Migration
                 'Ajloun', 'Karak', 'Tafilah', 'Maan', 'Balqa'
             ])->default('Amman');
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
-            $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
-            $table->integer('bed')->nullable()->default(0);  // Added bed column
-            $table->integer('bath')->nullable()->default(0);  // Added bath column
-            $table->integer('sqft')->nullable()->default(0);  // Added sqft column
+            $table->integer('bed')->nullable()->default(0);  
+            $table->integer('bath')->nullable()->default(0);  
+            $table->integer('sqft')->nullable()->default(0);  
+            $table->enum('is_deleted', ['0', '1'])->default('0'); 
             $table->timestamps(0);
-            $table->softDeletes();
         });
     }
 

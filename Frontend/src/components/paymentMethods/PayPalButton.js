@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 
 const PayPalButton = ({ totalPrice, checkinDate, checkoutDate }) => {
+  const navigate = useNavigate();
   const [price, setPrice] = useState(totalPrice);
   const [dates, setDates] = useState({
     checkin: checkinDate,
@@ -52,6 +54,10 @@ const PayPalButton = ({ totalPrice, checkinDate, checkoutDate }) => {
         text: "Your booking has been created successfully.",
         icon: "success",
         confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/profile?page=bookings");
+        }
       });
     } catch (error) {
       // Error

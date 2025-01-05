@@ -43,7 +43,7 @@ const Header = ({ favoriteCount }) => {
             <div className="nav-header">
               <Link className="nav-brand" to="/">
                 <img
-                  src="assets/default_images/logo6.png"
+                  src="assets/default_images/header1.png"
                   className="logo"
                   alt="Logo"
                 />
@@ -85,17 +85,18 @@ const Header = ({ favoriteCount }) => {
               style={{ transitionProperty: "none" }}
             >
               <ul className="nav-menu">
-                <li className="active">
+                <li className={location.pathname === "/" ? "active" : ""}>
                   <Link to="/">Home</Link>
                 </li>
-                <li>
+                <li className={location.pathname === "/search" ? "active" : ""}>
                   <Link to="/search">Listings</Link>
                 </li>
-
-                <li>
+                <li className={location.pathname === "/about" ? "active" : ""}>
                   <Link to="/about">About us</Link>
                 </li>
-                <li>
+                <li
+                  className={location.pathname === "/contact" ? "active" : ""}
+                >
                   <Link to="/contact">Contact us</Link>
                 </li>
               </ul>

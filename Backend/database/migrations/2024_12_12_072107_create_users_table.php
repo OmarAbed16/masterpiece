@@ -13,22 +13,16 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('phone_number', 15)->nullable();
-
-
-            $table->text('about')->nullable();
-
+            $table->string('phone_number', 15)->nullable()->default('0787654321');
+            $table->string('profile_image')->nullable()->default('http://127.0.0.1:8000/assets/default_images/default_image.png');
             $table->enum('governorate', ['Amman', 'Zarqa', 'Irbid', 'Aqaba', 'Mafraq', 'Karak', 'Maan', 'Ajloun', 'Balqa', 'Jerash', 'Tafilah', 'Madaba']);
             $table->enum('gender', ['male', 'female']);
-
-
+            $table->text('about')->nullable();
 
             $table->string('password');
             $table->enum('role', ['superadmin', 'admin', 'user'])->default('user');
-            $table->string('profile_image')->nullable();
-            $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
+            $table->enum('is_deleted', ['0', '1'])->default('0');  
             $table->timestamps(0);
-            $table->softDeletes();
         });
     }
 

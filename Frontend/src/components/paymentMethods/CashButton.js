@@ -1,8 +1,10 @@
 import React from "react";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CashButton = ({ totalPrice, checkinDate, checkoutDate }) => {
+  const navigate = useNavigate();
   const getUserId = () => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     return user ? user.id : null;
@@ -50,6 +52,10 @@ const CashButton = ({ totalPrice, checkinDate, checkoutDate }) => {
             text: "Your booking has been created successfully.",
             icon: "success",
             confirmButtonText: "OK",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/profile?page=bookings");
+            }
           });
         } catch (error) {
           // Error

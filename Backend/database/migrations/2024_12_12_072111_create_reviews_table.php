@@ -16,10 +16,8 @@ class CreateReviewsTable extends Migration
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
             $table->tinyInteger('rating');
             $table->text('comment')->nullable();
-            $table->string('reason')->nullable(); 
-            $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
+            $table->enum('is_deleted', ['0', '1'])->default('0'); 
             $table->timestamps(0);
-            $table->softDeletes();
         });
     }
 

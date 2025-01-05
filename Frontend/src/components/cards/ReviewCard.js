@@ -16,7 +16,12 @@ const ReviewCard = ({ review }) => {
                 }
                 className="img-fluid"
                 alt="User"
-                style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+                style={{
+                  width: "70px",
+                  height: "70px",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                }}
               />
             </div>
             <div className="_tsl_flex_capst" style={{ textAlign: "center" }}>

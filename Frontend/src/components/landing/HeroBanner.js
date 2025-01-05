@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Hikaya3d from "../layouts/hikaya3d";
 
 const HeroBanner = () => {
   const [filters, setFilters] = useState({
@@ -51,29 +52,9 @@ const HeroBanner = () => {
 
   return (
     <div className="hero-banner vedio-banner">
-      <div className="overlay"></div>
-
-      <video
-        playsInline="playsinline"
-        autoPlay="autoplay"
-        muted="muted"
-        loop="loop"
-      >
-        <source src="assets/img/banners.mp4" type="video/mp4" />
-      </video>
+      <Hikaya3d />
 
       <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-xl-12 col-lg-12 col-md-12">
-            <h1 className="big-header-capt mb-0 text-light">
-              Search Your Next Home
-            </h1>
-            <p className="text-center mb-4 text-light">
-              Find new & featured property located in your local governorate.
-            </p>
-          </div>
-        </div>
-
         <div className="row">
           <div className="col-xl-12 col-lg-12 col-md-12">
             <div className="simple_tab_search center">

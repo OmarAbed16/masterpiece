@@ -1,0 +1,12 @@
+.gallery-image {
+  height: 540px;
+    object-fit: cover;
+  }
+  
+  /* Responsive height for phones */
+  @media (max-width: 767px) {
+    .gallery-image {
+      height: 270px;
+      object-fit: cover;
+    }
+  }

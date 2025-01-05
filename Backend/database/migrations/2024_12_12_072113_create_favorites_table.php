@@ -13,9 +13,8 @@ class CreateFavoritesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('listing_id')->constrained('listings')->onDelete('cascade');
-            $table->enum('is_deleted', ['0', '1'])->default('0');  // Added is_deleted column
+            $table->enum('is_deleted', ['0', '1'])->default('0');  
             $table->timestamps(0);
-            $table->softDeletes();
         });
     }
 

@@ -56,6 +56,7 @@ const Search = ({ onSearch, onFavoriteCountChange }) => {
           totalCount={totalCount}
           offset={filters.offset}
           limit={filters.limit}
+          setOffset={(offset) => setFilters({ ...filters, offset: offset })}
           ordertype={filters.ordertype}
           setOrderType={(type) => setFilters({ ...filters, ordertype: type })}
         />
